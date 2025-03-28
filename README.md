@@ -4,19 +4,19 @@ LaSpot React Framework
 
 NOTES:
 
-COMPONENTS HANDLING
-All components are in the Components folder
+COMPONENTS HANDLING <br />
+All components are in the Components <br />
 All should reference/import .css files from the css folder
-
-GLOBAL VARIABLES for CSS (La Spot - root variables)
-All root variables are placed in the index.css:
+<br /><br />
+GLOBAL VARIABLES for CSS (La Spot - root variables)<br />
+All root variables are placed in the index.css:<br />
 Font, Font Color, Font Weightm Z-Index, Base, CSS Class, Scroll Bar
-
-PURPOSE OF APP.JSX
+<br /><br />
+PURPOSE OF APP.JSX<br />
 This is where we import everything so that they get exported to the main.jsx
-
-PURPOSE OF MAIN.JSX
-Do not touch. In Strict Mode
-
-Storing Images and Assets:
-Store them on Public > 'images' folder for global accessibilities
+<br /><br />
+PURPOSE OF MAIN.JSX<br />
+Do not touch. In Strict Mode.
+<br /><br />
+Storing Images and Assets:<br />
+Store them on Public > 'images' folder for global accessibilities.
