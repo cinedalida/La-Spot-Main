@@ -1,0 +1,69 @@
+/*=============== PROCEDURE ===============*/
+.procedure {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--white-color);
+}
+
+.mini__section__title {
+  font-size: var(--section-font-size);
+  font-family: var(--body-font);
+  font-weight: var(--font-semi-bold);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--first-color);
+}
+
+.mini_section_subheading {
+  font-size: var(--h2-font-size);
+  color: var(--text-color);
+  margin-bottom: 60px;
+}
+
+/* Card Container */
+.procedure__card__container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Card Styling */
+.procedure__card1,
+.procedure__card2,
+.procedure__card3 {
+  background-color: var(--white-color);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.procedure__card1:hover,
+.procedure__card2:hover,
+.procedure__card3:hover {
+  transform: translateY(-20px);
+}
+
+.procedure__card__image {
+  width: 250px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.procedure__card__title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 10px;
+  color: var(--first-color);
+}
+
+.procedure__card__description {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+  margin-bottom: 20px;
+}

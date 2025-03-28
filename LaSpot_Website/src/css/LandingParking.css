@@ -1,0 +1,220 @@
+/*=============== PARKING ===============*/
+.parking {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--white-color);
+  padding-bottom: 100px;
+}
+
+.parking__card__wrapper {
+  width: 80%;
+  margin: 0 auto; /* Center it */
+  overflow: hidden; /* Hides extra cards outside the view */
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+}
+
+.parking__card__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap; /* Prevents wrapping */
+  max-width: 100%; /* Prevents it from being too wide */
+  transition: transform 0.5s ease-in-out;
+}
+
+/*FADE SIDES*/
+/* .parking__card__container::before,
+  .parking__card__container::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: linear-gradient(to right, var(--white-color), rgba(255, 255, 255, 0));
+      z-index: 1;
+  }
+  
+  .parking__card__container::after {
+      right: 0;
+      background: linear-gradient(to left, var(--white-color), rgba(255, 255, 255, 0));
+  }
+  
+  .parking__card__container::before {
+      left: 0;
+  }
+   */
+
+/*Parking cards*/
+.parking__card {
+  position: relative; /* Make sure the card is a positioning context */
+  flex: 0 0 auto;
+  width: 90%; /* Ensure image is visible */
+  max-width: 350px;
+  text-align: center;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--white-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  transition: opacity 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+/* Parking Card Image */
+.parking__card__image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 50px;
+}
+
+/* Style the text to overlay on the image */
+.parking__card__title,
+.parking__card__description {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white; /* Ensures visibility */
+  z-index: 2;
+  width: 90%;
+}
+
+/* Position title near the top */
+.parking__card__title {
+  top: 200px;
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-semi-bold);
+}
+
+/* Position description slightly lower */
+.parking__card__description {
+  top: 240px;
+  font-size: var(--normal-font-size);
+}
+
+.parking__card__title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-semi-bold);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--first-color);
+  /* z-index: 2; */
+}
+
+.parking__card__description {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+  margin-bottom: -5px;
+  /* z-index: 2; */
+}
+
+/* Navigation Buttons */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--white-color);
+  border: none;
+  padding: 15px 21px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 1rem;
+  z-index: 10;
+}
+
+.nav-btn:hover {
+  background: var(--first-color);
+}
+
+.prev {
+  left: 200px;
+}
+
+.next {
+  right: 200px;
+}
+
+/*=============== RESPONSIVE DESIGNS ===============*/
+
+/* ========== MAX-WIDTH: 990px ========== */
+@media (max-width: 990px) {
+  /* ====== PARKING ====== */
+  .parking__card__wrapper {
+    width: 90%;
+  }
+  .parking__card {
+    max-width: 100%;
+  }
+  .nav-btn {
+    padding: 15px 21px;
+  }
+  .nav-btn.prev {
+    left: 10px;
+  }
+  .nav-btn.next {
+    right: 10px;
+  }
+  .parking__card__container {
+    gap: 40px;
+  }
+  .parking__card__title {
+    font-size: var(--h1-font-size);
+    top: 400px;
+  }
+  .parking__card__description {
+    font-size: var(--h2-font-size);
+    top: 450px;
+  }
+}
+
+/* ========== MIN: 495px - MAX: 768px ========== */
+@media (min-width: 390px) and (max-width: 768px) {
+  /* ====== PARKING ====== */
+  .parking__card__wrapper {
+    width: 90%;
+  }
+  .parking__card {
+    max-width: 100%;
+  }
+  .nav-btn {
+    padding: 15px 21px;
+  }
+  .nav-btn.prev {
+    left: 10px;
+  }
+  .nav-btn.next {
+    right: 10px;
+  }
+  .parking__card__container {
+    gap: 20px;
+  }
+  .parking__card__title {
+    position: absolute;
+    font-size: var(--h1-font-size);
+    top: 280px;
+  }
+  .parking__card__description {
+    position: absolute;
+    font-size: var(--h2-font-size);
+    top: 320px;
+  }
+
+  /* ====== PARKING ====== */
+  .parking__card__title {
+    position: absolute;
+    font-size: 20px;
+    top: 160px;
+  }
+
+  .parking__card__description {
+    position: absolute;
+    font-size: 12px;
+    top: 200px;
+  }
+}

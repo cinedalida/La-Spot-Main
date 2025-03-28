@@ -1,0 +1,162 @@
+/* Background overlay */
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Slight dimming effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* General Layout */
+/* .login-container {
+  display: flex;
+  width: 50vw;
+  height: 80vh;
+  background: var(--first-color);
+} */
+
+.login-container {
+  display: flex;
+  width: 50vw;
+  height: 80vh;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Left Side - Illustration */
+.login-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--first-color);
+  padding: 20px;
+}
+
+.login-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* .login-image img {
+  width: 80%;
+  height: 80%;
+  background: url("/images/LoginImage.png") no-repeat center center;
+  background-size: contain;
+} */
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+}
+
+.close-btn:hover {
+  color: var(--first-color);
+}
+
+/* Right Side - Login Form */
+.login-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 40px;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.logo-title,
+.login-logo {
+  display: flex;
+}
+
+.logo-title {
+  font-size: 40px;
+  font-weight: var(--font-semi-bold);
+}
+
+.login-logo img {
+  width: 20px;
+}
+
+.login-title {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 30px;
+}
+
+.login-description {
+  font-size: 14px;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid var(--first-color);
+  border-radius: 5px;
+}
+
+.forgot-password {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: var(--first-color);
+  margin-bottom: 20px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: var(--first-color);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: var(--first-color-alt);
+}
+
+/* Pagination Dots */
+.dots {
+  margin-top: 20px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  margin: 0 4px;
+  background: #ccc;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.active {
+  background: var(--first-color);
+}

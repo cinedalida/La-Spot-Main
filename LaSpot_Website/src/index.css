@@ -1,0 +1,123 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+/*=============== VARIABLES CSS ===============*/
+/*Root elements*/
+
+:root {
+  --header-height: 3.5rem;
+
+  /*========== Colors ==========*/
+  --first-color: rgb(7, 57, 60);
+  --first-color-alt: rgb(44, 102, 110);
+  --text-color: rgb(29, 28, 31);
+  --white-color: #f0edee;
+
+  /*========== Font and typography ==========*/
+  /*.5rem = 8px | 1rem = 16px ...*/
+  --body-font: "Plus Jakarta Sans", serif;
+  --biggest-font-size: 5rem; /*80px*/
+  --section-font-size: 2.5rem; /*40px*/
+  --h1-font-size: 1.5rem; /*24px*/
+  --h2-font-size: 1.25rem; /*20px*/
+  --normal-font-size: 1rem; /*16px*/
+  --small-font-size: 0.813rem; /*13px*/
+  --smaller-font-size: 0.75rem; /*12px*/
+
+  /*========== Font weight ==========*/
+  --font-medium: 500;
+  --font-semi-bold: 700;
+  --font-bold: 800;
+
+  /*========== z index ==========*/
+  /* this is for the layers.  */
+  /* the lesser, the more they are at the top of the elements */
+  --z-tooltip: 10;
+  --z-fixed: 100;
+}
+
+/*=============== BASE ===============*/
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--body-font) !important;
+  font-size: var(--normal-font-size) !important;
+  background-color: var(--white-color) !important;
+  color: var(--text-color) !important;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--first-color);
+  font-weight: var(--font-medium);
+}
+
+/*applies to all unordered list elements*/
+ul {
+  list-style: none !important;
+}
+
+/*applies to all anchored elements*/
+a {
+  text-decoration: none !important;
+}
+
+/*applies to all images elements*/
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*=============== CSS CLASSES ===============*/
+.container {
+  max-width: 1024px;
+  margin-inline: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.section {
+  padding-block: 5rem 1rem;
+}
+.section__title {
+  font-size: var(--h1-font-size);
+  font-family: var(--second-font);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/*=============== SCROLLBAR ===============*/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Background of the track */
+::-webkit-scrollbar-track {
+  background: var(--white-color);
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--first-color-alt);
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Scrollbar Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--first-color);
+}
