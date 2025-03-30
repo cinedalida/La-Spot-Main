@@ -7,9 +7,6 @@ export function HomeButtons({ onLoginClick, onSignupClick }) {
         <button className="btn btn-primary" onClick={onLoginClick}>
           <div class="button-text">Login</div>
         </button>
-        <button className="btn btn-secondary" onClick={onSignupClick}>
-        <div class="button-text">Signup</div>
-        </button>
       </div>
     </>
   );
