@@ -161,3 +161,19 @@
 .submit-button:hover {
   background: var(--first-color-alt);
 }
+
+/*=============== Error Message ===============*/
+
+.error {
+  border: 2px solid red;
+}
+
+.inputField-signup.error::placeholder {
+  color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

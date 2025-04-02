@@ -125,10 +125,11 @@ img {
 /*=============== FORM FORMAT ===============*/
 
 form {
-  display: flex;
+  width: 400px;
   flex-direction: column;
-  gap: 20px;
-  padding: 2px;
+  gap: 1px;
+  padding: 5px;
+  margin: 0;
 }
 
 /*=============== SELECT FORMAT ===============*/

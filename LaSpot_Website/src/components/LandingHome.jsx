@@ -1,6 +1,5 @@
 import "../css/LandingHome.css";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { LoginButton } from "./LoginButton";
 import LoginPop from "./LoginPop";
 import { SignupButton } from "./Signupbutton";
