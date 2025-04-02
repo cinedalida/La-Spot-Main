@@ -23,4 +23,5 @@ Store them on Public > 'images' folder for global accessibilities.
 <br /><br />
 RUN CODE:<br />
 cd LaSpot_Website <br />
+npm install (if it's a new git clone)<br />
 npm run dev
