@@ -20,3 +20,7 @@ Do not touch. In Strict Mode.
 <br /><br />
 Storing Images and Assets:<br />
 Store them on Public > 'images' folder for global accessibilities.
+<br /><br />
+RUN CODE:<br />
+cd LaSpot_Website <br />
+npm run dev
