@@ -1,9 +1,92 @@
 import "../css/SignupPop.css";
 import React, { useState, useRef } from "react";
-// IMPORT CSS OF 3 FUNCTIONS
 
 const SignupPop = ({ setIsSignupOpen }) => {
-  const [accountType, SetAccountType] = useState(""); // to track selected type
+  const [accountType, setAccountType] = useState(""); // to track selected type
+  const refs = useRef({});
+  const [errors, setErrors] = useState({});
+
+  //Field Configurations
+
+  const fieldConfigs = {
+    Student: [
+      { type: "text", placeholder: "First Name", name: "firstName" },
+      { type: "text", placeholder: "Last Name", name: "lastName" },
+      { type: "email", placeholder: "Student Email", name: "email" },
+      { type: "text", placeholder: "Student Number", name: "studentNum" },
+      { type: "password", placeholder: "Password", name: "password" },
+      {
+        type: "password",
+        placeholder: "Confirm Password",
+        name: "confirmPassword",
+      },
+      {
+        type: "select",
+        placeholder: "Vehicle",
+        name: "vehicle",
+        options: ["Car", "Motorcycle"],
+      },
+    ],
+    Worker: [
+      { type: "text", placeholder: "First Name", name: "firstName" },
+      { type: "text", placeholder: "Last Name", name: "lastName" },
+      { type: "email", placeholder: "Work Email", name: "email" },
+      { type: "text", placeholder: "Work ID", name: "workId" },
+      { type: "password", placeholder: "Password", name: "password" },
+      {
+        type: "password",
+        placeholder: "Confirm Password",
+        name: "confirmPassword",
+      },
+      {
+        type: "select",
+        placeholder: "Vehicle",
+        name: "vehicle",
+        options: ["Car", "Motorcycle"],
+      },
+    ],
+    Admin: [
+      { type: "text", placeholder: "First Name", name: "firstName" },
+      { type: "text", placeholder: "Last Name", name: "lastName" },
+      { type: "text", placeholder: "Admin Code", name: "adminCode" },
+      { type: "password", placeholder: "Password", name: "password" },
+      {
+        type: "password",
+        placeholder: "Confirm Password",
+        name: "confirmPassword",
+      },
+      {
+        type: "select",
+        placeholder: "Vehicle",
+        name: "vehicle",
+        options: ["Car", "Motorcycle"],
+      },
+    ],
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newErrors = {};
+
+    // Field Validation
+    fieldConfigs[accountType]?.forEach((field) => {
+      if (!refs.current[field.name]?.value) {
+        newErrors[field.name] = true;
+      }
+    });
+
+    // Password Validation
+    if (
+      refs.current["password"]?.value !== refs.current["confirmPassword"]?.value
+    ) {
+      newErrors["confirmPassword"] = true;
+    }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Form Submitted Successfully!");
+    }
+  };
 
   return (
     <div className="signup-overlay">
@@ -38,12 +121,13 @@ const SignupPop = ({ setIsSignupOpen }) => {
           </p>
 
           {/* Signup Form overlay*/}
-          <form>
+
+          <form onSubmit={handleSubmit}>
             <div className="container">
               <select
                 name="AccountType"
                 id="AccountTypes"
-                onChange={(e) => SetAccountType(e.target.value)}
+                onChange={(e) => setAccountType(e.target.value)}
                 defaultValue=""
               >
                 <option value="" disabled>
@@ -54,166 +138,50 @@ const SignupPop = ({ setIsSignupOpen }) => {
                 <option value="Admin">Admin</option>
               </select>
             </div>
+
+            {/* Render Inputs Dynamically */}
+            {fieldConfigs[accountType]?.map((field, index) =>
+              field.type === "select" ? (
+                <select
+                  key={index}
+                  ref={(el) => (refs.current[field.name] = el)}
+                  className={`inputField-signup ${
+                    errors[field.name] ? "error" : ""
+                  }`}
+                >
+                  <option value="" disabled>
+                    {field.placeholder}
+                  </option>
+                  {field.options.map((option, idx) => (
+                    <option key={idx} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  key={index}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  ref={(el) => (refs.current[field.name] = el)}
+                  className={`inputField-signup ${
+                    errors[field.name] ? "error" : ""
+                  }`}
+                />
+              )
+            )}
+
+            {/* Submit Button */}
+            {accountType && (
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+            )}
           </form>
-          {accountType === "" ? null : accountType === "Student" ? (
-            <SignupStudent />
-          ) : accountType === "Worker" ? (
-            <SignupWorker />
-          ) : accountType === "Admin" ? (
-            <SignupAdmin />
-          ) : null}
         </div>
       </div>
     </div>
   );
 };
-
-const SignupStudent = () => {
-  //  useRef validation
-  const firstNameRef = useRef(null);
-  const lastNameRef = useRef(null);
-  const emailRef = useRef(null);
-  const studentNumRef = useRef(null);
-  const passwordRef = useRef(null);
-  const confirmPasswordRef = useRef(null);
-  const vehicleRef = useRef(null);
-  const [errors, setErrors] = useState({});
-
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevents form submission
-    const newErrors = {}; // Stores errors
-
-    if (!firstNameRef.current.value) newErrors.firstName = true;
-    if (!lastNameRef.current.value) newErrors.lastName = true;
-    if (!emailRef.current.value) newErrors.email = true;
-    if (!studentNumRef.current.value) newErrors.studentNum = true;
-    if (!passwordRef.current.value) newErrors.password = true;
-    if (!confirmPasswordRef.current.value) newErrors.confirmPassword = true;
-    if (passwordRef.current.value !== confirmPasswordRef.current.value)
-      newErrors.passwordMismatch = true;
-    if (!vehicleRef.current.value) newErrors.vehicle = true;
-
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      console.log("Form Submitted Successfully!");
-    }
-  };
-
-  // student return
-  return (
-    <form className="SelectAccount" onSubmit={handleSubmit}>
-      <h2 className="SelectedTitle">Student Signup</h2>
-      <input
-        type="text"
-        placeholder="First Name"
-        ref={firstNameRef}
-        className={`inputField-signup ${errors.firstName ? "error" : ""}`}
-      />
-      <input
-        type="text"
-        placeholder="Last Name"
-        ref={lastNameRef}
-        className={`inputField-signup ${errors.lastName ? "error" : ""}`}
-      />
-      <input
-        type="email"
-        placeholder="Student Email"
-        ref={emailRef}
-        className={`inputField-signup ${errors.email ? "error" : ""}`}
-      />
-      <input
-        type="text"
-        placeholder="Student Number"
-        ref={studentNumRef}
-        className={`inputField-signup ${errors.studentNum ? "error" : ""}`}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        ref={passwordRef}
-        className={`inputField-signup ${errors.password ? "error" : ""}`}
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        ref={confirmPasswordRef}
-        className={`inputField-signup ${
-          errors.confirmPassword || errors.passwordMismatch ? "error" : ""
-        }`}
-      />
-      <select ref={vehicleRef} className={errors.vehicle ? "error" : ""}>
-        <option value="" disabled selected>
-          Vehicle
-        </option>
-        <option value="car">Car</option>
-        <option value="motor">Motorcycle</option>
-      </select>
-      <button type="submit" className="submit-button">
-        Submit
-      </button>
-    </form>
-  );
-};
-
-// Worker Signup Form
-const SignupWorker = () => (
-  <div className="SelectAccount">
-    <h2 className="SelectedTitle">Worker Signup</h2>
-    <input type="text" placeholder="First Name" className="inputField-signup" />
-    <input type="text" placeholder="Last Name" className="inputField-signup" />
-    <input
-      type="email"
-      placeholder="Work Email"
-      className="inputField-signup"
-    />
-    <input type="text" placeholder="Work ID" className="inputField-signup" />
-    <input
-      type="password"
-      placeholder="Password"
-      className="inputField-signup"
-    />
-    <input
-      type="password"
-      placeholder="Confirm Password"
-      className="inputField-signup"
-    />
-    <select name="VehicleType">
-      <option value=" " disabled selected>
-        Vehicle Type
-      </option>
-      <option value="car">Car</option>
-      <option value="motor">Motorcycle</option>
-    </select>
-    <button className="submit-button">Submit</button>
-  </div>
-);
-
-// Admin Signup Form
-const SignupAdmin = () => (
-  <div className="SelectAccount">
-    <h2 className="SelectedTitle"> Admin Signup</h2>
-    <input type="text" placeholder="First Name" className="inputField-signup" />
-    <input type="text" placeholder="Last Name" className="inputField-signup" />
-    <input type="text" placeholder="Admin Code" className="inputField-signup" />
-    <input
-      type="password"
-      placeholder="Password"
-      className="inputField-signup"
-    />
-    <input
-      type="password"
-      placeholder="Confirm Password"
-      className="inputField-signup"
-    />
-    <select name="VehicleType">
-      <option value=" " disabled selected>
-        Vehicle Type
-      </option>
-      <option value="car">Car</option>
-      <option value="motor">Motorcycle</option>
-    </select>
-    <button className="submit-button">Submit</button>
-  </div>
-);
 
 export default SignupPop;

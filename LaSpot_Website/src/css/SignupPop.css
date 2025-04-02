@@ -97,7 +97,7 @@
 }
 
 .signup-description {
-  font-size: 14px;
+  font-size: var(--normal-font-size);
   color: var(--text-color);
   margin-bottom: 20px;
 }
@@ -136,6 +136,7 @@
 
 .inputField-signup {
   font-family: var(--body-font);
+  font-size: var(--normal-font-size);
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;

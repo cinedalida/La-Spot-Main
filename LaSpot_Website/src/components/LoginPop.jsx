@@ -15,7 +15,6 @@ const LoginPop = ({ setIsLoginOpen }) => {
 
     if (!email.value) {
       setErrors((prev) => ({ ...prev, email: true }));
-      email.placeholder = "Email is required";
       valid = false;
     } else {
       setErrors((prev) => ({ ...prev, email: false }));
@@ -24,7 +23,6 @@ const LoginPop = ({ setIsLoginOpen }) => {
 
     if (!password.value) {
       setErrors((prev) => ({ ...prev, password: true }));
-      password.placeholder = "Password is required";
       valid = false;
     } else {
       setErrors((prev) => ({ ...prev, password: false }));
