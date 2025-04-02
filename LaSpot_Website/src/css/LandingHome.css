@@ -59,6 +59,14 @@
   border-radius: 10px;
 }
 
+.button-container {
+  display: flex;
+  gap: 1rem; /* Adjust spacing between buttons */
+  justify-content: start; /* Centers buttons horizontally */
+  align-items: center; /* Aligns them properly */
+  margin-top: 1.5rem;
+}
+
 /* ========== MIN: 390px - MAX: 768px ========== */
 @media (min-width: 390px) and (max-width: 768px) {
   .home__container {

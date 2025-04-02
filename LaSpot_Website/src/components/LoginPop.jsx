@@ -1,7 +1,45 @@
 import "../css/LoginPop.css";
-import React from "react";
+import React, { useState, useRef } from "react";
 
 const LoginPop = ({ setIsLoginOpen }) => {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const [errors, setErrors] = useState({ email: false, password: false });
+
+  // Login Form Validation
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const email = emailRef.current;
+    const password = passwordRef.current;
+    let valid = true;
+
+    if (!email.value) {
+      setErrors((prev) => ({ ...prev, email: true }));
+      email.placeholder = "Email is required";
+      valid = false;
+    } else {
+      setErrors((prev) => ({ ...prev, email: false }));
+      email.placeholder = "Email";
+    }
+
+    if (!password.value) {
+      setErrors((prev) => ({ ...prev, password: true }));
+      password.placeholder = "Password is required";
+      valid = false;
+    } else {
+      setErrors((prev) => ({ ...prev, password: false }));
+      password.placeholder = "Password";
+    }
+
+    if (valid) {
+      // Proceed with form submission
+      console.log("Form submitted with:", {
+        email: email.value,
+        password: password.value,
+      });
+    }
+  };
+
   return (
     <div className="login-overlay">
       <div className="login-container">
@@ -33,12 +71,18 @@ const LoginPop = ({ setIsLoginOpen }) => {
           </p>
 
           {/* Login Form */}
-          <form>
-            <input type="email" placeholder="Email" className="input-field" />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Email"
+              className={`inputField-login ${errors.email ? "error" : ""}`}
+              ref={emailRef}
+            />
             <input
               type="password"
               placeholder="Password"
-              className="input-field"
+              className={`inputField-login ${errors.password ? "error" : ""}`}
+              ref={passwordRef}
             />
             <a href="#" className="forgot-password">
               Forgot Password?
@@ -47,13 +91,6 @@ const LoginPop = ({ setIsLoginOpen }) => {
               Login
             </button>
           </form>
-
-          {/* Pagination dots */}
-          <div className="dots">
-            <span className="dot active"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-          </div>
         </div>
       </div>
     </div>

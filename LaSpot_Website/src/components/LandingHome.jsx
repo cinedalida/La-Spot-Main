@@ -1,10 +1,14 @@
 import "../css/LandingHome.css";
 import React, { useState } from "react";
-import { HomeButtons } from "./HomeButtons";
+import { useNavigate } from "react-router-dom";
+import { LoginButton } from "./LoginButton";
 import LoginPop from "./LoginPop";
+import { SignupButton } from "./Signupbutton";
+import SignupPop from "./SignupPop";
 
 export function LandingHome() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
 
   return (
     <>
@@ -16,11 +20,14 @@ export function LandingHome() {
             <p className="subheading">DLSU-D PARKING SYSTEM</p>
             <p className="description">
               Welcome to La Spot, Lasallians! A parking system catered to
-              students and faculty of De La Salle University - Dasmariñas.{" "}
+              students and faculty of De La Salle University - Dasmariñas.
               <br />
               SPOT you’re parking now!
             </p>
-            <HomeButtons onLoginClick={() => setIsLoginOpen(true)} />
+            <div className="button-container">
+              <LoginButton onLoginClick={() => setIsLoginOpen(true)} />
+              <SignupButton onSignupClick={() => setIsSignupOpen(true)} />
+            </div>
           </div>
 
           <div className="home__image">
@@ -35,6 +42,7 @@ export function LandingHome() {
 
       {/* Show the popup when isLoginOpen is true */}
       {isLoginOpen && <LoginPop setIsLoginOpen={setIsLoginOpen} />}
+      {isSignupOpen && <SignupPop setIsSignupOpen={setIsSignupOpen} />}
     </>
   );
 }

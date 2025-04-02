@@ -1,0 +1,29 @@
+.button-text {
+  font-family: var(--body-font);
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-medium);
+}
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-medium);
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Signup Button */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--first-color);
+  border: 1px solid var(--first-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--first-color);
+  color: white;
+}
