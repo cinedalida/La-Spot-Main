@@ -1,0 +1,398 @@
+.adminProfile__layout {
+  background-image: url("../images/AdminParkingBG.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #eaeaea;
+  opacity: 0.9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title,
+.My-profile-title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.profile-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 200px;
+  background: white;
+  padding: 20px;
+  /* border-right: 2px solid #ccc; */
+}
+
+.sidebar-button {
+  font-family: var(--body-font);
+  font-weight: var(--font-medium);
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  color: var(--first-color);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: rgb(255, 255, 255);
+}
+
+.sidebar-button:hover {
+  background-color: rgb(230, 228, 228);
+}
+
+.sidebar-button.active {
+  background-color: rgb(230, 228, 228);
+  color: var(--first-color);
+  font-weight: bold;
+}
+
+.content-section {
+  flex: 1;
+  padding: 20px;
+  background: #fff;
+}
+
+.profile-sections-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.box {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: left;
+  display: block;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+}
+
+.save-button,
+.cancel-button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.save-button {
+  background: green;
+  color: white;
+}
+
+.save-button:hover {
+  background: darkgreen;
+}
+
+.cancel-button {
+  background: red;
+  color: white;
+}
+
+.cancel-button:hover {
+  background: darkred;
+}
+
+.account-securityBox {
+  border: 2px solid #eaeaea;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.account-securityBox p {
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  font-family: var(--body-font);
+  font-size: var(--small-font-size);
+}
+
+.personal-infoBox {
+  border: 2px solid #eaeaea;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.personal-infoBox p,
+.account-securityBox p {
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  margin-top: 0px;
+  font-family: var(--body-font);
+  font-size: var(--small-font-size);
+}
+
+.edit-button-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.profile-header {
+  border: 2px solid #eaeaea;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 2px solid #ddd;
+  width: 100%;
+  margin-top: -22px;
+}
+
+.profile-image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f2f2;
+}
+
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-button {
+  display: flex;
+  align-items: center;
+  background: white;
+  color: rgb(121, 121, 121);
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.edit-button:hover {
+  color: rgb(121, 121, 121);
+  border-color: rgb(121, 121, 121);
+}
+
+.pen-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+}
+
+.edit-button-container {
+  margin-left: auto;
+}
+
+.profile-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+}
+
+.accountFullname {
+  font-style: var(--body-font);
+  color: black;
+  font-size: var(--h2-font-size);
+}
+
+.accountDisplayemail {
+  font-style: var(--body-font);
+  color: black;
+  font-size: var(--small-font-size);
+  margin-top: 15px;
+}
+
+.accountDisplaytype {
+  font-style: var(--body-font);
+  color: rgb(121, 121, 121);
+  font-size: var(--small-font-size);
+  margin-top: -10px;
+}
+
+.personal-info-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-family: var(--body-font);
+  font-size: --biggest-font-size;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.info-content {
+  font-size: var(--normal-font-size);
+  color: #333;
+}
+
+/*=====POP UP BUTTON OF EDIT===== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--white-color);
+  padding: 20px;
+  width: 400px;
+  max-width: 90%;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: var(--font-semi-bold);
+  color: var(--first-color-alt);
+  font-family: var(--body-font);
+}
+
+/* Label Styling */
+.modal-content label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+  font-size: var(--normal-font-size);
+  font-weight: bold;
+  color: var(--text-color);
+  font-family: var(--body-font);
+}
+
+/* Input Fields */
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Buttons */
+.save-button,
+.cancel-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px 5px 0;
+  transition: 0.2s;
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background: #218838;
+}
+
+.cancel-button {
+  background: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background: #c82333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
