@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../css/Header2.css";
 
-export function Header1() {
+export function Header2() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgOpacity, setBgOpacity] = useState(1);
 
@@ -70,9 +70,13 @@ export function Header1() {
             </ul>
 
             {/* PROFILE IMAGE */}
-            {/* <div className="nav__profile">
-                <img src="/images/profile.jpg" alt="User Profile" className="profile__image" />
-            </div> */}
+            <div className="nav__profile">
+              <img
+                src="/images/userProfile.jpg"
+                alt="User Profile"
+                className="profile__image"
+              />
+            </div>
 
             {/* CLOSE BUTTON */}
             <div

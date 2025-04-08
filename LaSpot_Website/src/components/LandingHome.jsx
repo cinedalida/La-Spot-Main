@@ -18,10 +18,8 @@ export function LandingHome() {
             <h1 className="home__title">LA SPOT</h1>
             <p className="subheading">DLSU-D PARKING SYSTEM</p>
             <p className="description">
-              Welcome to La Spot, Lasallians! A parking system catered to
-              students and faculty of De La Salle University - Dasmariñas.
-              <br />
-              SPOT you’re parking now!
+              Welcome to La Spot, Lasallians!
+              <br /> You're seamless parking experience begins here.
             </p>
             <div className="button-container">
               <LoginButton onLoginClick={() => setIsLoginOpen(true)} />

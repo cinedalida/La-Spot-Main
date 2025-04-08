@@ -36,6 +36,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
         password: password.value,
       });
     }
+    git;
   };
 
   return (

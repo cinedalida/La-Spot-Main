@@ -1,0 +1,159 @@
+.header {
+  position: fixed;
+  background-color: var(--white-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-fixed);
+  transition: background 0.4s ease-in-out;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2 rem;
+  position: relative;
+}
+
+.nav__logo,
+.nav__toggle,
+.nav__close {
+  display: flex;
+  color: var(--first-color);
+}
+
+.nav__logo img {
+  width: 27px;
+}
+
+.nav__logo {
+  align-items: center;
+  column-gap: 0.25rem;
+  font-family: var(--body-font);
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-semi-bold);
+}
+
+.nav__menu {
+  display: flex;
+  align-items: center;
+}
+
+.nav__list {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav__toggle,
+.nav__close {
+  display: none;
+}
+
+.show-menu {
+  top: 0;
+}
+
+.bg-header {
+  background: var(--body-color);
+}
+
+.active-link {
+  color: var(--first-color);
+}
+
+.nav__link {
+  color: var(--first-color-alt);
+  font-weight: var(--font-medium);
+  transition: color 0.4s;
+}
+
+.nav__link:hover {
+  color: var(--body-color);
+}
+
+/*=============== PROFILE SECTION ===============*/
+
+.nav__profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 2rem;
+}
+
+.profile__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/*=============== RESPONSIVE DESIGNS ===============*/
+
+/* ========== MAX-WIDTH: 990px ========== */
+@media (max-width: 990px) {
+  /* ====== HEADER & NAV ====== */
+  .nav__menu {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    background-color: var(--white-color);
+    width: 100%;
+    padding-block: 3.5rem;
+    transition: top 0.4s;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav__list {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .nav__toggle,
+  .nav__close {
+    display: block;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  .nav__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  /* Show menu */
+  .show-menu {
+    top: 0;
+  }
+
+  /* Change background header */
+  .bg-header {
+    background: var(--body-color);
+  }
+
+  /* Active link */
+  .active-link {
+    color: var(--first-color);
+  }
+
+  /* Hover effect*/
+  .nav__link {
+    color: var(--first-color-alt);
+    font-weight: var(--font-medium);
+    transition: color 0.4s;
+  }
+
+  /* hover for nav__link */
+  .nav__link:hover {
+    color: var(--body-color);
+  }
+}
