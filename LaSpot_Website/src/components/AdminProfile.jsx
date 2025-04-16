@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import penIcon from "../assets/pen.png";
 import "../css/AdminProfile.css";
+import { LogoutButton } from "./Logoutbutton";
 
 export function AdminProfile() {
   const [profile, setProfile] = useState({
@@ -68,6 +69,7 @@ export function AdminProfile() {
                   </div>
                 </div>
 
+                {/* personal info-box */}
                 <div className="personal-infoBox">
                   <h3 className="section-title">Personal Information </h3>
                   <div className="info-content">
@@ -94,6 +96,7 @@ export function AdminProfile() {
                   </div>
                 </div>
 
+                {/* account security */}
                 <div className="account-securityBox">
                   <h3 className="content-title">Account Security</h3>
                   <div className="security-content">
@@ -110,6 +113,9 @@ export function AdminProfile() {
                     </button>
                   </div>
                 </div>
+
+                {/* Logout */}
+                <LogoutButton />
               </div>
             ) : null}
           </div>
