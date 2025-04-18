@@ -36,7 +36,6 @@
   width: 200px;
   background: white;
   padding: 20px;
-  /* border-right: 2px solid #ccc; */
 }
 
 .sidebar-button {
@@ -89,58 +88,11 @@
 .content-title {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 30px;
   text-align: left;
   display: block;
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  text-align: center;
-}
-
-.save-button,
-.cancel-button {
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.save-button {
-  background: green;
-  color: white;
-}
-
-.save-button:hover {
-  background: darkgreen;
-}
-
-.cancel-button {
-  background: red;
-  color: white;
-}
-
-.cancel-button:hover {
-  background: darkred;
-}
+/* ============== INFO BOXES ============== */
 
 .account-securityBox {
   border: 2px solid #eaeaea;
@@ -222,6 +174,8 @@
   object-fit: cover;
 }
 
+/* ====== EDIT PROFILE BUTTON ==== */
+
 .edit-button {
   display: flex;
   align-items: center;
@@ -237,6 +191,7 @@
 
 .edit-button:hover {
   color: rgb(121, 121, 121);
+  background: #f0f0f0;
   border-color: rgb(121, 121, 121);
 }
 
@@ -299,7 +254,7 @@
   color: #333;
 }
 
-/*=====POP UP BUTTON OF EDIT===== */
+/*===== POP UP BUTTON OF EDIT ===== */
 .modal {
   position: fixed;
   top: 0;
@@ -355,7 +310,7 @@
   font-size: 1rem;
 }
 
-/* Buttons */
+/* ==== Buttons ==== */
 .save-button,
 .cancel-button {
   padding: 10px 15px;
