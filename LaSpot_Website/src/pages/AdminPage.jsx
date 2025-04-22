@@ -17,8 +17,8 @@ export function AdminPage() {
     <>
       <Header3 />
       <AdminProfile />
-      {/* <AdminParking /> */}
-      {/* <AdminAccounts /> */}
+      <AdminParking />
+      <AdminAccounts />
       <Footer />
       <ScrollUp />
     </>

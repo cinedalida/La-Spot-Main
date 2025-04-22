@@ -53,7 +53,7 @@ export function AdminAccounts() {
                     : "Worker Accounts"}
                 </h1>
                 {activeTab === "students" ? (
-                  <table className="accountsTable">
+                  <table className="__table__">
                     <thead>
                       <tr>
                         <th>Student Number</th>
@@ -80,7 +80,7 @@ export function AdminAccounts() {
                     </tbody>
                   </table>
                 ) : (
-                  <table className="accountsTable">
+                  <table className="__table__">
                     <thead>
                       <tr>
                         <th>Worker ID</th>

@@ -52,7 +52,7 @@ export function AdminParking() {
               <p>NOTE | Show toggle: Show All, Student, Worker</p>
               <p>NOTE | Shows capacity on right side</p>
               {activeTab === "place1" ? (
-                <table className="parkingTable">
+                <table className="__table__">
                   <thead>
                     <tr>
                       <th>ID Number</th>
@@ -77,7 +77,7 @@ export function AdminParking() {
                   </tbody>
                 </table>
               ) : (
-                <table className="parkingTable">
+                <table className="__table__">
                   <thead>
                     <tr>
                       <th>ID Number</th>

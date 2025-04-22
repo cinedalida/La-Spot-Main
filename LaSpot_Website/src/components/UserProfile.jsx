@@ -193,7 +193,7 @@ export function UserProfile() {
               <div>
                 <div className="parking-history-box">
                   <h2 className="content-title-table">History</h2>
-                  <table className="history-table">
+                  <table className="__table__">
                     <thead>
                       <tr>
                         <th>Date</th>
