@@ -58,7 +58,7 @@ export function Header3() {
                 </a>
               </li>
 
-              {/* <li className="nav__item">
+              <li className="nav__item">
                 <a
                   href="#parking"
                   className="nav__link"
@@ -66,7 +66,7 @@ export function Header3() {
                 >
                   History
                 </a>
-              </li> */}
+              </li>
             </ul>
 
             {/* PROFILE IMAGE */}
