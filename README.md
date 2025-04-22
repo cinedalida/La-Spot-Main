@@ -6,7 +6,7 @@ NOTES:
 
 ## COMPONENTS HANDLING <br />
 
-- All components are in the Components <br />
+- All components are in the Components Folder <br />
 - All should reference/import .css files from the css folder
   <br /><br />
 
