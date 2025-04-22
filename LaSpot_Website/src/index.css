@@ -62,17 +62,14 @@ h3 {
   font-weight: var(--font-medium);
 }
 
-/*applies to all unordered list elements*/
 ul {
   list-style: none !important;
 }
 
-/*applies to all anchored elements*/
 a {
   text-decoration: none !important;
 }
 
-/*applies to all images elements*/
 img {
   max-width: 100%;
   height: auto;
@@ -138,11 +135,74 @@ select {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  /* border: 1px solid #ccc; */
   border-radius: 5px;
   background-color: #fff;
   outline: none;
   box-sizing: border-box;
   font-family: var(--body-font);
   margin-bottom: 50px;
+}
+
+/*=============== INPUT FORMAT ===============*/
+
+input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 200px;
+}
+
+input:focus {
+  border-color: var(--first-color-alt);
+  box-shadow: 0 0 5px rgba(0, 128, 128, 0.4); /* soft glow matching your theme */
+}
+
+/*=============== TABLE DESIGN FORMAT ===============*/
+
+.__table__ {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: auto;
+  font-family: var(--body-font);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.__table__ th,
+.__table__ td {
+  white-space: nowrap;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.__table__ th {
+  background-color: #dfdfdf;
+  color: rgb(26, 26, 26);
+  font-weight: bold;
+  font-family: var(--body-font);
+  background-color: #f5f5f5;
+  font-size: var(--normal-font-size);
+}
+
+.__table__ tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.__table__ td {
+  font-size: var(--small-font-size);
+}
+
+.__table__ td,
+.__table__ th {
+  text-align: center;
+}
+
+.__table__ td {
+  color: #555;
 }
