@@ -9,8 +9,8 @@ function App() {
   return (
     <>
       {/* <MainPage /> */}
-      <AdminPage />
-      {/* <UserPage /> */}
+      {/* <AdminPage /> */}
+      <UserPage />
       {/* <WorkerPage /> */}
     </>
   );
