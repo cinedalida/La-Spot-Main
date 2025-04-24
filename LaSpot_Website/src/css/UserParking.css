@@ -23,7 +23,8 @@
   background-repeat: no-repeat;
 }
 
-.UserParking__title {
+.UserParking__title,
+.UserParking__name {
   color: var(--first-color);
   font-family: var(--body-font);
   font-size: var(--section-font-size);

@@ -9,16 +9,17 @@ import { Footer } from "../components/Footer";
 import { ScrollUp } from "../components/ScrollUp";
 import UserParking from "../components/UserParking";
 import { UserProfile } from "../components/UserProfile";
+import { UserParkingView } from "../components/UserParkingView";
 
 export function UserPage() {
   return (
     <>
       {/* waitings kay jan to be re-edited by cine */}
       <Header2 />
-      <UserParking />
-      <UserProfile />
+      {/* <UserParking /> */}
+      {/* <UserProfile /> */}
+      <UserParkingView />
       <Footer />
-
       <ScrollUp />
     </>
   );
