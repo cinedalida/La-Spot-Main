@@ -142,15 +142,25 @@
 }
 
 /* Parking boxes inside */
-.row {
+/* .row {
   display: flex;
   justify-content: center;
   gap: 30px;
   margin: 0;
+} */
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* exactly 7 per row */
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
 }
 
+
+
 /* Parking slots, alphanumeric */
-.slot {
+/* .slot {
   width: 120px;
   height: 180px;
   background: lightgray;
@@ -163,7 +173,23 @@
   cursor: pointer;
   transition: transform 0.2s;
   z-index: 1;
-}
+} */
+
+
+.slot {
+  width: 110px; /* Slightly smaller if you want 7 to fit nicely */
+  height: 160px;
+  background: lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+} 
+
 
 .slot:hover {
   transform: scale(1.05);

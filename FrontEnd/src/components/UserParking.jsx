@@ -1,50 +1,20 @@
 import { useState, useEffect } from "react";
 import "../css/UserParking.css";
+import { Lot } from "./Lot";
 import managerImage from "../assets/ManagerImage.png";
 import { useGetFetch } from "../customHooks/useGetFetch";
 
 export function UserParking({zone}) {
-  // ========= STATE: Parking Information =========
-  const [parkingInformation] = useState({
-    parkingName: zone,
-    parkingSize: 14,
-  });
 
-  // ========= STATE: Slot Availability Data (from DB) =========
-  const initialSlots = [
-    { occupied: true },
-    { occupied: true },
-    { occupied: true },
-    { occupied: true },
-    { occupied: false },
-    { occupied: true },
-    { occupied: true },
-    { occupied: true },
-    { occupied: true },
-    { occupied: false },
+  const {data: zoneData, isPending, error, triggerGet} = useGetFetch();
 
-  ];
-  const slotCount = parkingInformation.parkingSize;
-  const [slots, setSlots] = useState(initialSlots);
+  useEffect(() => {
+    triggerGet(`http://localhost:8080/parkingZone/${zone}`)
+  }, [])
 
   // ========= STATE: Modal, Filter, and Vehicle Selection =========
-  const [modal, setModal] = useState({ show: false, index: null });
-  const [filter, setFilter] = useState("all");
-  const [vehicleType, setVehicleType] = useState("Sedan");
-
-  // ========= EVENT HANDLERS =========
-  const handleSlotClick = (index) => {
-    setModal({ show: true, index });
-  };
-
-  // ========= FILTERED SLOTS BASED ON STATUS =========
-  const filteredSlots = slots
-    .map((slot, index) => ({ ...slot, index }))
-    .filter(({ occupied }) => {
-      if (filter === "available") return !occupied;
-      if (filter === "occupied") return occupied;
-      return true;
-    });
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [vehicleFilter, setVehicleFilter] = useState("all");
 
   return (
     <>
@@ -53,7 +23,7 @@ export function UserParking({zone}) {
           {/* Title */}
           <div className="UserParking__header">
             <h2 className="UserParking__name">
-              {parkingInformation.parkingName}
+              {zone} Zone
             </h2>
             <h3 className="UserParking__description">
               <i>Select vehicle. View spot. Choose spot.</i>
@@ -65,9 +35,10 @@ export function UserParking({zone}) {
             {/* Vehicle Type Selector */}
             <div className="VehicleSelector__controls">
               <select
-                value={vehicleType}
-                onChange={(e) => setVehicleType(e.target.value)}
+                value={vehicleFilter}
+                onChange={(e) => setVehicleFilter(e.target.value)}
               >
+                <option value="all">All vehicle types</option>
                 <option value="Car">Car</option>
                 <option value="Motorcycle">Motorcycle</option>
               </select>
@@ -76,20 +47,20 @@ export function UserParking({zone}) {
             {/* Filter Buttons */}
             <div className="FilterButtons__controls">
               <button
-                onClick={() => setFilter("all")}
-                className={`Button1 ${filter === "all" ? "active" : ""}`}
+                onClick={() => setStatusFilter("all")}
+                className={`Button1 ${statusFilter === "all" ? "active" : ""}`}
               >
                 Show All
               </button>
               <button
-                onClick={() => setFilter("available")}
-                className={`Button2 ${filter === "available" ? "active" : ""}`}
+                onClick={() => setStatusFilter("vacant")}
+                className={`Button2 ${statusFilter === "vacant" ? "active" : ""}`}
               >
                 Available
               </button>
               <button
-                onClick={() => setFilter("occupied")}
-                className={`Button3 ${filter === "occupied" ? "active" : ""}`}
+                onClick={() => setStatusFilter("occupied")}
+                className={`Button3 ${statusFilter === "occupied" ? "active" : ""}`}
               >
                 Occupied
               </button>
@@ -99,21 +70,11 @@ export function UserParking({zone}) {
           {/* User Parking Box */}
           <div className="UserParking__box">
             <div className="row">
-              {filteredSlots
-                .slice(0, Math.ceil(slotCount / 2))
-                .map(({ occupied, index }) => (
-                  <div
-                    key={index}
-                    className="slot"
-                    onClick={() => handleSlotClick(index)}
-                  >
-                    <p className="slot-label">A{index + 1}</p>
-                    <div
-                      className="indicator"
-                      style={{ backgroundColor: occupied ? "red" : "green" }}
-                    ></div>
-                  </div>
-                ))}
+              {zoneData
+                // .slice(0, Math.ceil(slotCount / 2))
+                .map(( data, index ) => (
+                  <Lot lotID={data.lot_id} status={data.parking_status} vehiclePlate = {data.vehicle_plate} vehicleType = {data.vehicle_type} key={index} statusFilter={statusFilter} vehicleFilter={vehicleFilter} />
+              ))}
             </div>
           </div>
         </div>
