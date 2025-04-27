@@ -17,6 +17,12 @@ export function UserParking({zone}) {
     { occupied: true },
     { occupied: true },
     { occupied: false },
+    { occupied: true },
+    { occupied: true },
+    { occupied: true },
+    { occupied: true },
+    { occupied: false },
+
   ];
   const slotCount = parkingInformation.parkingSize;
   const [slots, setSlots] = useState(initialSlots);
