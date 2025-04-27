@@ -1,66 +1,18 @@
 import "../css/UserParkingView.css";
-import { useState } from "react";
-import areaImage from "../assets/g1__magdalo.png";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ParkingZoneButton } from "./ParkingZoneButton"
+import { useGetFetch } from "../customHooks/useGetFetch";
+// import areaImage from "../assets/g1__magdalo.png";
 import reminderImage from "../assets/reminder-picture.png";
 
 export function UserParkingView() {
-  const initialAreas = [
-    {
-      id: "Gate 1",
-      image: areaImage,
-      slots: [
-        { id: "A1", occupied: false },
-        { id: "A2", occupied: true },
-        { id: "A3", occupied: false },
-      ],
-    },
-    {
-      id: "Gate 2",
-      image: areaImage,
-      slots: [
-        { id: "B1", occupied: true },
-        { id: "B2", occupied: false },
-      ],
-    },
-    {
-      id: "Gate 3",
-      image: areaImage,
-      slots: [
-        { id: "C1", occupied: true },
-        { id: "C2", occupied: true },
-        { id: "C3", occupied: false },
-      ],
-    },
-    {
-      id: "Gate 4",
-      image: areaImage,
-      slots: [
-        { id: "C1", occupied: true },
-        { id: "C2", occupied: true },
-        { id: "C3", occupied: false },
-      ],
-    },
-    {
-      id: "Gate 5",
-      image: areaImage,
-      slots: [
-        { id: "C1", occupied: true },
-        { id: "C2", occupied: true },
-        { id: "C3", occupied: false },
-      ],
-    },
-    {
-      id: "Ayunta",
-      image: areaImage,
-      slots: [
-        { id: "C1", occupied: true },
-        { id: "C2", occupied: true },
-        { id: "C3", occupied: false },
-      ],
-    },
-  ];
 
-  const [areas] = useState(initialAreas);
+    const {data: zones, isPending, error, triggerGet} = useGetFetch();
+    
+    useEffect(() => {
+        triggerGet("http://localhost:8080/parkingZones")
+    }, [])
 
   return (
     <>
@@ -77,29 +29,17 @@ export function UserParkingView() {
       <section className="UserParkingView__section2">
         <div className="ParkingView__container">
           <div className="ParkingView__content">
-            {areas.map((area, index) => {
-              const available = area.slots.filter((s) => !s.occupied).length;
-              const occupied = area.slots.filter((s) => s.occupied).length;
 
+            {zones.map((zone, index) => {
               return (
-                <div key={index} className="parking-area">
-                  <img className="area-image" src={area.image} alt={area.id} />
-                  <h3 className="area-name">{area.id}</h3>
-                  <div className="slot-summary">
-                    <div>
-                      <span className="availability-title">
-                        Available Spots:
-                      </span>
-                      <span className="available-counter">{available}</span>
-                    </div>
-                    <div>
-                      <span className="occupied-title">Occupied Spots:</span>
-                      <span className="occupied-counter">{occupied}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  <Link key={zone.zone} to={`/UserParking/${zone.zone}`}>
+                      <ParkingZoneButton zone={zone.zone} vacantNum = {zone.vacantNum} occupiedNum = {zone.occupiedNum} key = {index}/>
+                  </Link>
+              )
+              })}
+
+
+
           </div>
         </div>
       </section>

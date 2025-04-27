@@ -15,12 +15,12 @@ import { AdminAccounts } from "../components/AdminAccounts";
 export function AdminPage() {
   return (
     <>
-      <Header3 />
+      {/* <Header3 /> */}
       {/* <AdminProfile /> */}
       {/* <AdminParking /> */}
-      <AdminAccounts />
+      {/* <AdminAccounts />
       <Footer />
-      <ScrollUp />
+      <ScrollUp /> */}
     </>
   );
 }

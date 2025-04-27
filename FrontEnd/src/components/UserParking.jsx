@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/UserParking.css";
 import managerImage from "../assets/ManagerImage.png";
+import { useGetFetch } from "../customHooks/useGetFetch";
 
-export default function UserParking() {
+export function UserParking({zone}) {
   // ========= STATE: Parking Information =========
   const [parkingInformation] = useState({
-    parkingName: "<Parking Place Name>",
+    parkingName: zone,
     parkingSize: 14,
   });
 

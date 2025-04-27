@@ -16,8 +16,8 @@ export function UserPage() {
     <>
       {/* waitings kay jan to be re-edited by cine */}
       <Header2 />
-      <UserParking />
-      <UserProfile />
+      {/* <UserParking /> */}
+      {/* <UserProfile /> */}
       <UserParkingView />
       <Footer />
       <ScrollUp />

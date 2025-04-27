@@ -13,6 +13,7 @@ import { AdminProfile } from "./pages/AdminProfile";
 
 // import { UserParking } from "./pages/UserParking";
 import { UserParkingView } from "./pages/UserParkingView";
+import { UserParking } from "./pages/UserParking";
 import { UserProfile } from "./pages/UserProfile";
 
 
@@ -33,6 +34,7 @@ function App() {
               <Route path = "/adminProfile" element={<AdminProfile />} />
               <Route path = "/userParkingView" element ={<UserParkingView />} />
               <Route path = "/userProfile" element ={<UserProfile />} />
+              <Route path="/userParking/:zone" element={<UserParking />} />
 
             </Route>
           </Routes>

@@ -1,12 +1,32 @@
 import "../css/LoginPop.css";
-import React, { useState, useRef } from "react";
 import ForgotPassword from "./ForgotPassword";
+import { usePostFetch } from "../customHooks/usePostFetch";
+import { useAuth } from "../customHooks/AuthContext";
+import { useState, useEffect, useRef } from "react";
+
 
 const LoginPop = ({ setIsLoginOpen }) => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({ email: false, password: false });
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const { setAccessToken } = useAuth(); 
+
+  // Get Fetch
+  const {data: loginData, isPending, error, triggerPost} = usePostFetch();
+
+
+  useEffect(() => {
+    if (error) {
+      console.log(error.message)
+    }
+    if (Object.keys(loginData).length > 0) {
+        console.log("User has been logged in successfully")
+        setIsLoginOpen(false)
+        setAccessToken(loginData)
+        // then navigate to something
+    }
+  }, [loginData, error])
 
   // Login Form Validation
   const handleSubmit = (event) => {
@@ -33,12 +53,14 @@ const LoginPop = ({ setIsLoginOpen }) => {
 
     if (valid) {
       // Proceed with form submission
-      console.log("Form submitted with:", {
-        email: email.value,
+      let formData = {
+        email: email.value.toLowerCase(),
         password: password.value,
-      });
+      }
+      console.log("Form submitted with:", formData);
+      triggerPost("http://localhost:8080/login", formData )
     }
-    git;
+    
   };
 
   return (
