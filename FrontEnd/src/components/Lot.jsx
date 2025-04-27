@@ -1,10 +1,18 @@
-// import "../css/Lot.css"
+import "../css/UserParking.css";
 
-export function Lot({classStyle, lotID}) {
+export function Lot({lotID, status}) {
     
     return(
         <>
-            <div className={classStyle}>{lotID}</div>
+            <div
+                className="slot"
+            >
+                <p className="slot-label">A{lotID}</p>
+                <div
+                    className="indicator"
+                    style={{ backgroundColor: status == "occupied" ? "red" : "green" }}
+                ></div>
+            </div>
         </>
     )
 }
