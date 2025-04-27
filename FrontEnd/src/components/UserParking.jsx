@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import "../css/UserParking.css";
+import { Lot } from "./Lot";
 import managerImage from "../assets/ManagerImage.png";
 import { useGetFetch } from "../customHooks/useGetFetch";
 
 export function UserParking({zone}) {
+
+  const {data: zoneData, isPending, error, triggerGet} = useGetFetch();
+
+  useEffect(() => {
+    triggerGet(`http://localhost:8080/parkingZone/${zone}`)
+  }, [])
+
   // ========= STATE: Parking Information =========
   const [parkingInformation] = useState({
     parkingName: zone,
@@ -22,14 +30,14 @@ export function UserParking({zone}) {
   const [slots, setSlots] = useState(initialSlots);
 
   // ========= STATE: Modal, Filter, and Vehicle Selection =========
-  const [modal, setModal] = useState({ show: false, index: null });
+  // const [modal, setModal] = useState({ show: false, index: null });
   const [filter, setFilter] = useState("all");
   const [vehicleType, setVehicleType] = useState("Sedan");
 
   // ========= EVENT HANDLERS =========
-  const handleSlotClick = (index) => {
-    setModal({ show: true, index });
-  };
+  // const handleSlotClick = (index) => {
+  //   setModal({ show: true, index });
+  // };
 
   // ========= FILTERED SLOTS BASED ON STATUS =========
   const filteredSlots = slots
@@ -93,21 +101,23 @@ export function UserParking({zone}) {
           {/* User Parking Box */}
           <div className="UserParking__box">
             <div className="row">
-              {filteredSlots
-                .slice(0, Math.ceil(slotCount / 2))
-                .map(({ occupied, index }) => (
-                  <div
-                    key={index}
-                    className="slot"
-                    onClick={() => handleSlotClick(index)}
-                  >
-                    <p className="slot-label">A{index + 1}</p>
-                    <div
-                      className="indicator"
-                      style={{ backgroundColor: occupied ? "red" : "green" }}
-                    ></div>
-                  </div>
-                ))}
+              {zoneData
+                // .slice(0, Math.ceil(slotCount / 2))
+                .map(( data, index ) => (
+                  <Lot lotID={data.lot_id} status={data.parking_status} key={index} />
+                  
+                  // <div
+                  //   key={index}
+                  //   className="slot"
+                  //   onClick={() => handleSlotClick(index)}
+                  // >
+                  //   <p className="slot-label">A{index + 1}</p>
+                  //   <div
+                  //     className="indicator"
+                  //     style={{ backgroundColor: occupied ? "red" : "green" }}
+                  //   ></div>
+                  // </div>
+              ))}
             </div>
           </div>
         </div>
