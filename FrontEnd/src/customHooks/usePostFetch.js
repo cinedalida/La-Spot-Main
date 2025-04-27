@@ -23,11 +23,11 @@ export function usePostFetch() {
             },
             credentials: 'include',
             body: JSON.stringify(postData)
-        }). then( res => {
+        }). then( async res => {
             if (!res.ok) {
-                const responseData = res.json();
+                const responseData = await res.json();
                 console.log("Error message : " + responseData.message)
-                throw Error (res.message || "An unknown error has occured")
+                throw new Error (responseData.message || "An unknown error has occured")
             }
             return res.json();
         }). then(data => {

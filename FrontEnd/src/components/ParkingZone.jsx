@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useGetFetch } from '../customHooks/useGetFetch'
 import { Lot } from '../components/Lot'
-import "../css/Lot.css"
+// import "../css/Lot.css"
 
 export function ParkingZone({zone}) {
 

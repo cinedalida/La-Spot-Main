@@ -1,4 +1,4 @@
-import "../css/Lot.css"
+// import "../css/Lot.css"
 
 export function Lot({classStyle, lotID}) {
     

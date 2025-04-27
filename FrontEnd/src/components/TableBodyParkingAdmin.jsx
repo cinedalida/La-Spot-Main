@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { usePostFetch } from "../customHooks/usePostFetch";
 import { useDeleteFetch } from "../customHooks/useDeleteFetch";
 
-export const TableBodyContent = ({
+export const TableBodyParkingAdmin = ({
     onRefresh,
     visible,
     lot_id : lotID, 
@@ -135,4 +135,4 @@ export const TableBodyContent = ({
     ) 
 }
 
-export default TableBodyContent;
+export default TableBodyParkingAdmin;

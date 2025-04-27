@@ -39,7 +39,7 @@ export const handleLogin = async (req, res) => {
                     { email },
                     // also include the account type
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '30s' }
+                    { expiresIn: '1D' } 
                 );
                 const refreshToken = jwt.sign(
                     { email },

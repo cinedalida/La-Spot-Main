@@ -1,9 +1,27 @@
 import "../css/AdminParking.css";
-import React, { useState } from "react";
+import { useGetFetch } from "../customHooks/useGetFetch.js";
+import { TableBodyParkingAdmin } from "./TableBodyParkingAdmin.jsx"
+import { useState, useEffect } from "react";
 
 export function AdminParking() {
   // dynamic changes pa lang to, wala pang editing (ikaw na'to matti)
-  const [activeTab, setActiveTab] = useState("parkingOverview");
+  const [selectedZone, setSelectedZone] = useState("ADG");
+    const [show, setShow] = useState("showAll")
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleRefresh = () => {
+        setRefreshKey(prevKey => prevKey + 1);
+    }
+
+    const {data: lots, isPending, error, triggerGet} = useGetFetch();
+    
+    useEffect(()=> {
+        triggerGet(`http://localhost:8080/parkingOverviewAdmin/${selectedZone}`)
+    }, [selectedZone, refreshKey])
+    
+    // Use these variables for the Parking Status
+    const numAvailable = lots.filter((lot) => lot.parking_status === "vacant").length
+    const numOccupied = lots.filter((lot) => lot.parking_status === "occupied").length
 
   return (
     <>
@@ -29,19 +47,27 @@ export function AdminParking() {
               {/* BUTTONS */}
               <button
                 className={`locationButton ${
-                  activeTab === "place1" ? "active" : ""
+                  selectedZone === "ICTC" ? "active" : ""
                 }`}
-                onClick={() => setActiveTab("place1")}
+                onClick={() => setSelectedZone("ICTC")}
               >
-                Ayuntamiento
+                ICTC Building
               </button>
               <button
                 className={`locationButton ${
-                  activeTab === "place2" ? "active" : ""
+                  selectedZone === "Magdalo" ? "active" : ""
                 }`}
-                onClick={() => setActiveTab("place2")}
+                onClick={() => setSelectedZone("Magdalo")}
               >
-                ICTC Building
+                Magdalo
+              </button>
+              <button
+                className={`locationButton ${
+                  selectedZone === "ADG" ? "active" : ""
+                }`}
+                onClick={() => setSelectedZone("ADG")}
+              >
+                Ayuntamiento
               </button>
             </div>
           </div>
@@ -51,57 +77,45 @@ export function AdminParking() {
               <h1 className="parkingTable__title">Parking Spots</h1>
               <p>NOTE | Show toggle: Show All, Student, Worker</p>
               <p>NOTE | Shows capacity on right side</p>
-              {activeTab === "place1" ? (
-                <table className="__table__">
-                  <thead>
+
+              <br/><br/><br/>
+              
+              <p>Available Spots: {numAvailable}</p>
+              <p>Occupied Spots: {numOccupied}</p>
+              <br/><br/><br/>
+
+              <h2> {selectedZone} Zone</h2>
+              {<button type="button" onClick = {() => setShow("showAll")}> Show All </button>}
+              {<button type="button" onClick = {() => setShow("student")}> Student </button>}
+              {<button type="button" onClick = {() => setShow("worker")}> Worker </button>}
+
+              <br/><br/>
+
+              <table className="__table__">
+                <thead>
                     <tr>
-                      <th>ID Number</th>
-                      <th>Spot</th>
-                      <th>Name</th>
-                      <th>Vehicle</th>
-                      <th>Time-In</th>
-                      <th>Time-Out</th>
-                      <th>Status</th>
+                        <th>Spot</th>
+                        <th>Car Plate</th>
+                        <th>ID Number</th>
+                        <th>Account Type</th>
+                        <th>Vehicle Type</th>
+                        <th>Time In</th>
+                        <th>Time Date</th>
+                        <th></th>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>202330324</td>
-                      <td>A15</td>
-                      <td>Janny Cake</td>
-                      <td>Car</td>
-                      <td>1:00PM</td>
-                      <td>3:00PM</td>
-                      <td>Occupied</td>
-                    </tr>
-                  </tbody>
-                </table>
-              ) : (
-                <table className="__table__">
-                  <thead>
-                    <tr>
-                      <th>ID Number</th>
-                      <th>Spot</th>
-                      <th>Name</th>
-                      <th>Vehicle</th>
-                      <th>Time-In</th>
-                      <th>Time-Out</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>202330444</td>
-                      <td>A1</td>
-                      <td>Matii Cake</td>
-                      <td>Car</td>
-                      <td>1:00PM</td>
-                      <td>4:00PM</td>
-                      <td>Occupied</td>
-                    </tr>
-                  </tbody>
-                </table>
-              )}
+                </thead>
+                <tbody>
+                {isPending && <tr><td>Loading...</td></tr>}
+                {error && <tr><td>{error.message}</td></tr>}
+                {lots && 
+                    lots.map((lot, index)=>{
+                        return(
+                            <TableBodyParkingAdmin {...lot} key={index} visible = {show} onRefresh={handleRefresh}  />
+                        )
+                    })
+                }
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

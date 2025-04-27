@@ -20,8 +20,8 @@ export function MainPage() {
       <LandingHome />
       <LandingProcedure />
       <LandingParking />
-      <Footer />
-      <ScrollUp />
+      {/* <Footer />
+      <ScrollUp /> */}
     </>
   );
 }

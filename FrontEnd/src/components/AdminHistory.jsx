@@ -158,9 +158,7 @@ export function AdminHistory(){
                                     columnFilters = {columnFilters}
                                     setColumnFilters = {setColumnFilters}
                                 />
-
-
-                                <table className="accountsTable">
+                                <table className="__table__">
                                     <thead>
                                     {table.getHeaderGroups().map(headerGroup => <tr key={headerGroup.id}>
                                         {headerGroup.headers.map(
@@ -205,7 +203,7 @@ export function AdminHistory(){
                                 <p>
                                     Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                                 </p>
-                                <div className="buttonPagination"> // you may use this class name to edit the pagination button
+                                <div className="buttonPagination">  {/* you may use this class name to edit the pagination button */ }
                                     <button
                                         onClick ={() => table.setPageIndex(0)}
                                         disabled = {!table.getCanPreviousPage()}
