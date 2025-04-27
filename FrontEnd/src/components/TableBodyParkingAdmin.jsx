@@ -120,8 +120,8 @@ export const TableBodyParkingAdmin = ({
                 <td>{userID ? userID : ""}</td>
                 <td>{accountType ? accountType : ""}</td>
                 <td>{vehicleType ? vehicleType : ""}</td>
-                <td>{occupiedAt ? new Date(occupiedAt).toLocaleDateString(): ""}</td>
-                <td>{occupiedAt ? new Date(occupiedAt).toLocaleTimeString() : ""}</td>
+                <td>{occupiedAt ? new Date(occupiedAt).toLocaleTimeString(): ""}</td>
+                <td>{occupiedAt ? new Date(occupiedAt).toLocaleDateString() : ""}</td>
                 <td>
                     <button 
                         disabled = {!userID ? true: false} 
