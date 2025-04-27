@@ -19,7 +19,7 @@ export function ScrollUp() {
       className={`scrollup ${isVisible ? "show-scroll" : ""}`}
       id="scroll-up"
     >
-      <i class="ri-arrow-up-line"></i>
+      <i className="ri-arrow-up-line"></i>
     </a>
   );
 }

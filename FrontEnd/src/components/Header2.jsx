@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../css/Header2.css";
 
 export function Header2() {
@@ -39,26 +40,26 @@ export function Header2() {
           >
             <ul className="nav__list">
               <li className="nav__item">
-                <a
-                  href="#home"
+                <Link
+                  to = "/"
                   className="nav__link"
                   onClick={() => setMenuOpen(false)}
                 >
                   Home
-                </a>
+                </Link>
               </li>
 
               <li className="nav__item">
-                <a
-                  href="#procedure"
+                <Link
+                  t0 ="/userParkingView"
                   className="nav__link"
                   onClick={() => setMenuOpen(false)}
                 >
                   Parking
-                </a>
+                </Link>
               </li>
 
-              <li className="nav__item">
+              {/* <li className="nav__item">
                 <a
                   href="#parking"
                   className="nav__link"
@@ -66,16 +67,18 @@ export function Header2() {
                 >
                   History
                 </a>
-              </li>
+              </li> */}
             </ul>
 
             {/* PROFILE IMAGE */}
             <div className="nav__profile">
-              <img
-                src="/images/userProfile.jpg"
-                alt="User Profile"
-                className="profile__image"
-              />
+              <Link to="/userProfile">
+                <img
+                  src="/images/userProfile.jpg"
+                  alt="User Profile"
+                  className="profile__image"
+                />
+              </Link>
             </div>
 
             {/* CLOSE BUTTON */}

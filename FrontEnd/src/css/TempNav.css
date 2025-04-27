@@ -1,0 +1,29 @@
+.navBar {
+    top: 0;
+    height: 60px; /* Slightly taller navbar for better content space */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0; /* Removed margin-top to ensure it sticks at the top */
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjusted padding for better spacing */
+    background-color: #021526;
+    border-radius: 10px;
+    z-index: 9999;
+}
+
+.navButton {
+    background-color: #03346E;
+    color: white; /* Added color for visibility */
+    padding: 8px 16px; /* Added padding for better button size */
+    border: none; /* Optional: removes border */
+    border-radius: 5px; /* Optional: adds rounded corners to the button */
+    cursor: pointer; /* Adds pointer cursor for interactivity */
+}
+
+.navButton:hover {
+    background-color: #021526; /* Optional: adds hover effect */
+}
