@@ -27,7 +27,7 @@ export function LandingProcedure() {
                   account to get started.
                 </p>
               </div>
-              <div class="procedure__card2">
+              <div className="procedure__card2">
                 <img
                   src="images/verify.png"
                   alt="step2"
