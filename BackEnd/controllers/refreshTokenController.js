@@ -9,7 +9,7 @@ export const handleRefreshToken = (req, res) => {
     const cookies = req.cookies
 
 
-    const sqlQuerySearchUser =  `SELECT email, refresh_token
+    const sqlQuerySearchUser =  `SELECT email, refresh_token, account_type
     FROM user_information
     WHERE refresh_token = ?`
 
@@ -25,7 +25,9 @@ export const handleRefreshToken = (req, res) => {
 
         if (Object.keys(data).length === 0) {
             return res.sendStatus(403); //Forbidden
-        } 
+        }
+
+        
 
         // Evaluate JWT
         jwt.verify(
@@ -33,8 +35,14 @@ export const handleRefreshToken = (req, res) => {
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
                 if (err || data[0].email !== decoded.email) return res.sendStatus(403);
+
                 const accessToken = jwt.sign(
-                    {"email": decoded.email},
+                    {
+                        "UserInfo": {
+                            "email": decoded.email,
+                            "accountType": data[0].accountType
+                        },
+                    },  
                     process.env.ACCESS_TOKEN_SECRET,
                     {expiresIn: '30s'}
                 );

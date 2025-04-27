@@ -39,7 +39,7 @@ export function LandingHome() {
 
       {/* Show the popup when isLoginOpen is true */}
       {isLoginOpen && <LoginPop setIsLoginOpen={setIsLoginOpen} />}
-      {isSignupOpen && <SignupPop setIsSignupOpen={setIsSignupOpen} />}
+      {isSignupOpen && <SignupPop setIsSignupOpen={setIsSignupOpen} setIsLoginOpen={setIsLoginOpen} />}
     </>
   );
 }

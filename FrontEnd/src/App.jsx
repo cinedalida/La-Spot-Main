@@ -21,6 +21,8 @@ import { UserProfile } from "./pages/UserProfile";
 // import { UserPage } from "./pages/UserPage";
 // import { WorkerPage } from "./pages/WorkerPage";
 
+// Log out doesn't work for admin
+
 function App() {
   return (
     <>

@@ -48,7 +48,17 @@ export const parkingZones = (req, res) => {
 export const parkingZone = (req, res) => {
     const { zone } = req.params
 
-    connection.query("Select lot_id, zone, parking_status FROM lot WHERE zone = ?", [zone], (err, data) => {
+    const sqlQeuryParkingZoneStatus = `Select lot.lot_id, lot.zone, lot.parking_status, parking.vehicle_plate, vehicle.vehicle_type
+    FROM lot
+    LEFT JOIN parking
+    ON lot.zone = parking.zone
+    AND lot.lot_id = parking.lot_id
+    AND parking.vacated_at IS NULL
+    LEFT JOIN vehicle
+    ON parking.vehicle_plate = vehicle.vehicle_plate
+    WHERE lot.zone = ?`
+
+    connection.query(sqlQeuryParkingZoneStatus, [zone], (err, data) => {
         if (err){
             console.log("An error has occured")
         } else {
