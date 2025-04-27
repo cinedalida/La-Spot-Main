@@ -10,14 +10,29 @@ export const handleLogin = async (req, res) => {
     const { email, password } = req.body;
     console.log("Handling Login")
 
-    const sqlQuerySearchUser =  `SELECT email, account_password
-    FROM user_information
-    WHERE email = ?`
+    let sqlQuerySearchUser;
+    if (email.includes("@")){
+        sqlQuerySearchUser =  `SELECT email as username, account_password, account_type
+        FROM user_information
+        WHERE email = ?`
+    } else {
+        sqlQuerySearchUser =  `SELECT admin_code as username, account_password, "Admin" as account_type
+        FROM admin_information
+        WHERE admin_code = ?;`
+    }
 
-    const sqlQuerySetRefreshKey = `UPDATE user_information
-    SET refresh_token = ?
-    WHERE email = ?`
+    let sqlQuerySetRefreshKey;
+    if (email.includes("@")) {
+        sqlQuerySetRefreshKey = `UPDATE user_information
+        SET refresh_token = ?
+        WHERE email = ?`
+    } else {
+        sqlQuerySetRefreshKey = `UPDATE admin_information
+        SET refresh_token = ?
+        WHERE admin_code = ?`
+    }
 
+    
 
     connection.query(sqlQuerySearchUser, [email], (err, data) => {
         if (err) {
@@ -36,10 +51,14 @@ export const handleLogin = async (req, res) => {
 
                 // Creating JWT TOKENS
                 const accessToken = jwt.sign(
-                    { email },
-                    // also include the account type
+                    { 
+                        "UserInfo": {
+                            "email": email,
+                            "accountType": data[0].account_type
+                        }
+                    },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '1D' } 
+                    { expiresIn: '15m' } 
                 );
                 const refreshToken = jwt.sign(
                     { email },
