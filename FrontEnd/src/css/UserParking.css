@@ -1,0 +1,235 @@
+/* ======= CONTAINERS/ SECTIONS ======= */
+.UserParking__section1 {
+  padding-top: 120px;
+}
+
+.UserParking__container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.UserParking__section2 {
+  padding-top: 100px;
+  padding-bottom: 400px;
+  background-image: url("../images/ovalFade1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.UserParking__title,
+.UserParking__name {
+  color: var(--first-color);
+  font-family: var(--body-font);
+  font-size: var(--section-font-size);
+  font-weight: var(--font-semi-bold);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ======= Parking Descriptions =======  */
+
+.UserParking__name {
+  text-align: left;
+  color: var(--first-color);
+  font-family: var(--body-font);
+  font-size: var(--section-font-size);
+}
+
+.UserParking__description {
+  text-align: left;
+  color: rgb(56, 56, 56);
+  font-family: var(--body-font);
+}
+
+/* ======= Vehicle selector/dropdown ======= */
+
+.UserParking__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.VehicleSelector__controls {
+  display: flex;
+  width: 20%;
+  background-color: var(--white-color);
+  border-radius: 10px;
+}
+
+/* Vehicle selector style */
+.VehicleSelector__controls select {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: var(--text-color);
+  font-family: var(--body-font);
+}
+
+/* ======= FILTER BUTTONS =======  */
+.FilterButtons__controls {
+  display: flex;
+  background-color: lightgray;
+  border-radius: 10px; /* pill shape */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+}
+
+.FilterButtons__controls button {
+  background-color: transparent;
+  color: #444;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: var(--body-font);
+}
+
+/* INDIVIDUAL BUTTONS */
+.Button1 {
+  /* Top-left */
+  border-top-left-radius: 10px;
+
+  /* Bottom-left */
+  border-bottom-left-radius: 10px;
+}
+
+.Button3 {
+  /* Top-right */
+  border-top-right-radius: 10px;
+
+  /* Bottom-right */
+  border-bottom-right-radius: 10px;
+}
+
+.FilterButtons__controls button.active {
+  background-color: var(--first-color-alt); /* teal-like color */
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* slight elevation */
+}
+
+.FilterButtons__controls button:hover {
+  background-color: var(--first-color-alt);
+  color: white;
+}
+
+/* ========= Parking Box ========= */
+.UserParking__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0edee;
+  padding: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 500px;
+  padding: 20px 40px;
+  justify-content: space-between;
+}
+
+/* Parking boxes inside */
+/* .row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 0;
+} */
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* exactly 7 per row */
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+
+
+/* Parking slots, alphanumeric */
+/* .slot {
+  width: 120px;
+  height: 180px;
+  background: lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  z-index: 1;
+} */
+
+
+.slot {
+  width: 110px; /* Slightly smaller if you want 7 to fit nicely */
+  height: 160px;
+  background: lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+} 
+
+
+.slot:hover {
+  transform: scale(1.05);
+}
+
+.slot-label {
+  font-size: 32px;
+  font-family: var(--body-font);
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+/* Parking slots, light indicator */
+.indicator {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 15px;
+  background: rgb(85, 226, 85);
+  border: 2px solid var(--text-color);
+}
+
+/* Manager Image */
+.managerImage {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 80px;
+  padding-left: 5px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #f0edee, rgba(255, 255, 255, 0));
+  z-index: -1;
+  pointer-events: none;
+}
