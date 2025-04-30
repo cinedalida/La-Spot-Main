@@ -51,7 +51,7 @@ export function Header2() {
 
               <li className="nav__item">
                 <Link
-                  t0 ="/userParkingView"
+                  to ="/userParkingView"
                   className="nav__link"
                   onClick={() => setMenuOpen(false)}
                 >
