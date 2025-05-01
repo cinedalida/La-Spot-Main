@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 export function useGetFetch(url){
-    const { accessToken } = useAuth();
-    console.log("Access Token:", accessToken);
+    const { auth, setAuth } = useAuth();
+    console.log("Access Token:", auth.accessToken);
 
     
     const [data, setData] = useState([]);
@@ -14,51 +14,65 @@ export function useGetFetch(url){
         setIsPending(true);
         setError(null);
 
-        if (!url) return;
-        console.log("Request URL:", url);
-        console.log("Sending GET request with token:", accessToken);
+        if(!url) {
+            setIsPending(true);
+            return;
+        } 
+        // console.log("Request URL:", url);
+        // console.log("Sending GET request with token:", accessToken);
         fetch(url, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${accessToken?.accessToken}`,
+                "Authorization": `Bearer ${auth.accessToken}`,
             },
             credentials: 'include'
-        })
-            .then(async res => {
-                if (res.status === 401) {
-                    console.log("Access token expired, refreshing token...")
-                    return fetch("http://localhost:8080/refresh", {
+        }).then(async res => {
+            console.log(res.status);
+            if (res.status === 403) {
+                console.log("Access token expired, refreshing token...")
+                return fetch("http://localhost:8080/refresh", {
+                    method: "POST",
+                    credentials: 'include'
+                })
+                .then(res => res.json())
+                .then(async data => {
+                    console.log("Updated token: " + data.accessToken)
+                    setAuth({
+                        accessToken: data.accessToken,
+                        username: data.username,
+                        accountType: data.accountType,
+                    });
+                    return fetch(url, {
                         method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${data.accessToken}`,
+                        },
                         credentials: 'include'
+                    }). then(res => {
+                        if (!res.ok) throw new Error("Retry after refresh failed")
+                            return res.json();
                     })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("Updated token: " + data.accessToken)
-                        return fetch(url, {
-                            method: "GET",
-                            headers: {
-                                "Authorization": `Bearer ${accessToken?.accessToken}`,
-                            },
-                            credentials: 'include'
-                        })
-                    })
-                }
+                })
+            }
 
-                if(!res.ok){
-                    throw Error ("Status of 404 (Not Found)")
-                }
+            if(!res.ok){
+                throw new Error ("An unknown error has occured")
+            }
 
-                return res.json()
+            return res.json()
 
-            }).then(data =>  {
-                console.log(data);
-                setData(data);
-                setError(null);
-            }).catch(err => {
-                setError(err.message);
-            }).finally(() => {
-                setIsPending(false);
-            })
+        }).then(data =>  {
+            console.log("Data Fetched (GET)");
+            console.log(data);
+            setData(data);
+            setError(null);
+        }).catch(err => {
+            setError(err.message);
+            console.log("erro error");
+            console.log(err);
+        }).finally(() => {
+            setIsPending(false);
+        })
     }
 
     return {data, isPending, error, triggerGet};

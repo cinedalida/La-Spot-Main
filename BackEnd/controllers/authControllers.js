@@ -7,11 +7,11 @@ dotenv.config();
 
 
 export const handleLogin = async (req, res) => {
-    const { email, password } = req.body;
+    const { email: username, password } = req.body;
     console.log("Handling Login")
 
     let sqlQuerySearchUser;
-    if (email.includes("@")){
+    if (username.includes("@")){
         sqlQuerySearchUser =  `SELECT email as username, account_password, account_type
         FROM user_information
         WHERE email = ?`
@@ -22,7 +22,7 @@ export const handleLogin = async (req, res) => {
     }
 
     let sqlQuerySetRefreshKey;
-    if (email.includes("@")) {
+    if (username.includes("@")) {
         sqlQuerySetRefreshKey = `UPDATE user_information
         SET refresh_token = ?
         WHERE email = ?`
@@ -34,16 +34,18 @@ export const handleLogin = async (req, res) => {
 
     
 
-    connection.query(sqlQuerySearchUser, [email], (err, data) => {
+    connection.query(sqlQuerySearchUser, [username], (err, userData) => {
         if (err) {
             return res.status(500).json({ "message": "Database query error" });
-        } 
+        }
+        
+        console.log(userData)
 
-        if (Object.keys(data).length === 0) {
+        if (Object.keys(userData).length === 0) {
             return res.status(400).json({ "message": "Invalid email" });
         } 
 
-        bycrypt.compare(password, data[0].account_password)
+        bycrypt.compare(password, userData[0].account_password)
             .then (match => {
                 if (!match) {
                     return res.status(400).json({ "message": "Incorrect password" });
@@ -53,21 +55,22 @@ export const handleLogin = async (req, res) => {
                 const accessToken = jwt.sign(
                     { 
                         "UserInfo": {
-                            "email": email,
-                            "accountType": data[0].account_type
+                            "username": username,
+                            "accountType": userData[0].account_type
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '15m' } 
+                    // { expiresIn: '15m' } 
+                    { expiresIn: '30s' } 
                 );
                 const refreshToken = jwt.sign(
-                    { email },
+                    { "username": username },
                     process.env.REFRESH_TOKEN_SECRET,
                     { expiresIn: '1D' }
                 );
 
                 // Saving refresh token 
-                connection.query(sqlQuerySetRefreshKey, [refreshToken, email], (err, data) => {
+                connection.query(sqlQuerySetRefreshKey, [refreshToken, username], (err, data) => {
                     if (err) {
                         console.log('Error in updating refresh token')
                     }
@@ -75,7 +78,7 @@ export const handleLogin = async (req, res) => {
                     // set to one day
                     // not available to js
 
-                    res.json({ accessToken})
+                    res.json({ accessToken, username: userData[0].username, accountType: userData[0].account_type })
                 })
                 
             }).catch (error => {

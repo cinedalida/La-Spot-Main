@@ -9,7 +9,7 @@ export const handleRefreshToken = (req, res) => {
     const cookies = req.cookies
 
 
-    const sqlQuerySearchUser =  `SELECT email, refresh_token, account_type
+    const sqlQuerySearchUser =  `SELECT email AS username, refresh_token, account_type
     FROM user_information
     WHERE refresh_token = ?`
 
@@ -18,12 +18,12 @@ export const handleRefreshToken = (req, res) => {
 
 
 
-    connection.query(sqlQuerySearchUser, [refreshToken], (err, data) => {
+    connection.query(sqlQuerySearchUser, [refreshToken], (err, userData) => {
         if (err) {
             return res.status(500).json({ message: "Database query error" });
         } 
 
-        if (Object.keys(data).length === 0) {
+        if (Object.keys(userData).length === 0) {
             return res.sendStatus(403); //Forbidden
         }
 
@@ -34,19 +34,20 @@ export const handleRefreshToken = (req, res) => {
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
-                if (err || data[0].email !== decoded.email) return res.sendStatus(403);
+                if (err || userData[0].username !== decoded.username) return res.sendStatus(403);
 
                 const accessToken = jwt.sign(
-                    {
+                    { 
                         "UserInfo": {
-                            "email": decoded.email,
-                            "accountType": data[0].accountType
-                        },
-                    },  
+                            "username": userData[0].username,
+                            "accountType": userData[0].account_type
+                        }
+                    },
                     process.env.ACCESS_TOKEN_SECRET,
-                    {expiresIn: '30s'}
+                    // { expiresIn: '15m' } 
+                    { expiresIn: '30s' } 
                 );
-                res.json({ accessToken })
+                res.json({ accessToken, username: userData[0].username, accountType: userData[0].account_type })
             }
             
         )

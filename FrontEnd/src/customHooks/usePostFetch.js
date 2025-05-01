@@ -6,32 +6,63 @@ export function usePostFetch() {
     const [data, setData] = useState([]);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
-    const { accessToken } = useAuth();
-    console.log("Access Token:", accessToken);
+    const { auth, setAuth } = useAuth();
+    console.log("Access Token:", auth?.accessToken);
 
     const triggerPost = (url, postData) => {
         setIsPending(true);
         setError(null);
 
-        if(!url || !postData) return;
+        if(!url || !postData) {
+            setIsPending(true);
+            return;
+        } 
 
         fetch(url, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${accessToken?.accessToken}`    
+                "Authorization": `Bearer ${auth.accessToken}`    
             },
             credentials: 'include',
             body: JSON.stringify(postData)
         }). then( async res => {
+
+            if (res.status === 403) {
+                console.log("Access token expired, refreshing token...")
+                return fetch("http://localhost:8080/refresh", {
+                    method: "POST",
+                    credentials: 'include'
+                })
+                .then (res => res.json())
+                .then (data => {
+                    console.log("Updated token: " + data.accessToken)
+                    setAuth({
+                        accessToken: data.accessToken,
+                        username: data.username,
+                        accountType: data.accountType,
+                    });
+                    return fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${data.accessToken}`
+                        },
+                        credentials: 'include'
+                    })
+                })
+            }
+
             if (!res.ok) {
                 const responseData = await res.json();
-                console.log("Error message : " + responseData.message)
+                console.log("Error message: " + responseData.message)
                 throw new Error (responseData.message || "An unknown error has occured")
             }
+
             return res.json();
+
         }). then(data => {
-            console.log("Data Posted")
+            console.log("Data Posted");
+            console.log(data);
             setData(data);
             setError(null)
         }).catch (err => {

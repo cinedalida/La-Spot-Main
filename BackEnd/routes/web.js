@@ -22,7 +22,7 @@ let initWebRoutes = (app) => {
     router.post("/login", authControllers.handleLogin)
 
     // Refresh Tokken key
-    router.get("/refresh", refreshTokenControllers.handleRefreshToken)
+    router.post("/refresh", refreshTokenControllers.handleRefreshToken)
 
     // Logout
     router.post('/logout', logoutControllers.handleLogout)
@@ -30,11 +30,13 @@ let initWebRoutes = (app) => {
     // Parking User \\
     
     // Will get the list of parking zone and the number of available and occupied spot
-    router.get("/parkingZones", /* verifyJWT, verifyAccountType("Student", "Worker"), */ parkingControllers.parkingZones)
+    router.get("/parkingZones", verifyJWT, verifyAccountType("Student", "Worker"), parkingControllers.parkingZones)
+    // verifyJWT,
+    /* verifyJWT, verifyAccountType("Student", "Worker"), */
 
     // Will get all of the lot data in a parking zone
-    router.get("/parkingZone/:zone", /* verifyJWT, */ parkingControllers.parkingZone)
-
+    router.get("/parkingZone/:zone",  /* verifyJWT, */  parkingControllers.parkingZone)
+/* verifyJWT, */
 
     // Parking Admin \\
 

@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 import penIcon from "../assets/pen.png";
 import "../css/UserProfile.css";
 import { LogoutButton } from "./Logoutbutton";
+import { useAuth } from "../customHooks/AuthContext";
 
 // Main functional component
 export function UserProfile() {
+
+  const {auth, setAuth} = useAuth();
   // State for user profile data
   const [profile, setProfile] = useState({
     firstName: "Marti Kier",
@@ -106,7 +109,7 @@ export function UserProfile() {
             {activeTab === "profile" ? (
               <div className="profile-sections-box">
                 {/* Display profile info */}
-                <h2 className="My-profile-title">My Profile</h2>
+                <h2 className="My-profile-title">My Profile {auth.accountType}{auth.username}</h2>
                 <div className="profile-header">
                   <div className="profile-image-container">
                     <img src={profile.image} alt="Profile" />

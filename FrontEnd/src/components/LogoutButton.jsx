@@ -11,6 +11,10 @@ export function LogoutButton({ onLogoutClick }) {
   const handleConfirm = () => {
     setShowConfirm(false);
     onLogoutClick(); // call the passed prop after confirming
+
+    // put stuff here
+
+
   };
   const handleCancel = () => {
     setShowConfirm(false);

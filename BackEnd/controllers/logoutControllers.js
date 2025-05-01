@@ -10,32 +10,49 @@ export const handleLogout = (req, res) => {
 
     const cookies = req.cookies
 
+    // username, account_type, refresh_token
+    const sqlQuerySearchUser =  `SELECT admin_information.admin_code AS username, "Admin" AS account_type, admin_information.refresh_token
+    FROM admin_information
+    WHERE refresh_token = ?
 
-    const sqlQuerySearchUser =  `SELECT email, refresh_token
+    UNION ALL
+
+    SELECT user_information.email as username, user_information.account_type, user_information.refresh_token
     FROM user_information
     WHERE refresh_token = ?`
 
-    const sqlQueryDeleteRefreshKey = `UPDATE user_information
-    SET refresh_token = null
-    WHERE email = ?`
+    
 
     if (!cookies?.jwt) return res.sendStatus(204); // No content
     const refreshToken = cookies.jwt;
 
 
     // Find the refresh token in the DB
-    connection.query(sqlQuerySearchUser, [refreshToken], (err, data) => {
+    connection.query(sqlQuerySearchUser, [refreshToken, refreshToken], (err, userData) => {
         if (err) {
             
             return res.status(500).json({ message: "Database query error" });
         } 
 
-        if (Object.keys(data).length === 0) {
+        if (Object.keys(userData).length === 0) {
             res.clearCookie('jwt', {httpOnly: true, secure: true,})
             return res.sendStatus(204); //Successfull but no content
 
         } 
-        connection.query(sqlQueryDeleteRefreshKey, [data[0].email], (err, data) => {
+
+        let sqlQueryDeleteRefreshKey;
+
+        if (userData[0].account_type === "Student" || userData[0].account_type === "Worker") {
+            sqlQueryDeleteRefreshKey = `UPDATE user_information
+            SET refresh_token = null
+            WHERE email = ?`
+        } else if (userData[0].account_type === "Admin") {
+            sqlQueryDeleteRefreshKey = `UPDATE admin_information
+            SET refresh_token = null
+            WHERE admin_code = ?`
+        }
+        
+        connection.query(sqlQueryDeleteRefreshKey, [userData[0].username], (err, data) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
