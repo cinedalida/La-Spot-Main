@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 export function  useDeleteFetch() {
-    const {auth, seAuth} = useAuth();
+    const {auth, setAuth} = useAuth();
     const [data, setData] = useState([]);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
@@ -18,7 +18,7 @@ export function  useDeleteFetch() {
 
         fetch(url, {
             method: 'DELETE',
-            header: {
+            headers: {
                 "Authorization": `Bearer ${auth.accessToken}`
             },
             credentials: 'include'
@@ -30,9 +30,9 @@ export function  useDeleteFetch() {
                     credentials: "include"
                 })
                 .then(res => res.json())
-                .then(data => {
+                .then( async data => {
                     console.log("Updated token: " + data.accessToken)
-                    seAuth({
+                    setAuth({
                         accessToken: data.accessToken,
                         username: data.username,
                         accountType: data.accountType,
@@ -40,9 +40,12 @@ export function  useDeleteFetch() {
                     return fetch(url, {
                         method: "DELETE",
                         headers: {
-                            "Authorization": `Bearer ${accessToken}`,
+                            "Authorization": `Bearer ${data.accessToken}`,
                         },
                         credentials: 'include'
+                    }). then(res => {
+                        if (!res.ok) throw new Error("Retry after refresh failed")
+                        return res.json();
                     })
                 })
             }
@@ -52,6 +55,11 @@ export function  useDeleteFetch() {
                 console.log("Error message: " + responseData.message)
                 throw new Error (responseData.message || "An unknown error has occured")     
             }
+
+            if (res.status === 204) {
+                return {status: 204}
+            }
+
             return res.json()
         }).then(data =>  {
             console.log(data);

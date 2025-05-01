@@ -25,7 +25,7 @@ let initWebRoutes = (app) => {
     router.post("/refresh", refreshTokenControllers.handleRefreshToken)
 
     // Logout
-    router.post('/logout', logoutControllers.handleLogout)
+    router.delete('/logout', logoutControllers.handleLogout)
 
     // Parking User \\
     
@@ -41,7 +41,7 @@ let initWebRoutes = (app) => {
     // Parking Admin \\
 
     // Will get all of the lot data in a parking zone (admin)
-    router.get("/parkingOverviewAdmin/:selectedZone", /* verifyJWT, verifyAccountType("admin"), */ parkingControllers.parkingOverviewAdmin)
+    router.get("/parkingOverviewAdmin/:selectedZone", verifyJWT, verifyAccountType("Admin"), parkingControllers.parkingOverviewAdmin)
 
     // Will POST the vehicle data to the parking zone
     router.post("/adminViewZone/parkVehicle", /* verifyJWT, */ parkingControllers.parkVehicle)

@@ -3,6 +3,7 @@ import ForgotPassword from "./ForgotPassword";
 import { usePostFetch } from "../customHooks/usePostFetch";
 import { useAuth } from "../customHooks/AuthContext";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginPop = ({ setIsLoginOpen }) => {
@@ -11,6 +12,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
   const [errors, setErrors] = useState({ email: false, password: false });
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const { auth, setAuth } = useAuth(); 
+  const navigate = useNavigate();
 
   // Loging in the data
   const logging = async(formData) => {
@@ -37,6 +39,11 @@ const LoginPop = ({ setIsLoginOpen }) => {
         username: data.username,
         accountType: data.accountType,
       });
+      if (data.accountType === "Student" || data.accountType === "Worker") {
+        navigate("/userParkingView");
+      } else if (data.accountType == "Admin") {
+        navigate("/adminParking");
+      }
     }).catch(err => {
       console.log("an error has occured")
       console.log(err);
