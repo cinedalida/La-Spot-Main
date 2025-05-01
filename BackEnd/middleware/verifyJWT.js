@@ -9,13 +9,25 @@ export const verifyJWT = (req, res, next) => {
     // console.log(authHeader); //Beared token
 
     const token = authHeader.split(" ")[1]
+    console.log("Token received:", token);
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {;
-            if (err) return res.sendStatus(403); //Forbidden (Invalid token)
+            if (err) {
+                console.log(err)
+                if (err.name === "TokenExpiredError") {
+                    console.log("sending 403 error")
+                    // return res.status(403).json({ status: 403 });
+                    return res.sendStatus(403); //Forbidden (Expired token)
+                } else {
+                    return res.sendStatus(401) //Unauthorized (Invalid Token)
+                }
+            }
+            
+            
             console.log("Decoded JWT:", decoded);
-            req.user = decoded.UserInfo.email;
+            req.user = decoded.UserInfo.username; //used to be email
             req.accountType = decoded.UserInfo.accountType
             //  also include the type of account
             next();

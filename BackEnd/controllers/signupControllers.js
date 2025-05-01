@@ -75,10 +75,10 @@ export const signupPost = async (req, res) => {
 
         try{
             console.log("Proceeding to check existing admin code...")
-            const resultCheckExisitingAdminDate = await signUpValidation.checkExistingAdminData(adminCode);
+            const resultCheckExisitingAdminData = await signUpValidation.checkExistingAdminData(adminCode);
 
-            if (Object.keys(resultCheckExisitingAdminDate).length > 0){
-                return res.json(resultCheckExisitingAdminDate);
+            if (Object.keys(resultCheckExisitingAdminData).length > 0){
+                return res.json(resultCheckExisitingAdminData);
             } else {
                 console.log("Admin code is valid, proceeding to insertion...")
                 const queryInsertAdminInformation = "INSERT INTO admin_information(admin_code, first_name, last_name, account_password)  " +

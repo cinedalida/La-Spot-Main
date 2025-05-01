@@ -10,23 +10,58 @@ const LoginPop = ({ setIsLoginOpen }) => {
   const passwordRef = useRef(null);
   const [errors, setErrors] = useState({ email: false, password: false });
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  const { setAccessToken } = useAuth(); 
+  const { auth, setAuth } = useAuth(); 
 
-  // Get Fetch
-  const {data: loginData, isPending, error, triggerPost} = usePostFetch();
+  // Loging in the data
+  const logging = async(formData) => {
+    fetch("http://localhost:8080/login", {
+      method: "POST",
+          headers: {
+              "Content-type": "application/json", 
+          },
+          credentials: 'include',
+          body: JSON.stringify(formData)
+    }).then (async res => {
+      if (!res.ok) {
+        const responseData = await res.json();
+        console.log("Error message: " + responseData.message)
+        throw new Error (responseData.message || "An unknown error has occured")
+      }
+      return res.json();
+    }).then(data => {
+      console.log("User has been logged in successfully")
+      setIsLoginOpen(false)
+      console.log(data);
+      setAuth({
+        accessToken: data.accessToken,
+        username: data.username,
+        accountType: data.accountType,
+      });
+    }).catch(err => {
+      console.log("an error has occured")
+      console.log(err);
+    })
+      
+  }
 
+  
 
-  useEffect(() => {
-    if (error) {
-      console.log(error.message)
-    }
-    if (Object.keys(loginData).length > 0) {
-        console.log("User has been logged in successfully")
-        setIsLoginOpen(false)
-        setAccessToken(loginData)
-        // then navigate to something
-    }
-  }, [loginData, error])
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log(error.message)
+  //   }
+  //   if (Object.keys(loginData).length > 0) {
+  //       console.log("User has been logged in successfully")
+  //       setIsLoginOpen(false)
+  //       console.log(loginData);
+  //       setAuth({
+  //         accessToken: data.accessToken,
+  //         username: data.username,
+  //         accountType: data.accountType,
+  //       });
+  //       // then navigate to something
+  //   }
+  // }, [loginData, error])
 
   // Login Form Validation
   const handleSubmit = (event) => {
@@ -57,11 +92,13 @@ const LoginPop = ({ setIsLoginOpen }) => {
         email: email.value.toLowerCase(),
         password: password.value,
       }
-      console.log("Form submitted with:", formData);
-      triggerPost("http://localhost:8080/login", formData )
+      
+      console.log("Form sending:", formData);
+      logging(formData);
     }
+  }
     
-  };
+
 
   return (
     <div className="login-overlay">
@@ -100,7 +137,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
             {/* Login Form */}
             <form onSubmit={handleSubmit}>
               <input
-                type="email"
+                type="text"
                 placeholder="Email"
                 className={`inputField-login ${errors.email ? "error" : ""}`}
                 ref={emailRef}
@@ -131,5 +168,4 @@ const LoginPop = ({ setIsLoginOpen }) => {
     </div>
   );
 };
-
 export default LoginPop;

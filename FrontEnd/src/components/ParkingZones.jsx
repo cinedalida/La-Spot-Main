@@ -2,7 +2,6 @@ import { ParkingZoneButton } from "./ParkingZoneButton"
 import { useEffect } from "react";
 import { Link } from "react-router-dom"
 import { useGetFetch } from "../customHooks/useGetFetch"
-import { useAuth } from "../customHooks/AuthContext";
 import "../css/test.css"
 
 export function ParkingZones() {
@@ -14,6 +13,7 @@ export function ParkingZones() {
     }, [])
     
 
+    console.log("please work");
 
     return (
         <div className="main-grid">

@@ -59,11 +59,12 @@ export function checkExistingAdminData(adminCode) {
                 let validationError = {}
 
                 if (Object.keys(results).length === 0 ) {
-                    validationError.error ="Invalid Admin Code";
-                } else if (results.is_used === true) {
+                    validationError.error = "Invalid Admin Code";
+                } else if (results[0].is_used === 1) {
                     validationError.error = "Admin Code already used";
                 } 
                 
+                console.log(validationError)
                 resolve(validationError);
 
             }
