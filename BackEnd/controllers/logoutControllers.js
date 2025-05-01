@@ -58,8 +58,8 @@ export const handleLogout = (req, res) => {
                 return res.sendStatus(500)
             }
 
+            console.log("Log out: deleting refresh key")
             res.clearCookie('jwt', {httpOnly: true, secure: true,}) 
-            // also do the secure: true -- only serves on https 
             res.sendStatus(204);
         })
 

@@ -36,6 +36,7 @@ export function useGetFetch(url){
                 })
                 .then(res => res.json())
                 .then(async data => {
+                    console.log(data);
                     console.log("Updated token: " + data.accessToken)
                     setAuth({
                         accessToken: data.accessToken,

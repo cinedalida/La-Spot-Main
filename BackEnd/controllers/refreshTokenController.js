@@ -9,7 +9,17 @@ export const handleRefreshToken = (req, res) => {
     const cookies = req.cookies
 
 
-    const sqlQuerySearchUser =  `SELECT email AS username, refresh_token, account_type
+    // const sqlQuerySearchUser =  `SELECT email AS username, refresh_token, account_type
+    // FROM user_information
+    // WHERE refresh_token = ?`
+
+    const sqlQuerySearchUser = `SELECT admin_information.admin_code AS username, "Admin" AS account_type, admin_information.refresh_token
+    FROM admin_information
+    WHERE refresh_token = ?
+
+    UNION ALL
+
+    SELECT user_information.email as username, user_information.account_type, user_information.refresh_token
     FROM user_information
     WHERE refresh_token = ?`
 
@@ -18,9 +28,10 @@ export const handleRefreshToken = (req, res) => {
 
 
 
-    connection.query(sqlQuerySearchUser, [refreshToken], (err, userData) => {
+    connection.query(sqlQuerySearchUser, [refreshToken, refreshToken], (err, userData) => {
         if (err) {
-            return res.status(500).json({ message: "Database query error" });
+            console.log(err);
+            return res.status(500).json({ message: "Database query error", err: err });
         } 
 
         if (Object.keys(userData).length === 0) {
