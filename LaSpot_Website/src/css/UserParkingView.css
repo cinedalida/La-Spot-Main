@@ -26,6 +26,8 @@
   min-height: 100vh;
 }
 
+/* Content container: keeps them all together */
+
 .ParkingView__container {
   max-width: 1000px;
   margin: 0 auto;

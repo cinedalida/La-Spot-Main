@@ -8,9 +8,9 @@ import { WorkerPage } from "./pages/WorkerPage";
 function App() {
   return (
     <>
-      {/* <MainPage /> */}
+      <MainPage />
       {/* <AdminPage /> */}
-      <UserPage />
+      {/* <UserPage /> */}
       {/* <WorkerPage /> */}
     </>
   );
