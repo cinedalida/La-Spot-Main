@@ -351,3 +351,268 @@
     transform: translateY(0);
   }
 }
+
+/* ==================== Responsive Design for AdminProfile ==================== */
+
+/* For screens up to 576px (typical for smaller phones) */
+@media (max-width: 576px) {
+  .profile-container {
+    margin-top: 60px;
+    margin-bottom: 40px;
+  }
+
+  .profile-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .profile-wrapper {
+    flex-direction: column; /* Stack sidebar and content */
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }
+
+  .sidebar-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+  }
+
+  .content-section {
+    padding: 15px;
+  }
+
+  .My-profile-title {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+  }
+
+  .profile-image-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-info-container {
+    align-items: center;
+    text-align: center;
+  }
+
+  .accountFullname {
+    font-size: var(--h3-font-size);
+  }
+
+  .accountDisplaytype,
+  .accountDisplayemail {
+    font-size: var(--smaller-font-size);
+    margin-top: 5px;
+  }
+
+  .personal-infoBox,
+  .account-securityBox {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .section-title,
+  .content-title {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .info-content p {
+    font-size: var(--small-font-size);
+    text-align: center;
+  }
+
+  .edit-button-container {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .edit-button {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .modal-content label {
+    font-size: var(--small-font-size);
+    margin: 8px 0 3px;
+  }
+
+  .modal-content input {
+    padding: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .save-button,
+  .cancel-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    margin: 5px;
+  }
+}
+
+/* For screens up to 768px (typical for tablets and larger phones) */
+@media (max-width: 768px) {
+  .profile-container {
+    margin-top: 80px;
+    margin-bottom: 60px;
+  }
+
+  .profile-title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .profile-wrapper {
+    flex-direction: column; /* Stack sidebar and content */
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    display: flex; /* Horizontal buttons */
+    overflow-x: auto;
+  }
+
+  .sidebar-button {
+    width: auto;
+    margin-right: 10px;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .content-section {
+    padding: 20px;
+  }
+
+  .My-profile-title {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-bottom: 1.2rem;
+  }
+
+  .profile-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+
+  .profile-image-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-info-container {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .accountFullname {
+    font-size: var(--h2-font-size);
+  }
+
+  .accountDisplaytype,
+  .accountDisplayemail {
+    font-size: var(--normal-font-size);
+    margin-top: 8px;
+  }
+
+  .personal-infoBox,
+  .account-securityBox {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .section-title,
+  .content-title {
+    font-size: 1.3rem;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .info-content p {
+    font-size: var(--normal-font-size);
+    text-align: left;
+  }
+
+  .edit-button-container {
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .edit-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+
+  .modal-content label {
+    font-size: var(--normal-font-size);
+    margin: 10px 0 5px;
+  }
+
+  .modal-content input {
+    padding: 8px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .save-button,
+  .cancel-button {
+    font-size: 1rem;
+    padding: 10px 15px;
+    margin: 8px;
+  }
+}
