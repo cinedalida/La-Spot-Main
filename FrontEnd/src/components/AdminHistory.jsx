@@ -1,4 +1,4 @@
-import "../css/AdminAccounts.css";
+import "../css/AdminAccounts.css"; // css for AdminAccounts and AdminHistory
 import { AdminTableFilter } from "./AdminTableFilter";
 import { useGetFetch } from "../customHooks/useGetFetch";
 import { useState, useEffect } from "react";
@@ -10,7 +10,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
+// Icons that were used:
 import { BiSort } from "react-icons/bi";
+import { IoMdArrowDropup } from "react-icons/io";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 export function AdminHistory() {
   const [accountType, setAccountType] = useState("Student");
@@ -184,15 +187,30 @@ export function AdminHistory() {
                             <th key={header.id}>
                               {header.column.columnDef.header}
                               {header.column.getCanSort() && (
-                                <BiSort // this is an icon -- you can change this is you want
+                                <BiSort
                                   size={20}
                                   onClick={header.column.getToggleSortingHandler()}
+                                  style={{
+                                    color: "rgb(44, 102, 110)",
+                                    marginLeft: "5px",
+                                    cursor: "pointer",
+                                  }}
                                 />
                               )}
                               {
                                 {
-                                  asc: " 🔼", // you may use icon here or change it if you want
-                                  desc: " 🔽",
+                                  asc: (
+                                    <span className="sort-indicator asc">
+                                      {" "}
+                                      <IoMdArrowDropup size={25} />
+                                    </span>
+                                  ),
+                                  desc: (
+                                    <span className="sort-indicator desc">
+                                      {" "}
+                                      <IoMdArrowDropdown size={25} />
+                                    </span>
+                                  ),
                                 }[header.column.getIsSorted()]
                               }
                             </th>
