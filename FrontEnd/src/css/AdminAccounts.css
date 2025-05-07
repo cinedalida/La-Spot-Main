@@ -74,7 +74,6 @@
   background-color: white;
   border-radius: 10px;
   padding: 1rem;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .accountsCategoryTable__content {
@@ -125,7 +124,6 @@
   padding: 1rem;
 }
 
-/* WHOLE Table container */
 .adminAccountsTable__container {
   display: flex;
   background-color: white;
@@ -134,6 +132,42 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Pagination style */
+
+.buttonPagination {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.buttonPagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.buttonPagination button:hover {
+  background-color: #e9ecef;
+}
+
+.buttonPagination button:disabled {
+  background-color: #ddd;
+  color: #999;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+p {
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
 /* ========== MIN: 390px - MAX: 768px ========== */
 @media (min-width: 390px) and (max-width: 768px) {
   .parkingOverview__container {

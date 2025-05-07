@@ -58,6 +58,14 @@
   border-radius: 10px;
 }
 
+.locationTable__title {
+  font-size: var(--h1-font-size);
+  font-family: var(--body-font);
+  color: var(--first-color);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 1rem;
+}
+
 .locationTable__title,
 .parkingTable__title {
   font-weight: var(--font-semi-bold);
@@ -124,6 +132,101 @@
   color: var(--first-color);
   font-weight: bold;
   border-radius: 50px;
+}
+
+/* ======= CONTROLS: Filters and capacity =======  */
+
+.adminParking__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* ======= FILTER BUTTONS =======  */
+.adminParking__filterButtons {
+  display: flex;
+  background-color: lightgray;
+  border-radius: 10px; /* pill shape */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+}
+
+.adminParking__filterButtons button {
+  background-color: transparent;
+  color: #444;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: var(--body-font);
+}
+
+/* INDIVIDUAL BUTTONS */
+.adminBtn1 {
+  /* Top-left */
+  border-top-left-radius: 10px;
+
+  /* Bottom-left */
+  border-bottom-left-radius: 10px;
+}
+
+.adminBtn3 {
+  /* Top-right */
+  border-top-right-radius: 10px;
+
+  /* Bottom-right */
+  border-bottom-right-radius: 10px;
+}
+
+.adminParking__filterButtons button.active {
+  background-color: var(--first-color-alt); /* teal-like color */
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* slight elevation */
+}
+
+.adminParking__filterButtons button:hover {
+  background-color: var(--first-color-alt);
+  color: white;
+}
+
+/* ======= CAPACITY STYLES =======  */
+.adminParking__capacity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.spot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.spot-label {
+  font-size: var(--normal-font-size);
+  font-weight: 500;
+  margin: 0;
+}
+
+.spot-number {
+  font-size: var(--normal-font-size);
+  font-weight: 600;
+  padding: 4px 20px;
+  border-radius: 8px;
+  color: white;
+  display: inline-block;
+}
+
+.spot-number.available {
+  background-color: var(--first-color-alt); /* similar to light teal */
+}
+
+.spot-number.occupied {
+  background-color: var(--first-color); /* dark teal tone */
 }
 
 /* ========== TABLES ========== */
