@@ -101,7 +101,7 @@
 }
 
 .ParkingView__description {
-  font-family: var(--body-font);
+  font-size: var(--h2-font-size);
   text-align: left;
   margin-top: 1rem;
   color: var(--text-color);
