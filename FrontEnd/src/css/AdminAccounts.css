@@ -168,6 +168,21 @@ p {
   font-size: 0.9rem;
   color: #555;
 }
+
+/* Table sort icons style */
+.sort-indicator {
+  margin-left: 3px;
+  font-size: 0.8rem;
+}
+
+.sort-indicator.asc {
+  color: green;
+}
+
+.sort-indicator.desc {
+  color: red;
+}
+
 /* ========== MIN: 390px - MAX: 768px ========== */
 @media (min-width: 390px) and (max-width: 768px) {
   .parkingOverview__container {
