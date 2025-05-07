@@ -35,7 +35,7 @@ let initWebRoutes = (app) => {
     /* verifyJWT, verifyAccountType("Student", "Worker"), */
 
     // Will get all of the lot data in a parking zone
-    router.get("/parkingZone/:zone",  /* verifyJWT, */  parkingControllers.parkingZone)
+    router.get("/parkingZone/:zone",  verifyJWT, verifyAccountType("Student", "Worker"),  parkingControllers.parkingZone)
 /* verifyJWT, */
 
     // Parking Admin \\
@@ -44,17 +44,17 @@ let initWebRoutes = (app) => {
     router.get("/parkingOverviewAdmin/:selectedZone", verifyJWT, verifyAccountType("Admin"), parkingControllers.parkingOverviewAdmin)
 
     // Will POST the vehicle data to the parking zone
-    router.post("/adminViewZone/parkVehicle", /* verifyJWT, */ parkingControllers.parkVehicle)
+    router.post("/adminViewZone/parkVehicle", verifyJWT, verifyAccountType("Admin"), parkingControllers.parkVehicle)
 
     // Will DELETE the vehicle data from the parking zone
-    router.delete("/adminViewZone/vacatingParkingSpace/:vehiclePlate", /* verifyJWT, */ parkingControllers.vacatingParkingSpace)
+    router.delete("/adminViewZone/vacatingParkingSpace/:vehiclePlate", verifyJWT, verifyAccountType("Admin"), parkingControllers.vacatingParkingSpace)
 
 
     // Account Admin \\
-    router.get("/accountRecord", /* verifyJWT, */ otherAdminControllers.accountRecord)
+    router.get("/accountRecord", verifyJWT, verifyAccountType("Admin"), otherAdminControllers.accountRecord)
 
     // Account History \\
-    router.get("/adminHistory", /* verifyJWT, */ otherAdminControllers.adminParkingHistory)
+    router.get("/adminHistory", verifyJWT, verifyAccountType("Admin"), otherAdminControllers.adminParkingHistory)
 
 
 

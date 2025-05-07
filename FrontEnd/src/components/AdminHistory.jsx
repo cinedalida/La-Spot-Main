@@ -9,7 +9,9 @@ export function AdminHistory(){
     const [accountType, setAccountType] = useState("Student");
     const [columnVisibility, setColumnVisibility] = useState({parking_id: false});
     const {data: HistoryData, isPending, error, triggerGet} = useGetFetch();
-    const [columnFilters, setColumnFilters] = useState([])
+    const [columnFilters, setColumnFilters] = useState([
+        { id: "account_type", value: ["Student"] }
+    ]);
     
     // Trigger Fetch
     useEffect(() => {

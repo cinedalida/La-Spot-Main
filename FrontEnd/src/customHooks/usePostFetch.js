@@ -44,10 +44,11 @@ export function usePostFetch() {
                     });
                     return fetch(url, {
                         method: "POST",
+                        body: JSON.stringify(postData),
                         headers: {
-                            "Authorization": `Bearer ${data.accessToken}`
+                            "Authorization": `Bearer ${data.accessToken}`,
                         },
-                        credentials: 'include'
+                        credentials: 'include',
                     })
                 })
             }

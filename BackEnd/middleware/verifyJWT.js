@@ -19,9 +19,9 @@ export const verifyJWT = (req, res, next) => {
                 if (err.name === "TokenExpiredError") {
                     console.log("sending 403 error")
                     // return res.status(403).json({ status: 403 });
-                    return res.sendStatus(403); //Forbidden (Expired token)
+                    return res.status(403).json({message: "Forbidden -- expired token "}); //Forbidden (Expired token)
                 } else {
-                    return res.sendStatus(401) //Unauthorized (Invalid Token)
+                    return res.status(401).json({message: "Unauthorized -- invalid token"}) //Unauthorized (Invalid Token)
                 }
             }
             

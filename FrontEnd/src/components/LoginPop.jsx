@@ -14,6 +14,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
   const { auth, setAuth } = useAuth(); 
   const navigate = useNavigate();
 
+
   // Loging in the data
   const logging = async(formData) => {
     fetch("http://localhost:8080/login", {
@@ -45,30 +46,15 @@ const LoginPop = ({ setIsLoginOpen }) => {
         navigate("/adminParking");
       }
     }).catch(err => {
-      console.log("an error has occured")
       console.log(err);
+      if (err.message === "Invalid email") {
+        setErrors({ email: true})
+        emailRef.current.value = "";
+        emailRef.current.placeholder = "Invalid email";
+      }
     })
       
   }
-
-  
-
-  // useEffect(() => {
-  //   if (error) {
-  //     console.log(error.message)
-  //   }
-  //   if (Object.keys(loginData).length > 0) {
-  //       console.log("User has been logged in successfully")
-  //       setIsLoginOpen(false)
-  //       console.log(loginData);
-  //       setAuth({
-  //         accessToken: data.accessToken,
-  //         username: data.username,
-  //         accountType: data.accountType,
-  //       });
-  //       // then navigate to something
-  //   }
-  // }, [loginData, error])
 
   // Login Form Validation
   const handleSubmit = (event) => {
@@ -96,7 +82,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
     if (valid) {
       // Proceed with form submission
       let formData = {
-        email: email.value.toLowerCase(),
+        email: email.value.toUpperCase(),
         password: password.value,
       }
       
@@ -148,12 +134,14 @@ const LoginPop = ({ setIsLoginOpen }) => {
                 placeholder="Email"
                 className={`inputField-login ${errors.email ? "error" : ""}`}
                 ref={emailRef}
+                autoFocus
               />
               <input
                 type="password"
                 placeholder="Password"
                 className={`inputField-login ${errors.password ? "error" : ""}`}
                 ref={passwordRef}
+
               />
               <a
                 href="#"

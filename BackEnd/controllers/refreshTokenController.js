@@ -8,11 +8,6 @@ dotenv.config();
 export const handleRefreshToken = (req, res) => {
     const cookies = req.cookies
 
-
-    // const sqlQuerySearchUser =  `SELECT email AS username, refresh_token, account_type
-    // FROM user_information
-    // WHERE refresh_token = ?`
-
     const sqlQuerySearchUser = `SELECT admin_information.admin_code AS username, "Admin" AS account_type, admin_information.refresh_token
     FROM admin_information
     WHERE refresh_token = ?
@@ -23,7 +18,7 @@ export const handleRefreshToken = (req, res) => {
     FROM user_information
     WHERE refresh_token = ?`
 
-    if (!cookies?.jwt) return res.sendStatus(401); // Unauthorized
+    if (!cookies?.jwt) return res.send(401).json({message: "Unauthorized"}); // Unauthorized
     const refreshToken = cookies.jwt;
 
 
@@ -35,7 +30,7 @@ export const handleRefreshToken = (req, res) => {
         } 
 
         if (Object.keys(userData).length === 0) {
-            return res.sendStatus(403); //Forbidden
+            return res.status(403).json({message: "Forbidden -- Invalid refresh token"}); //Forbidden
         }
 
         
@@ -45,7 +40,12 @@ export const handleRefreshToken = (req, res) => {
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
-                if (err || userData[0].username !== decoded.username) return res.sendStatus(403);
+                if (err || userData[0].username !== decoded.username) {
+                    console.log("err: ", err);
+                    console.log("table-username: ", userData[0].username);
+                    console.log("cookie-username: ", decoded.username);
+                    return res.status(403).json({message: "Forbidden -- Refresh token verification failed"});
+                } 
 
                 const accessToken = jwt.sign(
                     { 
@@ -56,7 +56,7 @@ export const handleRefreshToken = (req, res) => {
                     },
                     process.env.ACCESS_TOKEN_SECRET,
                     // { expiresIn: '15m' } 
-                    { expiresIn: '30s' } 
+                    { expiresIn: '10s' } 
                 );
                 res.json({ accessToken, username: userData[0].username, accountType: userData[0].account_type })
             }
