@@ -246,3 +246,534 @@
     text-align: center;
   }
 }
+
+/* ==================== Responsive Design ==================== */
+
+/* screens up to 576px */
+@media (max-width: 576px) {
+  .parkingOverview {
+    margin-top: var(--header-height-mobile, 60px);
+    padding: 1rem;
+  }
+
+  .parkingOverview__container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .parkingOverview__content {
+    text-align: center;
+  }
+
+  .parkingOverview__title {
+    font-size: var(--h2-font-size);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .description {
+    font-size: var(--normal-font-size);
+    text-align: center;
+    max-width: 100%;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+  }
+
+  .parkingLayout {
+    padding: 1rem;
+  }
+
+  .parkingLayout__container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .locationTable__container {
+    width: 100%;
+  }
+
+  .locationTable__title {
+    font-size: var(--h2-font-size);
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .locationTable__divider {
+    text-align: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .locationTable__content {
+    gap: 0.5rem;
+  }
+
+  .locationButton {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+  }
+
+  .adminParking__controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 15px;
+  }
+
+  .adminParking__filterButtons {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    border-radius: 5px;
+  }
+
+  .adminParking__filterButtons button {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+
+  .adminBtn1 {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  .adminBtn3 {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-right: 0;
+  }
+
+  .adminParking__capacity {
+    width: 100%;
+  }
+
+  .spot-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .spot-label,
+  .spot-number {
+    font-size: var(--normal-font-size);
+    text-align: left;
+    width: 100%;
+  }
+
+  .parkingTable__container {
+    overflow-x: auto;
+    border-radius: 8px;
+  }
+
+  .parkingTable__container table {
+    width: auto;
+    min-width: 100%;
+  }
+
+  .parkingTable__container th,
+  .parkingTable__container td {
+    padding: 8px 10px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  .parkingTable__container th:nth-child(4),
+  .parkingTable__container td:nth-child(4) {
+    display: none;
+  }
+}
+
+/* screens up to 768px */
+@media (max-width: 768px) {
+  .parkingOverview {
+    margin-top: var(--header-height-tablet, 70px);
+    padding: 1.5rem;
+  }
+
+  .parkingOverview__container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .parkingOverview__content {
+    text-align: center;
+  }
+
+  .parkingOverview__title {
+    font-size: var(--h1-font-size);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: var(--h2-font-size);
+    text-align: center;
+    max-width: 70%;
+    line-height: 1.5;
+    margin: 1rem auto;
+  }
+
+  .parkingLayout {
+    padding: 1.5rem;
+  }
+
+  .parkingLayout__container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .locationTable__container {
+    width: 100%;
+  }
+
+  .locationTable__title {
+    font-size: var(--h1-font-size);
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .locationTable__divider {
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+
+  .locationButton {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
+
+  .adminParking__controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 20px;
+  }
+
+  .adminParking__filterButtons {
+    width: auto;
+    display: flex;
+    overflow-x: auto;
+    border-radius: 8px;
+  }
+
+  .adminParking__filterButtons button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-right: 8px;
+  }
+
+  .adminBtn1 {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .adminBtn3 {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-right: 0;
+  }
+
+  .adminParking__capacity {
+    width: auto;
+  }
+
+  .spot-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+
+  .spot-label,
+  .spot-number {
+    font-size: var(--normal-font-size);
+    text-align: left;
+    width: auto;
+  }
+
+  .parkingTable__container {
+    overflow-x: auto;
+    border-radius: 10px;
+  }
+
+  .parkingTable__container table {
+    width: auto;
+    min-width: 100%;
+  }
+
+  .parkingTable__container th,
+  .parkingTable__container td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+}
+
+/* screens larger than 768px */
+@media (min-width: 769px) {
+  .parkingOverview {
+    margin-top: var(--header-height);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .parkingOverview__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .parkingOverview__content {
+    flex: 1;
+    text-align: left;
+  }
+
+  .parkingOverview__title {
+    color: var(--first-color);
+    font-size: var(--section-font-size);
+    font-family: var(--body-font);
+    font-weight: var(--font-semi-bold);
+    text-align: left;
+    margin-top: 1rem;
+  }
+
+  .description {
+    font-size: var(--h2-font-size);
+    line-height: 1.6;
+    color: var(--text-color);
+    max-width: 500px;
+    margin-top: 0;
+  }
+
+  .parkingLayout {
+    background-image: url("../images/AdminParkingBG.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  .parkingLayout__container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1250px;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+
+  .locationTable__title {
+    font-size: var(--h1-font-size);
+    font-family: var(--body-font);
+    color: var(--first-color);
+    font-weight: var(--font-semi-bold);
+    margin-bottom: 1rem;
+  }
+
+  .locationTable__title,
+  .parkingTable__title {
+    font-weight: var(--font-semi-bold);
+  }
+
+  .locationTable__divider {
+    margin-bottom: 0.5rem;
+    font-weight: var(--font-medium);
+  }
+
+  .locationTable__container {
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .locationTable__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    color: #747474;
+  }
+
+  .locationButton {
+    width: 100%;
+    text-align: center;
+    font-family: var(--body-font);
+    color: var(--first-color);
+    font-weight: var(--font-medium);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .locationButton:hover {
+    background-color: rgb(230, 228, 228);
+  }
+
+  .locationButton.active {
+    background-color: rgb(230, 228, 228);
+    color: var(--first-color);
+    font-weight: bold;
+    border-radius: 50px;
+  }
+
+  .adminParking__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .adminParking__filterButtons {
+    display: flex;
+    background-color: lightgray;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+  }
+
+  .adminParking__filterButtons button {
+    background-color: transparent;
+    color: #444;
+    padding: 8px 18px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    font-family: var(--body-font);
+    margin-right: 0;
+  }
+
+  .adminBtn1 {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .adminBtn3 {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .adminParking__filterButtons button:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .adminParking__capacity {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .spot-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .spot-label {
+    font-size: var(--normal-font-size);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .spot-number {
+    font-size: var(--normal-font-size);
+    font-weight: 600;
+    padding: 4px 20px;
+    border-radius: 8px;
+    color: white;
+    display: inline-block;
+  }
+
+  .spot-number.available {
+    background-color: var(--first-color-alt);
+  }
+
+  .spot-number.occupied {
+    background-color: var(--first-color);
+  }
+
+  .parkingTable__container {
+    flex: 1;
+    background-color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+  }
+
+  .parkingTable__container table {
+    width: 100%;
+  }
+
+  .parkingTable__container th,
+  .parkingTable__container td {
+    padding: 1rem;
+    font-size: 1rem;
+    white-space: normal;
+  }
+}
+
+/* Specific adjustments for the min-width: 390px and max-width: 768px range */
+@media (min-width: 390px) and (max-width: 768px) {
+  .parkingOverview__container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .parkingOverview__content {
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .parkingLayout__container {
+    flex-direction: column;
+  }
+
+  .locationTable__title {
+    text-align: center;
+  }
+
+  .locationTable__divider {
+    text-align: center;
+  }
+
+  .adminParking__controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .spot-row {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+}

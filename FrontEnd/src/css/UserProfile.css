@@ -374,7 +374,7 @@
   }
 
   .profile-wrapper {
-    flex-direction: column; /* Stack sidebar and content */
+    flex-direction: column;
   }
 
   .sidebar {
@@ -488,7 +488,7 @@
   }
 
   .profile-wrapper {
-    flex-direction: column; /* Stack sidebar and content */
+    flex-direction: column;
   }
 
   .sidebar {
@@ -497,12 +497,12 @@
     margin-bottom: 15px;
     border-bottom: 1px solid #ccc;
     border-radius: 0;
-    display: flex; /* Make buttons horizontal on larger phones/smaller tablets */
-    overflow-x: auto; /* Allow scrolling if buttons don't fit */
+    display: flex;
+    overflow-x: auto;
   }
 
   .sidebar-button {
-    width: auto; /* Adjust width to content */
+    width: auto;
     margin-right: 10px;
     margin-bottom: 0;
     font-size: 0.95rem;
