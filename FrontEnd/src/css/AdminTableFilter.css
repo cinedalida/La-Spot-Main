@@ -1,0 +1,73 @@
+/* ======= FILTER BUTTONS =======  */
+
+.filter__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.filter {
+  display: flex;
+  background-color: lightgray;
+  border-radius: 10px; /* pill shape */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+}
+
+.filter button {
+  background-color: transparent;
+  color: #444;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: var(--body-font);
+}
+
+/* INDIVIDUAL BUTTONS */
+.filter-btn1 {
+  /* Top-left */
+  border-top-left-radius: 10px;
+
+  /* Bottom-left */
+  border-bottom-left-radius: 10px;
+}
+
+.filter-btn3 {
+  /* Top-right */
+  border-top-right-radius: 10px;
+
+  /* Bottom-right */
+  border-bottom-right-radius: 10px;
+}
+
+.filter button.active {
+  background-color: var(--first-color-alt); /* teal-like color */
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* slight elevation */
+}
+
+.filter button:hover {
+  background-color: var(--first-color-alt);
+  color: white;
+}
+
+/* Prefix filter */
+
+.filter-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 200px;
+}
+
+.filter-input:focus {
+  border-color: var(--first-color-alt);
+  box-shadow: 0 0 5px rgba(0, 128, 128, 0.4); /* soft glow matching your theme */
+}
