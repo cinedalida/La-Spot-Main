@@ -15,7 +15,7 @@ export function useGetFetch(url){
         setError(null);
 
         if(!url) {
-            setIsPending(true);
+            setIsPending(false);
             return;
         } 
         // console.log("Request URL:", url);
@@ -51,7 +51,7 @@ export function useGetFetch(url){
                         credentials: 'include'
                     }). then(res => {
                         if (!res.ok) throw new Error("Retry after refresh failed")
-                            return res.json();
+                        return res.json();
                     })
                 })
             }

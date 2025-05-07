@@ -7,14 +7,16 @@ import { BiSort } from "react-icons/bi";
 
 export function AdminAccounts() {
   const [accountType, setAccountType] = useState("Student");
-  const [columnVisibility, setColumnVisibility] = useState({account_type: false});
   const {data: accountRecordData, isPending, error, triggerGet} = useGetFetch();
-  const [columnFilters, setColumnFilters] = useState([])
+  const [columnFilters, setColumnFilters] = useState([
+    { id: "account_type", value: ["Student"] }
+  ])
   
   // Trigger Fetch
   useEffect(()=>{
     triggerGet(`http://localhost:8080/accountRecord`);
   }, [])
+
 
   // Prefix Filter (Integer Only)
   const prefixFilterFn = (row, columnId, filterValue) => {
@@ -64,8 +66,6 @@ export function AdminAccounts() {
       columns, 
       state: {   
           columnFilters,
-          columnVisibility
-          
       },
       getCoreRowModel: getCoreRowModel(), 
       getFilteredRowModel: getFilteredRowModel(), 
@@ -128,7 +128,7 @@ export function AdminAccounts() {
                 {/* BUTTONS */}
                 <button
                   className={`accountsButton ${
-                    accountType === "students" ? "active" : ""
+                    accountType === "Student" ? "active" : ""
                   }`}
                   onClick={() => setAccountType("Student")}
                 >
@@ -136,7 +136,7 @@ export function AdminAccounts() {
                 </button>
                 <button
                   className={`accountsButton ${
-                    accountType === "workers" ? "active" : ""
+                    accountType === "Worker" ? "active" : ""
                   }`}
                   onClick={() => setAccountType("Worker")}
                 >

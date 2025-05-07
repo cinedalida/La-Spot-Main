@@ -9,7 +9,6 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
   const [errors, setErrors] = useState({});
 
   //Field Configurations
-
   const fieldConfigs = {
     Student: [
       { type: "text", placeholder: "First Name", name: "firstName" },
@@ -217,7 +216,7 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
           accountType: accountType,
           firstName: refs.current["firstName"].value,
           lastName: refs.current["lastName"].value,
-          email: refs.current["email"].value.toLowerCase(),
+          email: refs.current["email"].value.toUpperCase(),
           userId: refs.current[userId].value,
           password: refs.current["password"].value,
           vehicle: refs.current["vehicle"].value,
@@ -225,7 +224,7 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
         })
       } else if (accountType === "Admin") {
         setFormData({
-          accountType: accountType,
+          accountType: accountType.toUpperCase(),
           firstName: refs.current["firstName"].value,
           lastName: refs.current["lastName"].value,
           adminCode: refs.current["adminCode"].value,
