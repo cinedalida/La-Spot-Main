@@ -144,29 +144,29 @@ export function AdminHistory() {
       {/* TABLES */}
       <section className="adminAccountsLayout">
         <div className="adminAccountsLayout__container">
-          <div className="adminAccountsTable__container">
-            {/* SIDE ACCOUNTS */}
-            <div className="accountsCategoryTable__container">
-              <div className="accountsCategoryTable__content">
-                {/* BUTTONS */}
-                <button
-                  className={`accountsButton ${
-                    accountType === "Student" ? "active" : ""
-                  }`}
-                  onClick={() => handleSelectAccountType("Student")}
-                >
-                  Students
-                </button>
-                <button
-                  className={`accountsButton ${
-                    accountType === "Worker" ? "active" : ""
-                  }`}
-                  onClick={() => handleSelectAccountType("Worker")}
-                >
-                  Workers
-                </button>
-              </div>
+          {/* SIDE ACCOUNTS */}
+          <div className="accountsCategoryTable__container">
+            <div className="accountsCategoryTable__content">
+              {/* BUTTONS */}
+              <button
+                className={`accountsButton ${
+                  accountType === "Student" ? "active" : ""
+                }`}
+                onClick={() => handleSelectAccountType("Student")}
+              >
+                Students
+              </button>
+              <button
+                className={`accountsButton ${
+                  accountType === "Worker" ? "active" : ""
+                }`}
+                onClick={() => handleSelectAccountType("Worker")}
+              >
+                Workers
+              </button>
             </div>
+          </div>
+          <div className="adminAccountsTable__container">
             <div className="accountsTable__container">
               <div className="accountsTable__content">
                 <h1 className="accountsTable__title">

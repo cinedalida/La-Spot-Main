@@ -137,30 +137,29 @@ export function AdminAccounts() {
       {/* TABLES */}
       <section className="adminAccountsLayout">
         <div className="adminAccountsLayout__container">
-          <div className="adminAccountsTable__container">
-            {/* SIDE ACCOUNTS */}
-            <div className="accountsCategoryTable__container">
-              <div className="accountsCategoryTable__content">
-                {/* BUTTONS */}
-                <button
-                  className={`accountsButton ${
-                    accountType === "students" ? "active" : ""
-                  }`}
-                  onClick={() => setAccountType("Student")}
-                >
-                  Students
-                </button>
-                <button
-                  className={`accountsButton ${
-                    accountType === "workers" ? "active" : ""
-                  }`}
-                  onClick={() => setAccountType("Worker")}
-                >
-                  Workers
-                </button>
-              </div>
+          {/* SIDE ACCOUNTS */}
+          <div className="accountsCategoryTable__container">
+            <div className="accountsCategoryTable__content">
+              {/* BUTTONS */}
+              <button
+                className={`accountsButton ${
+                  accountType === "students" ? "active" : ""
+                }`}
+                onClick={() => setAccountType("Student")}
+              >
+                Students
+              </button>
+              <button
+                className={`accountsButton ${
+                  accountType === "workers" ? "active" : ""
+                }`}
+                onClick={() => setAccountType("Worker")}
+              >
+                Workers
+              </button>
             </div>
-
+          </div>
+          <div className="adminAccountsTable__container">
             <div className="accountsTable__container">
               <div className="accountsTable__content">
                 <h1 className="accountsTable__title">
@@ -182,7 +181,7 @@ export function AdminAccounts() {
                             <th key={header.id}>
                               {header.column.columnDef.header}
                               {header.column.getCanSort() && (
-                                <BiSort // this is an icon -- you can change this is you want
+                                <BiSort
                                   size={20}
                                   onClick={header.column.getToggleSortingHandler()}
                                   style={{
