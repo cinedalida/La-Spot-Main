@@ -11,7 +11,7 @@ export function useGetFetch(url){
     const [error, setError] = useState(null);
 
     const triggerGet = (url) => {
-        setIsPending(true);
+        setIsPending(false);
         setError(null);
 
         if(!url) {
@@ -70,7 +70,6 @@ export function useGetFetch(url){
         }).catch(err => {
             setError(err.message);
             console.log("erro error");
-            console.log(err);
         }).finally(() => {
             setIsPending(false);
         })
