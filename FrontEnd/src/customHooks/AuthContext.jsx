@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
     // const [accessToken, setAccessToken] = useState(null);
     // const [username, setUsername] = useState(null);
     // const [accountType, setAccountType] = useState(null);

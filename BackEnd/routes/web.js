@@ -5,6 +5,7 @@ import * as otherAdminControllers from "../controllers/otherAdminControllers.js"
 import * as authControllers from "../controllers/authControllers.js"
 import * as refreshTokenControllers from "../controllers/refreshTokenController.js"
 import * as logoutControllers from "../controllers/logoutControllers.js"
+import * as profileControllers from "../controllers/profileControllers.js"
 import { verifyJWT } from "../middleware/verifyJWT.js";
 import { verifyAccountType } from "../middleware/verifyAccountType.js";
 
@@ -31,12 +32,13 @@ let initWebRoutes = (app) => {
     
     // Will get the list of parking zone and the number of available and occupied spot
     router.get("/parkingZones", verifyJWT, verifyAccountType("Student", "Worker"), parkingControllers.parkingZones)
-    // verifyJWT,
-    /* verifyJWT, verifyAccountType("Student", "Worker"), */
 
     // Will get all of the lot data in a parking zone
     router.get("/parkingZone/:zone",  verifyJWT, verifyAccountType("Student", "Worker"),  parkingControllers.parkingZone)
-/* verifyJWT, */
+
+    // Profile User \\
+    router.get("/profile/:username", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
+    router.put("/profile-update/:field", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileData) 
 
     // Parking Admin \\
 

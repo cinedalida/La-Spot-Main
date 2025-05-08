@@ -2,30 +2,30 @@ import { useAuth } from "./AuthContext";
 import { useState, useEffect } from "react"
 
 
-export function usePostFetch() {
+export function usePutFetch() {
     const [data, setData] = useState([]);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const { auth, setAuth } = useAuth();
     console.log("Access Token:", auth?.accessToken);
 
-    const triggerPost = (url, postData) => {
+    const triggerPut = (url, putData) => {
         setIsPending(true);
         setError(null);
 
-        if(!url || !postData) {
+        if(!url || !putData) {
             setIsPending(false);
             return;
         } 
 
         fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${auth.accessToken}`    
             },
             credentials: 'include',
-            body: JSON.stringify(postData)
+            body: JSON.stringify(putData)
         }).then( async res => {
             
             if (res.status === 403) {
@@ -34,9 +34,8 @@ export function usePostFetch() {
                     method: "POST",
                     credentials: 'include'
                 })
-                .then(res => res.json())
-                .then(async data => {
-                    console.log(data);
+                .then (res => res.json())
+                .then (data => {
                     console.log("Updated token: " + data.accessToken)
                     setAuth({
                         accessToken: data.accessToken,
@@ -44,8 +43,8 @@ export function usePostFetch() {
                         accountType: data.accountType,
                     });
                     return fetch(url, {
-                        method: "POST",
-                        body: JSON.stringify(postData),
+                        method: "PUT",
+                        body: JSON.stringify(putData),
                         headers: {
                             "Content-type": "application/json",
                             "Authorization": `Bearer ${data.accessToken}`,
@@ -64,7 +63,7 @@ export function usePostFetch() {
             return res.json();
 
         }). then(data => {
-            console.log("Data Posted");
+            console.log("Data Putted");
             console.log(data);
             setData(data);
             setError(null)
@@ -76,5 +75,5 @@ export function usePostFetch() {
 
     }
 
-    return { data, isPending, error, triggerPost }
+    return { data, isPending, error, triggerPut }
 }

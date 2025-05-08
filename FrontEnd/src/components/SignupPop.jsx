@@ -69,21 +69,25 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
     ],
   };
 
-  // Calling Custom Hook for POST Fetch
-  const { data: postData, isPending, error, triggerPost } = usePostFetch();
 
+  const signing = async(formData) => {
+    fetch("http://localhost:8080/signup", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    }).then(async res => {
 
-  useEffect(() => {
-    if (Object.keys(formData).length > 0) {
-      triggerPost("http://localhost:8080/signup", formData);  
-    }
-  }, [formData]);
-
-  // Commands based on PostData from the Server 
-  useEffect(() => {
-    if (Object.keys(postData).length > 0) {
-      console.log(postData);
-      if (postData?.success === true) {
+      if (!res.ok) {
+        const responseData = await res.json();
+        console.log("Error message: " + responseData.message)
+        throw new Error (responseData.message || "An unknown error has occured")
+      }
+      return res.json();
+    }).then(data => {
+      if (data?.success === true) {
         console.log("Data has been posted successfully")
         setIsSignupOpen(false);
         setIsLoginOpen(true);
@@ -92,30 +96,78 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
         const newErrors = {};
         let userId;
 
-        postData.accountType === "Student" ? userId = "studentNum" : userId = "workId";
+        data.accountType === "Student" ? userId = "studentNum" : userId = "workId";
 
-        if (postData.email ? true : false) {
+        if (data.email ? true : false) {
           console.log("Email already exists in the database");
           newErrors["email"] = true;
           refs.current["email"].value = "";
           refs.current["email"].placeholder = "Email already exists"
         }
-        if (postData.userId ? true : false) {
+        if (data.userId ? true : false) {
           console.log("User ID already exists in the database")
           newErrors[userId] = true;
           refs.current[userId].value = "";
           refs.current[userId].placeholder = "User ID already exists"
         }
-        if (postData.vehicle ? true : false) {
+        if (data.vehicle ? true : false) {
           console.log("Vehicle already exists in the database");
           newErrors["licensePlate"] = true;
           refs.current["licensePlate"].value = "";
           refs.current["licensePlate"].placeholder = "Vehicle already exists"
         }
         setErrors(newErrors);
-      } 
-    }
-  }, [postData])
+      }
+    })
+  }
+
+  // // Calling Custom Hook for POST Fetch
+  // const { data: data, isPending, error, triggerPost } = usePostFetch();
+
+
+  // useEffect(() => {
+  //   if (Object.keys(formData).length > 0) {
+  //     triggerPost("http://localhost:8080/signup", formData);  
+  //   }
+  // }, [formData]);
+
+  // // Commands based on PostData from the Server 
+  // useEffect(() => {
+  //   if (Object.keys(data).length > 0) {
+  //     console.log(data);
+  //     if (data?.success === true) {
+  //       console.log("Data has been posted successfully")
+  //       setIsSignupOpen(false);
+  //       setIsLoginOpen(true);
+  //     } else {
+  //       console.log("Data has not been posted") 
+  //       const newErrors = {};
+  //       let userId;
+
+  //       data.accountType === "Student" ? userId = "studentNum" : userId = "workId";
+
+  //       if (data.email ? true : false) {
+  //         console.log("Email already exists in the database");
+  //         newErrors["email"] = true;
+  //         refs.current["email"].value = "";
+  //         refs.current["email"].placeholder = "Email already exists"
+  //       }
+  //       if (data.userId ? true : false) {
+  //         console.log("User ID already exists in the database")
+  //         newErrors[userId] = true;
+  //         refs.current[userId].value = "";
+  //         refs.current[userId].placeholder = "User ID already exists"
+  //       }
+  //       if (data.vehicle ? true : false) {
+  //         console.log("Vehicle already exists in the database");
+  //         newErrors["licensePlate"] = true;
+  //         refs.current["licensePlate"].value = "";
+  //         refs.current["licensePlate"].placeholder = "Vehicle already exists"
+  //       }
+  //       setErrors(newErrors);
+  //     } 
+  //   }
+  // }, [data])
 
   // Will Reset the form fields when the account type changes
   useEffect(() => {
@@ -231,9 +283,9 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
           password: refs.current["password"].value
         })
       }
-
-              
     }
+
+    signing(formData);
   };
 
   return (

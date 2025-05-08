@@ -8,7 +8,7 @@ export function  useDeleteFetch() {
     const [error, setError] = useState(null);
 
     const triggerDelete = (url) => {
-        setIsPending(true);
+        setIsPending(false);
         setError(null);
 
         if(!url) {
