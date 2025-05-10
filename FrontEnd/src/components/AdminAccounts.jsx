@@ -130,7 +130,7 @@ export function AdminAccounts() {
                   className={`accountsButton ${
                     accountType === "Student" ? "active" : ""
                   }`}
-                  onClick={() => setAccountType("Student")}
+                  onClick={() => handleSelectAccountType("Student")}
                 >
                   Students
                 </button>
@@ -138,7 +138,7 @@ export function AdminAccounts() {
                   className={`accountsButton ${
                     accountType === "Worker" ? "active" : ""
                   }`}
-                  onClick={() => setAccountType("Worker")}
+                  onClick={() => handleSelectAccountType("Worker")}
                 >
                   Workers
                 </button>
