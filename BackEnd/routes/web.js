@@ -38,7 +38,8 @@ let initWebRoutes = (app) => {
 
     // Profile User \\
     router.get("/profile/:username", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
-    router.put("/profile-update/:field", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileData) 
+    router.put("/profile-update/:field", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileData)
+    router.get("/profile-history/:username", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.userHistoryProfileData) 
 
     // Parking Admin \\
 
