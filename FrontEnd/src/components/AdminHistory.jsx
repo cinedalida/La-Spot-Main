@@ -27,12 +27,6 @@ export function AdminHistory(){
     // Collumn Definition
     const columns = [
         {
-            accessorKey: "parking_id",
-            header: "Parking ID",
-            cell: (props) => <p>{props.getValue()}</p>
-    
-        },
-        {
             accessorKey: "user_id",
             header: "ID",
             filterFn: prefixFilterFn,
@@ -41,6 +35,11 @@ export function AdminHistory(){
         {
             accessorKey: "account_type",
             header: "Account Type",
+            cell: (props) => <p>{props.getValue()}</p>
+        },
+        {
+            accessorKey: "vehicle_type",
+            header: "Vehicle Type",
             cell: (props) => <p>{props.getValue()}</p>
         },
         {
@@ -61,7 +60,10 @@ export function AdminHistory(){
         {
             accessorKey: "duration",
             header: "Duration",
-            cell: (props) => <p>{props.getValue()}</p>
+            cell: (props) => <p>
+                    {(props.getValue()/60).toFixed(2)} {(props.getValue()/60) < 1 ? "Hour" : "Hours"}
+                    
+                </p>
         },
     ];
     

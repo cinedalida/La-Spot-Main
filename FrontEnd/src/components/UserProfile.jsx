@@ -16,25 +16,6 @@ export function UserProfile() {
 
   const {auth, setAuth} = useAuth();
   const [username, setUsername] = useState(auth.username)
-
-
-  
-
-  // State for user profile data
-  // const [profile, setProfile] = useState({
-  //   firstName: "fdashfdhsajk",
-  //   lastName: "Trance",
-  //   email: "name@gmail.com",
-  //   studentNumber: "2023XXXXX",
-  //   password: "XXXX",
-  //   newPassword: "",
-  //   confirmPassword: "",
-  //   vehicleType: "Sedan",
-  //   plateNumber: "MKT1234",
-  //   image: "./images/userProfile.jpg",
-  //   accountType: "Student",
-  // });
-
   // State for storing parking history
   const [parkingHistory, setParkingHistory] = useState([]);
 
@@ -124,8 +105,8 @@ export function UserProfile() {
       if (auth.accountType === "Student") {
         if (schoolEmailPattern.test(tempProfile.email) === false){
           newErrors["email"] = true;
-        inputRefs.current["email"].placeholder = "Invalid school email format"
-        tempProfile["email"] = "";
+          inputRefs.current["email"].placeholder = "Invalid school email format"
+          tempProfile["email"] = "";
         }
       } else if (auth.accountType === "Worker") {
         if (emailPattern.test(tempProfile.email) === false) {
@@ -181,9 +162,17 @@ export function UserProfile() {
 
   useEffect(() => {
     if (Object.keys(updatedProfileData).length !== 0) {
-      if (updatedProfileData.isValid = true) {
+      if (updatedProfileData.isValid === true) {
         setRefreshKey(prevKey => prevKey + 1);
         setEditingField(null); // close modal
+      } else {
+        let newErrors = {}
+
+        if (updatedProfileData.errorFiel === "email"){
+          newErrors["email"] = true;
+          inputRefs.current["email"].placeholder = updatedProfileData.message
+          tempProfile["email"] = "";
+        }
       }
     }
   }, [updatedProfileData])
