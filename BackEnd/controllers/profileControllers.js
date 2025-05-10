@@ -59,7 +59,7 @@ export const updateProfileData = async (req, res) => {
     }
 }
 
-export const userHistoryProfile = (req, res) => {
+export const userHistoryProfileData = (req, res) => {
     const { username } = req.params
 
     const sqlQueryUserHistoryProfile = `SELECT 

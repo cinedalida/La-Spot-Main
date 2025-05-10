@@ -6,6 +6,7 @@ import { LogoutButton } from "./Logoutbutton";
 import { useAuth } from "../customHooks/AuthContext";
 import { useGetFetch } from "../customHooks/useGetFetch";
 import { usePutFetch } from "../customHooks/usePutFetch"
+import { UserProfileHistoryTable } from "./UserProfileHistoryTable";
 
 // Main functional component
 export function UserProfile() {
@@ -315,17 +316,20 @@ export function UserProfile() {
               <div>
                 <div className="parking-history-box">
                   <h2 className="content-title-table">History</h2>
-                  <table className="__table__">
+
+                  <UserProfileHistoryTable/>
+
+                  {/* Loop through history array and render each record */}
+                  {/* <table className="__table__">
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Time In</th>
+                        <th>Time In</th> 
                         <th>Time Out</th>
                         <th>Location</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {/* Loop through history array and render each record */}
+                    <tbody>                     
                       {parkingHistory.map((entry, index) => (
                         <tr key={index}>
                           <td>{entry.date}</td>
@@ -335,7 +339,7 @@ export function UserProfile() {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
             )}
