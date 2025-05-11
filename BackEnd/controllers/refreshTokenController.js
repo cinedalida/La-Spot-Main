@@ -8,13 +8,13 @@ dotenv.config();
 export const handleRefreshToken = (req, res) => {
     const cookies = req.cookies
 
-    const sqlQuerySearchUser = `SELECT admin_information.admin_code AS username, "Admin" AS account_type, admin_information.refresh_token
+    const sqlQuerySearchUser = `SELECT admin_information.admin_id AS ID, "Admin" AS account_type, admin_information.refresh_token
     FROM admin_information
     WHERE refresh_token = ?
 
     UNION ALL
 
-    SELECT user_information.email as username, user_information.account_type, user_information.refresh_token
+    SELECT user_information.user_id as ID, user_information.account_type, user_information.refresh_token
     FROM user_information
     WHERE refresh_token = ?`
 
@@ -40,17 +40,17 @@ export const handleRefreshToken = (req, res) => {
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
-                if (err || userData[0].username !== decoded.username) {
+                if (err || userData[0].ID !== decoded.ID) {
                     console.log("err: ", err);
-                    console.log("table-username: ", userData[0].username);
-                    console.log("cookie-username: ", decoded.username);
+                    console.log("table-id: ", userData[0].ID);
+                    console.log("cookie-id: ", decoded.ID);
                     return res.status(403).json({message: "Forbidden -- Refresh token verification failed"});
                 } 
 
                 const accessToken = jwt.sign(
                     { 
                         "UserInfo": {
-                            "username": userData[0].username,
+                            "ID": userData[0].ID,
                             "accountType": userData[0].account_type
                         }
                     },
@@ -58,7 +58,7 @@ export const handleRefreshToken = (req, res) => {
                     { expiresIn: '15m' } 
                     // { expiresIn: '10s' } 
                 );
-                res.json({ accessToken, username: userData[0].username, accountType: userData[0].account_type })
+                res.json({ accessToken, ID: userData[0].ID, accountType: userData[0].account_type })
             }
             
         )

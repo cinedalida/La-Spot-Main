@@ -6,16 +6,14 @@ import { BiSort } from "react-icons/bi";
 import { useAuth } from "../customHooks/AuthContext";
 
 export function UserProfileHistoryTable() {
-    const [accountType, setAccountType] = useState("Student");
+
     const {auth, setAuth} = useAuth();
-    const [username, setUsername] = useState(auth.username)
+    const [ID, setID] = useState(auth.ID)
     const {data: accountRecordData, isPending, error, triggerGet} = useGetFetch();
-    const [columnFilters, setColumnFilters] = useState([
-        { id: "account_type", value: ["Student"] }
-    ])
+    const [columnFilters, setColumnFilters] = useState([])
       // Trigger Fetch
     useEffect(() => {
-    triggerGet(`http://localhost:8080/profile-history/${username}`)
+    triggerGet(`http://localhost:8080/profile-history/${ID}`)
     }, [])
     
     // Filter
@@ -62,7 +60,7 @@ export function UserProfileHistoryTable() {
         {
             accessorKey: "duration",
             header: "Duration",
-            cell: (props) => <p>{props.getValue()}</p>
+            cell: (props) => <p> {(props.getValue()/60).toFixed(2)} {(props.getValue()/60) < 1 ? "Hour" : "Hours"} </p>  
         },
         {
             accessorKey: "location",

@@ -40,7 +40,7 @@ export function useGetFetch(url){
                     console.log("Updated token: " + data.accessToken)
                     setAuth({
                         accessToken: data.accessToken,
-                        username: data.username,
+                        ID: data.ID,
                         accountType: data.accountType,
                     });
                     return fetch(url, {
