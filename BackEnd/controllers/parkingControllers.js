@@ -139,9 +139,9 @@ export const vacatingParkingSpace = (req, res) => {
     const {vehiclePlate } = req.params
 
     const sqlQueryUpdateLot = "UPDATE lot SET parking_status = 'vacant' WHERE lot.lot_id IN (SELECT parking.lot_id FROM parking WHERE parking.vehicle_plate = ? and vacated_at IS NULL);"
-    const sqlQueryUpdateParking = "UPDATE parking " + 
-    "SET vacated_at = CURRENT_TIMESTAMP, duration = TIMESTAMPDIFF(MINUTE, occupied_at, CURRENT_TIMESTAMP), admin_out_id = 1 " +
-    "WHERE vehicle_plate = ? "
+    const sqlQueryUpdateParking = `UPDATE parking 
+    SET vacated_at = CURRENT_TIMESTAMP, duration = TIMESTAMPDIFF(MINUTE, occupied_at, CURRENT_TIMESTAMP), admin_out_id = 1
+    WHERE  vacated_at IS NULL AND vehicle_plate = ?`
 
     connection.query(sqlQueryUpdateLot, vehiclePlate, (err, data) => {
         if (err) {

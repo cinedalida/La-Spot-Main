@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
                 const data = await res.json();
                 setAuth({
                     accessToken: data.accessToken,
-                    username: data.username,
+                    ID: data.ID,
                     accountType: data.accountType,
                 });
             }).catch (err => {

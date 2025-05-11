@@ -61,8 +61,7 @@ export function AdminHistory(){
             accessorKey: "duration",
             header: "Duration",
             cell: (props) => <p>
-                    {(props.getValue()/60).toFixed(2)} {(props.getValue()/60) < 1 ? "Hour" : "Hours"}
-                    
+                    {(props.getValue()/60).toFixed(2)} {(props.getValue()/60) < 1 ? "Hour" : "Hours"} 
                 </p>
         },
     ];

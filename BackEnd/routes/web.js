@@ -37,9 +37,9 @@ let initWebRoutes = (app) => {
     router.get("/parkingZone/:zone",  verifyJWT, verifyAccountType("Student", "Worker"),  parkingControllers.parkingZone)
 
     // Profile User \\
-    router.get("/profile/:username", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
-    router.put("/profile-update/:field", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileData)
-    router.get("/profile-history/:username", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.userHistoryProfileData) 
+    router.get("/profile/:ID", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
+    router.put("/profile-update", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileData)
+    router.get("/profile-history/:ID", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.userHistoryProfileData) 
 
     // Parking Admin \\
 

@@ -155,7 +155,6 @@ export function AdminAccounts() {
                     columnFilters = {columnFilters}
                     setColumnFilters = {setColumnFilters}
                   />
-
                 <table className="__table__">
                   <thead>
                     {table.getHeaderGroups().map(headerGroup => <tr key={headerGroup.id}>

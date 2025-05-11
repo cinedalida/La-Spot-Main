@@ -12,11 +12,11 @@ export const handleLogin = async (req, res) => {
 
     let sqlQuerySearchUser;
     if (username.includes("@")){
-        sqlQuerySearchUser =  `SELECT email as username, account_password, account_type
+        sqlQuerySearchUser =  `SELECT user_id as ID, account_password, account_type
         FROM user_information
         WHERE email = ?`
     } else {
-        sqlQuerySearchUser =  `SELECT admin_code as username, account_password, "Admin" as account_type
+        sqlQuerySearchUser =  `SELECT admin_id as ID, account_password, "Admin" as account_type
         FROM admin_information
         WHERE admin_code = ?;`
     }
@@ -55,7 +55,7 @@ export const handleLogin = async (req, res) => {
                 const accessToken = jwt.sign(
                     { 
                         "UserInfo": {
-                            "username": username,
+                            "ID": userData[0].ID,
                             "accountType": userData[0].account_type
                         }
                     },
@@ -63,8 +63,10 @@ export const handleLogin = async (req, res) => {
                     { expiresIn: '15m' } 
                     // { expiresIn: '10s' } 
                 );
+                console.log("refresh token id state: " +  userData[0].ID)
                 const refreshToken = jwt.sign(
-                    { "username": username },
+                    
+                    { "ID": userData[0].ID },
                     process.env.REFRESH_TOKEN_SECRET,
                     { expiresIn: '1D' }
                 );
@@ -78,7 +80,7 @@ export const handleLogin = async (req, res) => {
                     // set to one day
                     // not available to js
 
-                    res.json({ accessToken, username: userData[0].username, accountType: userData[0].account_type })
+                    res.json({ accessToken, ID: userData[0].ID, accountType: userData[0].account_type })
                 })
                 
             }).catch (error => {

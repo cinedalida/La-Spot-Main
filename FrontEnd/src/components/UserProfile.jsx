@@ -16,9 +16,11 @@ export function UserProfile() {
 
 
   const {auth, setAuth} = useAuth();
-  const [username, setUsername] = useState(auth.username)
+  console.log("please work initial mount")
+  console.log("profile id", auth.ID)
+  const [ID, setID] = useState(auth.ID)
   // State for storing parking history
-  const [parkingHistory, setParkingHistory] = useState([]);
+  // const [parkingHistory, setParkingHistory] = useState([]);
 
   // State to track which tab is currently active (profile or history)
   const [activeTab, setActiveTab] = useState("profile");
@@ -36,7 +38,7 @@ export function UserProfile() {
 
 
   useEffect(() => {
-    triggerGet(`http://localhost:8080/profile/${username}`)
+    triggerGet(`http://localhost:8080/profile/${ID}`)
   }, [refreshKey])
 
 
@@ -47,26 +49,26 @@ export function UserProfile() {
   }, [profileData])
 
   // Load saved profile and initialize history when component mounts
-  useEffect(() => {
-    // const savedProfile = JSON.parse(localStorage.getItem("profile"));
-    // if (savedProfile) setProfile(savedProfile);
+  // useEffect(() => {
+  //   // const savedProfile = JSON.parse(localStorage.getItem("profile"));
+  //   // if (savedProfile) setProfile(savedProfile);
 
-    // Hardcoded sample history
-    setParkingHistory([
-      {
-        date: "March 25, 2025",
-        timeIn: "08:00 AM",
-        timeOut: "12:00 PM",
-        location: "Parking Lot A",
-      },
-      {
-        date: "March 24, 2025",
-        timeIn: "09:15 AM",
-        timeOut: "01:45 PM",
-        location: "Parking Lot B",
-      },
-    ]);
-  }, []);
+  //   // Hardcoded sample history
+  //   setParkingHistory([
+  //     {
+  //       date: "March 25, 2025",
+  //       timeIn: "08:00 AM",
+  //       timeOut: "12:00 PM",
+  //       location: "Parking Lot A",
+  //     },
+  //     {
+  //       date: "March 24, 2025",
+  //       timeIn: "09:15 AM",
+  //       timeOut: "01:45 PM",
+  //       location: "Parking Lot B",
+  //     },
+  //   ]);
+  // }, []);
 
   // Function to start editing a specific section
   const handleEditClick = (section) => {
@@ -140,12 +142,16 @@ export function UserProfile() {
           "first_name": tempProfile.first_name,
           "last_name": tempProfile.last_name,
           "email": tempProfile.email.toUpperCase(),
-          "username": auth.username
+          "ID": auth.ID,
+          "accountType": auth.accountType,
+          "editingField": editingField
         })
       } else if (editingField === "security") {
         setPutProfileData({
           "password": tempProfile.newPassword,
-          "username": auth.username
+          "ID": auth.ID,
+          "accountType": auth.accountType,
+          "editingField": editingField
         })
       }
       
@@ -153,17 +159,22 @@ export function UserProfile() {
   };
 
   useEffect(() => {
-    console.log("please work put, please")
+    
     if (Object.keys(putProfileData).length !== 0) {
+      console.log("please work put, please")
       console.log("editing field to be sent:", editingField);
       console.log("put data to be sent:", putProfileData);
-      triggerPut(`http://localhost:8080/profile-update/${editingField}`, putProfileData)
+      triggerPut(`http://localhost:8080/profile-update`, putProfileData)
     }
   }, [putProfileData])
 
   useEffect(() => {
     if (Object.keys(updatedProfileData).length !== 0) {
       if (updatedProfileData.isValid === true) {
+        // // If there's an access token input, then change the accessToken  
+        // if (updatedProfileData.accessTokenInfo) {
+
+        // }
         setRefreshKey(prevKey => prevKey + 1);
         setEditingField(null); // close modal
       } else {
@@ -228,7 +239,7 @@ export function UserProfile() {
             {activeTab === "profile" ? (
               <div className="profile-sections-box">
                 {/* Display profile info */}
-                <h2 className="My-profile-title">My Profile {auth.accountType}{auth.username}</h2>
+                <h2 className="My-profile-title">My Profile {auth.accountType}{auth.ID}</h2>
                 <div className="profile-header">
                   <div className="profile-image-container">
                     <img src={"./images/userProfile.jpg"} alt="Profile" />
