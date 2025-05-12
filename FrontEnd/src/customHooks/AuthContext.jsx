@@ -46,10 +46,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        // <AuthContext.Provider value={{ accessToken, setAccessToken, username, setUsername, accountType, setAccountType}}>
-        //     {children} { /* all components within this provider has access to accessToken and its function */}
-        // </AuthContext.Provider>
-        <AuthContext.Provider value={{ auth, setAuth, loading}}>
+        <AuthContext.Provider value={{ auth, setAuth }}>
         {children} { /* all components within this provider has access to accessToken and its function */}
         </AuthContext.Provider>
     );

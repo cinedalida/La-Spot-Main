@@ -15,7 +15,7 @@ export function UserProfile() {
   const inputRefs = useRef({})
 
 
-  const {auth, setAuth, loading} = useAuth();
+  const {auth, setAuth} = useAuth();
   console.log("Auth object:", auth);
 
   // State to track which tab is currently active (profile or history)
@@ -33,15 +33,11 @@ export function UserProfile() {
 
 
   console.log("please work initial mount")
-  // console.log("profile id", auth?.ID)
+
   useEffect(() => {
-    console.log("is it loading: ", loading)
     console.log(auth.ID);
-    // if (loading) return; 
-    // if (!loading && auth.ID) {
       triggerGet(`http://localhost:8080/profile/${auth.ID}`)
-    // }
-  }, [refreshKey, auth.ID, loading])
+  }, [refreshKey, auth.ID])
 
 
   useEffect(() => {
@@ -462,33 +458,6 @@ export function UserProfile() {
                   </label>
                 </>
               )}
-
-              {/* Edit Vehicle Info
-              {editingField === "vehicle" && (
-                <>
-                  <label>
-                    Type of Vehicle:
-                    <input
-                      type="text"
-                      value={tempProfile.vehicle_type}
-                      onChange={(e) =>
-                        handleChange("vehicleType", e.target.value)
-                      }
-                    />
-                  </label>
-                  <label>
-                    Plate Number:
-                    <input
-                      type="text"
-                      value={tempProfile.vehicle_plate}
-                      onChange={(e) =>
-                        handleChange("plateNumber", e.target.value)
-                      }
-                    />
-                  </label>
-                </>
-              )} */}
-
               {/* Buttons to save or cancel editing */}
               <button onClick={handleSave} className="save-button">
                 Save
