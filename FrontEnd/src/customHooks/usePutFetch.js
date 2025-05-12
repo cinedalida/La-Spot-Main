@@ -54,21 +54,25 @@ export function usePutFetch() {
                 })
             }
 
+            const data = await res.json()
             if (!res.ok) {
-                const responseData = await res.json();
-                console.log("Error message: " + responseData.message)
-                throw new Error (responseData.message || "An unknown error has occured")
+                console.log("Error message: " + data.message)
+                setError(data);
+                throw new Error (data.message || "An unknown error has occured")
             }
 
-            return res.json();
+            return data;
 
         }). then(data => {
             console.log("Data Putted");
             console.log(data);
+            console.log(error);
             setData(data);
             setError(null)
         }).catch (err => {
-            setError(err.message)
+            console.log("err caught", err)
+            console.log("error caught:", error);
+            setData(null);
         }). finally(() => {
             setIsPending(false);
         })

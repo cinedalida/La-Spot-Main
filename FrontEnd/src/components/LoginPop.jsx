@@ -52,6 +52,13 @@ const LoginPop = ({ setIsLoginOpen }) => {
         emailRef.current.value = "";
         emailRef.current.placeholder = "Invalid email";
       }
+
+      if (err.message === "Incorrect password") {
+        setErrors({ password: true})
+        passwordRef.current.value = "";
+        passwordRef.current.placeholder = "Incorrect password";
+      }
+
     })
       
   }
