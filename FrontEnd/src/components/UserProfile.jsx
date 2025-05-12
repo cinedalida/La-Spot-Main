@@ -68,11 +68,11 @@ export function UserProfile() {
   // Function to validate input and initialize put data
   const handleSave = () => {
     const namePattern = /^[a-zA-Z]{2,}(?: [a-zA-Z]+)*$/;
-    const schoolEmailPattern = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@dlsud\.edu\.ph$/;
+    const schoolEmailPattern = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@dlsud\.edu\.ph$/i;
     const emailPattern = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     let newErrors = {}
-
+    console.log("this is the email temp profile from the validation regex of: ", tempProfile.email)
     // Validating personal information
     if (editingField === "personal"){
       if (namePattern.test(tempProfile.first_name) === false){
@@ -87,6 +87,7 @@ export function UserProfile() {
         tempProfile["last_name"] = "";
       }
       if (auth.accountType === "Student") {
+        
         if (schoolEmailPattern.test(tempProfile.email) === false){
           newErrors["email"] = true;
           inputRefs.current["email"].placeholder = "Invalid school email format"
@@ -154,6 +155,7 @@ export function UserProfile() {
     }
   }, [putProfileData])
 
+  // Will check if there's an error in the put request
   useEffect(() => {
     // console.log("update profile data:" + updatedProfileData);
     // console.log("update error: " +updateError[0].message)
@@ -193,6 +195,7 @@ export function UserProfile() {
 
   }, [updatedProfileData, updateError])
 
+  // Will handle the cancel from the modal
   const handleCancel = () => {
     setEditingField(null);
     setErrors({});

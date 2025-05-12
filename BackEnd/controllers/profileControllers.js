@@ -16,10 +16,26 @@ export const userProfileData = (req, res) => {
         if (err) {
             return res.status(500).json({isValid: false, message: "Database query failed"})
         }
-            
-        profileData.account_password
+        // profileData.account_password
         console.log(profileData);
         res.json(profileData)
+    })
+}
+
+export const userAdminProfileData = (req, res) => {
+    const { ID } = req.params
+    console.log("ID from admin", ID)
+    const sqlQueryUserAdminProfile = `SELECT admin_code, first_name, last_name, email
+    FROM admin_information
+    WHERE admin_id = ?`
+
+    connection.query(sqlQueryUserAdminProfile, [ID], (err, profileAdminData) => {
+        if (err) {
+            return res.status(500).json({isValid: false, message: "Database query failed"})
+        }
+
+        console.log("profile admin data: ", profileAdminData);
+        res.json(profileAdminData)
     })
 }
 

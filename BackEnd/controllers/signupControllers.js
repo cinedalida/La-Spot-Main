@@ -20,7 +20,6 @@ export const signupPost = async (req, res) => {
         try {
             const resultCheckExistingUserData = await signUpValidation.checkExistingUserData(email, userId, licensePlate);
             if (resultCheckExistingUserData.exist == true) {
-                console.log("user already exist")
                 resultCheckExistingUserData.accountType = accountType;
                 console.log(resultCheckExistingUserData);
                 return res.json(resultCheckExistingUserData);
@@ -64,27 +63,30 @@ export const signupPost = async (req, res) => {
 
     // Admin Account Creation
     if (accountType === "Admin") {
-        const { firstName, lastName, adminCode, password} = req.body;
+        const { firstName, lastName, adminCode, email, password} = req.body;
         console.log(accountType);
         console.log(firstName);
         console.log(lastName);
         console.log(adminCode);
         console.log(password);
+        console.log(email)
     
         console.log(req.body);
 
         try{
             console.log("Proceeding to check existing admin code...")
-            const resultCheckExisitingAdminData = await signUpValidation.checkExistingAdminData(adminCode);
+            const resultCheckExisitingAdminData = await signUpValidation.checkExistingAdminData(adminCode, email);
 
             if (Object.keys(resultCheckExisitingAdminData).length > 0){
+                console.log(resultCheckExisitingAdminData);
+                resultCheckExisitingAdminData.accountType = "Admin"
                 return res.json(resultCheckExisitingAdminData);
             } else {
                 console.log("Admin code is valid, proceeding to insertion...")
-                const queryInsertAdminInformation = "INSERT INTO admin_information(admin_code, first_name, last_name, account_password)  " +
-                "VALUES(?, ?, ?, ?)"
+                const queryInsertAdminInformation = "INSERT INTO admin_information(admin_code, email, first_name, last_name, account_password)  " +
+                "VALUES(?, ?, ?, ?, ?)"
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const valuesInsertAdminInformation = [adminCode, firstName, lastName, hashedPassword];
+                const valuesInsertAdminInformation = [adminCode, email, firstName, lastName, hashedPassword];
 
                 const queryUpdateAdminCode = "UPDATE admin_codes SET is_used = true WHERE admin_code = ?";
 

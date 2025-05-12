@@ -60,16 +60,17 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
       { type: "text", placeholder: "First Name", name: "firstName" },
       { type: "text", placeholder: "Last Name", name: "lastName" },
       { type: "text", placeholder: "Admin Code", name: "adminCode" },
+      { type: "email", placeholder: "Email", name: "email" },
       { type: "password", placeholder: "Password", name: "password" },
       {
         type: "password",
         placeholder: "Confirm Password",
         name: "confirmPassword",
-      }
+      },
     ],
   };
 
-
+  // Sign-up fetch  to the server
   const signing = async(formData) => {
     fetch("http://localhost:8080/signup", {
       method: "POST",
@@ -92,30 +93,47 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
         setIsSignupOpen(false);
         setIsLoginOpen(true);
       } else {
-        console.log("Data has not been posted") 
+        console.log("Data has not been posted", data) 
         const newErrors = {};
         let userId;
+        if (data.accountType === "Student" || data.accountType === "Worker") {
+          data.accountType === "Student" ? userId = "studentNum" : userId = "workId";
 
-        data.accountType === "Student" ? userId = "studentNum" : userId = "workId";
+          if (data.email ? true : false) {
+            console.log("Email already exists in the database");
+            newErrors["email"] = true;
+            refs.current["email"].value = "";
+            refs.current["email"].placeholder = "Email already exists"
+          }
+          if (data.userId ? true : false) {
+            console.log("User ID already exists in the database")
+            newErrors[userId] = true;
+            refs.current[userId].value = "";
+            refs.current[userId].placeholder = "User ID already exists"
+          }
+          if (data.vehicle ? true : false) {
+            console.log("Vehicle already exists in the database");
+            newErrors["licensePlate"] = true;
+            refs.current["licensePlate"].value = "";
+            refs.current["licensePlate"].placeholder = "Vehicle already exists"
+          }
+        } else if (data.accountType === "Admin") {
+          console.log(data.codeError)
+          if (data.codeError ? true : false) {
+            console.log(data.codeError)
+            newErrors["adminCode"] = true;
+            refs.current["adminCode"].value = "";
+            refs.current["adminCode"].placeholder = data.codeError;
+          }
 
-        if (data.email ? true : false) {
-          console.log("Email already exists in the database");
-          newErrors["email"] = true;
-          refs.current["email"].value = "";
-          refs.current["email"].placeholder = "Email already exists"
+          if (data.emailError ? true : false) {
+            console.log(data.codeError)
+            newErrors["email"] = true;
+            refs.current["email"].value = "";
+            refs.current["email"].placeholder = data.emailError;
+          }
         }
-        if (data.userId ? true : false) {
-          console.log("User ID already exists in the database")
-          newErrors[userId] = true;
-          refs.current[userId].value = "";
-          refs.current[userId].placeholder = "User ID already exists"
-        }
-        if (data.vehicle ? true : false) {
-          console.log("Vehicle already exists in the database");
-          newErrors["licensePlate"] = true;
-          refs.current["licensePlate"].value = "";
-          refs.current["licensePlate"].placeholder = "Vehicle already exists"
-        }
+        
 
         setErrors(newErrors);
       }
@@ -180,18 +198,16 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
     }
 
     // Email Validation (Student & Worker)
-    if (accountType === "Student" || accountType === "Worker") {
-      if (accountType === "Student" && schoolEmailPattern.test(refs.current["email"]?.value) === false) {
-        newErrors["email"] = true;
-        refs.current["email"].value = "";
-        refs.current["email"].placeholder = "Invalid School Email";
-      } else if (accountType === "Worker" && emailPattern.test(refs.current["email"]?.value) === false) {
-        newErrors["email"] = true;
-        refs.current["email"].value = "";
-        refs.current["email"].placeholder = "Invalid Email";
-      }
+    if (accountType === "Student" && schoolEmailPattern.test(refs.current["email"]?.value) === false) {
+      newErrors["email"] = true;
+      refs.current["email"].value = "";
+      refs.current["email"].placeholder = "Invalid School Email";
+    } else if ((accountType === "Worker" || accountType === "Admin") && emailPattern.test(refs.current["email"]?.value) === false) {
+      newErrors["email"] = true;
+      refs.current["email"].value = "";
+      refs.current["email"].placeholder = "Invalid Email";
     }
-    
+  
     // ID Validation (Student & Worker)
     if (accountType === "Student" || accountType === "Worker") {
       if (refs.current["studentNum"]?.value && studIdPattern.test(refs.current["studentNum"]?.value) === false) {
@@ -216,7 +232,6 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
     
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-
       if (accountType === "Student" || accountType === "Worker"){
         let userId;
         accountType === "Student" ? userId = "studentNum" : userId = "workId";
@@ -233,11 +248,12 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
         })
       } else if (accountType === "Admin") {
         setFormData({
-          accountType: accountType.toUpperCase(),
+          accountType: accountType,
           firstName: refs.current["firstName"].value,
           lastName: refs.current["lastName"].value,
-          adminCode: refs.current["adminCode"].value,
-          password: refs.current["password"].value
+          adminCode: refs.current["adminCode"].value.toUpperCase(),
+          email: refs.current["email"].value,
+          password: refs.current["password"].value,
         })
       }
     }

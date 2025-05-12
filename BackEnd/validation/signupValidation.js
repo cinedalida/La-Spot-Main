@@ -46,26 +46,39 @@ export function checkExistingUserData(email, id, licensePlate) {
     })
 }
 
-export function checkExistingAdminData(adminCode) {
+export function checkExistingAdminData(adminCode, email) {
     return new Promise((resolve, reject) => {
-        const querySQL = " SELECT * FROM admin_codes WHERE admin_code = ?";
+        const sqlQueryAdminCodeCheck = "SELECT * FROM admin_codes WHERE admin_code = ?";
+        const sqlQueryEmailCheck = "SELECT * FROM admin_information WHERE email = ?"
 
-        connection.query(querySQL, adminCode, (error, results) => {
+        connection.query(sqlQueryAdminCodeCheck, adminCode, (error, adminCodeResult) => {
             if (error) {
                 console.log(error);
                 return reject(error);
             } else {
-                console.log("Admin Code Validation Results:", results);
+                console.log("Admin Code Validation Results:", adminCodeResult);
                 let validationError = {}
 
-                if (Object.keys(results).length === 0 ) {
-                    validationError.error = "Invalid Admin Code";
-                } else if (results[0].is_used === 1) {
-                    validationError.error = "Admin Code already used";
+                if (Object.keys(adminCodeResult).length === 0 ) {
+                    validationError.codeError = "Invalid admin code";
+                } else if (adminCodeResult[0].is_used === 1) {
+                    validationError.codeError = "Admin code already used";
                 } 
                 
-                console.log(validationError)
-                resolve(validationError);
+                connection.query(sqlQueryEmailCheck, [email], (err, emailResult) => {
+                    if (err) {
+                        console.log(error);
+                        return reject(error);
+                    }
+
+                    if (Object.keys(emailResult).length !== 0) {
+                        validationError.emailError =  "Email already taken"
+                    }
+                    console.log(validationError)
+                    resolve(validationError);
+                })
+
+                
 
             }
         })

@@ -38,6 +38,7 @@ let initWebRoutes = (app) => {
 
     // Profile User \\
     router.get("/profile/:ID", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
+    router.get("/admin-profile/:ID", verifyJWT, verifyAccountType("Admin"), profileControllers.userAdminProfileData )
     router.put("/profile-personal-update", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileDataPersonal)
     router.put("/profile-security-update", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileDataSecurity)
     router.get("/profile-history/:ID", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.userHistoryProfileData) 
