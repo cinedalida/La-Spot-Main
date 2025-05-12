@@ -172,12 +172,14 @@ export function UserProfile() {
         tempProfile["email"] = "";
       }
 
+      // 
       if (updateError.errorField==="currentPassword"){
-        newErrors["newPassword"] = true;
-        inputRefs.current["newPassword"].placeholder = updateError.message
-        tempProfile["newPassword"] = "";
+        newErrors["currentPassword"] = true;
+        inputRefs.current["currentPassword"].placeholder = updateError.message
+        tempProfile["currentPassword"] = "";
       }
 
+      // If there's an error: do some css stuff to show the error
       if (Object.keys(newErrors).length !== 0 ) {
         setErrors(newErrors)
         console.log("Error state", newErrors)
@@ -188,22 +190,6 @@ export function UserProfile() {
       setRefreshKey(prevKey => prevKey + 1);
       setEditingField(null); // close modal
     }
-
-    // if (Object.keys(updatedProfileData).length !== 0 || Object.keys(updateError).length ) {
-    //   console.log("this is the updated profile data: ",updatedProfileData);
-    //   if (updatedProfileData.isValid === true) {
-        
-    //   } else {
-    //     let newErrors = {}
-    //     if (updatedProfileData.errorField === "email"){
-    //       newErrors["email"] = true;
-    //       inputRefs.current["email"].placeholder = updatedProfileData.message
-    //       tempProfile["email"] = "";
-    //     }
-
-        
-    //   }
-    // }
 
   }, [updatedProfileData, updateError])
 
