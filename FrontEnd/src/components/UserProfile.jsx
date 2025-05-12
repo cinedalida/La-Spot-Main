@@ -15,12 +15,8 @@ export function UserProfile() {
   const inputRefs = useRef({})
 
 
-  const {auth, setAuth} = useAuth();
-  console.log("please work initial mount")
-  console.log("profile id", auth.ID)
-  const [ID, setID] = useState(auth.ID)
-  // State for storing parking history
-  // const [parkingHistory, setParkingHistory] = useState([]);
+  const {auth, setAuth, loading} = useAuth();
+  console.log("Auth object:", auth);
 
   // State to track which tab is currently active (profile or history)
   const [activeTab, setActiveTab] = useState("profile");
@@ -36,10 +32,16 @@ export function UserProfile() {
   const [refreshKey, setRefreshKey] = useState(0);
 
 
-
+  console.log("please work initial mount")
+  // console.log("profile id", auth?.ID)
   useEffect(() => {
-    triggerGet(`http://localhost:8080/profile/${ID}`)
-  }, [refreshKey])
+    console.log("is it loading: ", loading)
+    console.log(auth.ID);
+    // if (loading) return; 
+    // if (!loading && auth.ID) {
+      triggerGet(`http://localhost:8080/profile/${auth.ID}`)
+    // }
+  }, [refreshKey, auth.ID, loading])
 
 
   useEffect(() => {
@@ -48,34 +50,14 @@ export function UserProfile() {
     }
   }, [profileData])
 
-  // Load saved profile and initialize history when component mounts
-  // useEffect(() => {
-  //   // const savedProfile = JSON.parse(localStorage.getItem("profile"));
-  //   // if (savedProfile) setProfile(savedProfile);
-
-  //   // Hardcoded sample history
-  //   setParkingHistory([
-  //     {
-  //       date: "March 25, 2025",
-  //       timeIn: "08:00 AM",
-  //       timeOut: "12:00 PM",
-  //       location: "Parking Lot A",
-  //     },
-  //     {
-  //       date: "March 24, 2025",
-  //       timeIn: "09:15 AM",
-  //       timeOut: "01:45 PM",
-  //       location: "Parking Lot B",
-  //     },
-  //   ]);
-  // }, []);
 
   // Function to start editing a specific section
   const handleEditClick = (section) => {
+    // setTempProfile(profileData[0]);
 
     // Ensures that the input fields for security are cleared and preped for user inputs 
     if (section === "security") {
-      setTempProfile({...profileData[0], account_password: "", newPassword: "", confirmPassword: "", })
+      setTempProfile({...profileData[0], currentPassword: "", newPassword: "", confirmPassword: "", })
     } else {
       setTempProfile(profileData[0]); // copy current profile to temp state
     }
@@ -104,7 +86,6 @@ export function UserProfile() {
         inputRefs.current["last_name"].placeholder = "Invalid last name format"
         tempProfile["last_name"] = "";
       }
-
       if (auth.accountType === "Student") {
         if (schoolEmailPattern.test(tempProfile.email) === false){
           newErrors["email"] = true;
@@ -117,17 +98,20 @@ export function UserProfile() {
           inputRefs.current["email"].placeholder = "Invalid email format"
           tempProfile["email"] = "";
         }
-      }
-    }
-
-    // Validating security information
-    if (editingField === "security"){
+      } 
+    } else if (editingField === "security"){
+      const passwordPattern = /^.{8,}$/;
+      // Checking if the New and confirm password matches    
       if (tempProfile.newPassword !== tempProfile.confirmPassword) {
         newErrors["confirmPassword"] = true;
         inputRefs.current["confirmPassword"].placeholder = "Password does not match"
         tempProfile["confirmPassword"] = "";
-      }
-    }
+      } else if (passwordPattern.test(tempProfile.newPassword) === false){
+        newErrors["newPassword"] = true;
+        inputRefs.current["newPassword"].placeholder = "Password must be at least 8 characters long"
+        tempProfile["newPassword"] = "";
+      } 
+    };
 
     // If there's an error, display it
     if (Object.keys(newErrors).length !== 0 ) {
@@ -143,18 +127,15 @@ export function UserProfile() {
           "last_name": tempProfile.last_name,
           "email": tempProfile.email.toUpperCase(),
           "ID": auth.ID,
-          "accountType": auth.accountType,
-          "editingField": editingField
         })
       } else if (editingField === "security") {
+        console.log("Security:", tempProfile.currentPassword)
         setPutProfileData({
+          "currentPassword": tempProfile.currentPassword,
           "password": tempProfile.newPassword,
           "ID": auth.ID,
-          "accountType": auth.accountType,
-          "editingField": editingField
         })
       }
-      
     }
   };
 
@@ -164,30 +145,67 @@ export function UserProfile() {
       console.log("please work put, please")
       console.log("editing field to be sent:", editingField);
       console.log("put data to be sent:", putProfileData);
-      triggerPut(`http://localhost:8080/profile-update`, putProfileData)
+      if (editingField === "personal") {
+        triggerPut(`http://localhost:8080/profile-personal-update`, putProfileData)
+      } else if (editingField === "security") {
+        triggerPut(`http://localhost:8080/profile-security-update`, putProfileData)
+      }
+      
     }
   }, [putProfileData])
 
   useEffect(() => {
-    if (Object.keys(updatedProfileData).length !== 0) {
-      if (updatedProfileData.isValid === true) {
-        // // If there's an access token input, then change the accessToken  
-        // if (updatedProfileData.accessTokenInfo) {
+    // console.log("update profile data:" + updatedProfileData);
+    // console.log("update error: " +updateError[0].message)
 
-        // }
-        setRefreshKey(prevKey => prevKey + 1);
-        setEditingField(null); // close modal
-      } else {
-        let newErrors = {}
+    if (updateError){
+      console.error("Profile update error:", updateError);
+      console.log("inputRefs.current:", inputRefs.current);
+      console.log("editingField:", editingField);
+      let newErrors = {};
 
-        if (updatedProfileData.errorFiel === "email"){
-          newErrors["email"] = true;
-          inputRefs.current["email"].placeholder = updatedProfileData.message
-          tempProfile["email"] = "";
-        }
+      if (updateError.errorField === "email"){
+        console.log("the email already exist okay, so stop!", updateError.message)
+        newErrors["email"] = true;
+        console.log(tempProfile["email"]);
+        inputRefs.current["email"].placeholder = updateError.message
+        tempProfile["email"] = "";
       }
+
+      if (updateError.errorField==="currentPassword"){
+        newErrors["newPassword"] = true;
+        inputRefs.current["newPassword"].placeholder = updateError.message
+        tempProfile["newPassword"] = "";
+      }
+
+      if (Object.keys(newErrors).length !== 0 ) {
+        setErrors(newErrors)
+        console.log("Error state", newErrors)
+      }
+
+    } else if (updatedProfileData && updatedProfileData.isValid === true) {
+      console.log("profile updated successfully");
+      setRefreshKey(prevKey => prevKey + 1);
+      setEditingField(null); // close modal
     }
-  }, [updatedProfileData])
+
+    // if (Object.keys(updatedProfileData).length !== 0 || Object.keys(updateError).length ) {
+    //   console.log("this is the updated profile data: ",updatedProfileData);
+    //   if (updatedProfileData.isValid === true) {
+        
+    //   } else {
+    //     let newErrors = {}
+    //     if (updatedProfileData.errorField === "email"){
+    //       newErrors["email"] = true;
+    //       inputRefs.current["email"].placeholder = updatedProfileData.message
+    //       tempProfile["email"] = "";
+    //     }
+
+        
+    //   }
+    // }
+
+  }, [updatedProfileData, updateError])
 
   const handleCancel = () => {
     setEditingField(null);
@@ -196,12 +214,16 @@ export function UserProfile() {
 
   // Update temporary profile while editing
   const handleChange = (field, value) => {
-    setTempProfile({ ...tempProfile, [field]: value });
+    // setTempProfile({ ...tempProfile, [field]: value });
+    setTempProfile(prevTempProfile => ({ // Use the functional update form
+    ...prevTempProfile,
+    [field]: value,
+  }));
   };
 
 
   if (!profileData || profileData.length === 0) {
-    return "Fetching data";
+    return <p> "Fetching data"</p>
   }
 
   return (
@@ -286,7 +308,7 @@ export function UserProfile() {
                   <h3 className="content-title">Account Security</h3>
                   <div className="security-content">
                     <p>
-                      <strong>Password:</strong> {profileData[0].account_password}
+                      <strong>Password:</strong> **********
                     </p>
                   </div>
                   <div className="edit-button-container">
@@ -423,10 +445,10 @@ export function UserProfile() {
                     Current Password:
                     <input
                       type="password"
-                      value={tempProfile.account_password}
-                      ref={(el) => (inputRefs.current)["account_password"] = el}
-                      className={errors["account_password"] ? "invalid-input" : ""}
-                      onChange={(e) => handleChange("account_password", e.target.value)}
+                      value={tempProfile.currentPassword}
+                      ref={(el) => (inputRefs.current)["currentPassword"] = el}
+                      className={errors["currentPassword"] ? "invalid-input" : ""}
+                      onChange={(e) => handleChange("currentPassword", e.target.value)}
                     />
                   </label>
                   <label>

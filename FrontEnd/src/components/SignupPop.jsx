@@ -116,6 +116,7 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
           refs.current["licensePlate"].value = "";
           refs.current["licensePlate"].placeholder = "Vehicle already exists"
         }
+
         setErrors(newErrors);
       }
     })
@@ -140,6 +141,7 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
     const studIdPattern = /^\d{9}$/;
     const idPattern = /^[a-zA-Z0-9]+(?:[ -]?[a-zA-Z0-9]+)*$/;
     const platePattern = /^(?=(?:.*\d){3,4})(?=(?:.*[A-Z]){3})[A-Z0-9]{6,7}$/;
+    const passwordPattern = /^.{8,}$/;
 
     const newErrors = {};
 
@@ -164,7 +166,13 @@ const SignupPop = ({ setIsSignupOpen, setIsLoginOpen }) => {
       refs.current["lastName"].placeholder = "Invalid Name";
     }
 
-    // Password Validation (Password and Confirm Password must match)
+    if (passwordPattern.test(refs.current["password"]?.value) === false){
+      newErrors["password"] = true;
+      refs.current["password"].value = "";
+      refs.current["password"].placeholder = "Password must be at least 8 characters long"
+    }
+
+    // Confirm Password Validation (Password and Confirm Password must match)
     if ( refs.current["password"]?.value !== refs.current["confirmPassword"]?.value) {
       newErrors["confirmPassword"] = true;
       refs.current["confirmPassword"].value = "";

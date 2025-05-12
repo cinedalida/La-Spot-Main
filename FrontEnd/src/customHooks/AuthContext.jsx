@@ -20,10 +20,17 @@ export function AuthProvider({ children }) {
                     accessToken: data.accessToken,
                     ID: data.ID,
                     accountType: data.accountType,
-                });
+                });   
+                console.log(`Auth set to: 
+                    accessToken: ${data.accessToken}
+                    ID: ${data.ID}
+                    accountType: #${data.accountType}`
+                );
             }).catch (err => {
+                console.log(err);
                 setAuth(null); // not logged in
             }).finally(() => {
+                console.log("this is the auth message from auth context: ", auth);
                 setLoading(false);
             })       
         };
@@ -42,7 +49,7 @@ export function AuthProvider({ children }) {
         // <AuthContext.Provider value={{ accessToken, setAccessToken, username, setUsername, accountType, setAccountType}}>
         //     {children} { /* all components within this provider has access to accessToken and its function */}
         // </AuthContext.Provider>
-        <AuthContext.Provider value={{ auth, setAuth}}>
+        <AuthContext.Provider value={{ auth, setAuth, loading}}>
         {children} { /* all components within this provider has access to accessToken and its function */}
         </AuthContext.Provider>
     );

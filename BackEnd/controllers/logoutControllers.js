@@ -45,14 +45,14 @@ export const handleLogout = (req, res) => {
         if (userData[0].account_type === "Student" || userData[0].account_type === "Worker") {
             sqlQueryDeleteRefreshKey = `UPDATE user_information
             SET refresh_token = null
-            WHERE email = ?`
+            WHERE user_id = ?`
         } else if (userData[0].account_type === "Admin") {
             sqlQueryDeleteRefreshKey = `UPDATE admin_information
             SET refresh_token = null
-            WHERE admin_code = ?`
+            WHERE admin_id = ?`
         }
         
-        connection.query(sqlQueryDeleteRefreshKey, [userData[0].username], (err, data) => {
+        connection.query(sqlQueryDeleteRefreshKey, [userData[0].ID], (err, data) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
