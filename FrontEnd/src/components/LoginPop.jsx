@@ -37,7 +37,7 @@ const LoginPop = ({ setIsLoginOpen }) => {
       console.log(data);
       setAuth({
         accessToken: data.accessToken,
-        username: data.username,
+        ID: data.ID,
         accountType: data.accountType,
       });
       if (data.accountType === "Student" || data.accountType === "Worker") {
