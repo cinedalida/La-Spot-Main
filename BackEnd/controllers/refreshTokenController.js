@@ -11,9 +11,7 @@ export const handleRefreshToken = (req, res) => {
     const sqlQuerySearchUser = `SELECT admin_information.admin_id AS ID, "Admin" AS account_type, admin_information.refresh_token
     FROM admin_information
     WHERE refresh_token = ?
-
-    UNION ALL
-
+    UNION 
     SELECT user_information.user_id as ID, user_information.account_type, user_information.refresh_token
     FROM user_information
     WHERE refresh_token = ?`
@@ -29,6 +27,7 @@ export const handleRefreshToken = (req, res) => {
             return res.status(500).json({ message: "Database query error", err: err });
         } 
 
+        console.log("refresh token stuff:", userData);
         if (Object.keys(userData).length === 0) {
             return res.status(403).json({message: "Forbidden -- Invalid refresh token"}); //Forbidden
         }
@@ -40,7 +39,11 @@ export const handleRefreshToken = (req, res) => {
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
-                if (err || userData[0].ID !== decoded.ID) {
+                console.log(userData[0].refresh_token);
+                console.log(userData[0].ID);
+                console.log(decoded.ID);
+                console.log("err from refresh page", err)
+                if (err || userData[0].ID != decoded.ID) {
                     console.log("err: ", err);
                     console.log("table-id: ", userData[0].ID);
                     console.log("cookie-id: ", decoded.ID);
@@ -55,8 +58,8 @@ export const handleRefreshToken = (req, res) => {
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: '15m' } 
-                    // { expiresIn: '10s' } 
+                    // { expiresIn: '15m' } 
+                    { expiresIn: '10s' } 
                 );
                 res.json({ accessToken, ID: userData[0].ID, accountType: userData[0].account_type })
             }
