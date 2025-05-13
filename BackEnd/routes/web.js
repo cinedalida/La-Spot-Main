@@ -38,14 +38,14 @@ let initWebRoutes = (app) => {
 
     // Profile User \\
     router.get("/profile/:ID", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )
-    router.put("/profile-personal-update", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileDataPersonal)
-    router.put("/profile-security-update", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.updateProfileDataSecurity)
-    router.get("/profile-history/:ID", /* verifyJWT, verifyAccountType("Student", "Worker"), */ profileControllers.userHistoryProfileData) 
+    router.put("/profile-personal-update", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.updateProfileDataPersonal)
+    router.put("/profile-security-update", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.updateProfileDataSecurity)
+    router.get("/profile-history/:ID", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userHistoryProfileData) 
 
     // Profile Admin \\
     router.get("/admin-profile/:ID", verifyJWT, verifyAccountType("Admin"), profileControllers.userAdminProfileData )
-    router.put("/admin-profile-personal-update", /* verifyJWT, verifyAccountType("Admin"), */ profileControllers.updateAdminDataPersonal)
-    router.put("/admin-profile-security-update", /* verifyJWT, verifyAccountType("Admin"), */ profileControllers.updateAdminDataSecurity)
+    router.put("/admin-profile-personal-update", verifyJWT, verifyAccountType("Admin"),  profileControllers.updateAdminDataPersonal)
+    router.put("/admin-profile-security-update",verifyJWT, verifyAccountType("Admin"),  profileControllers.updateAdminDataSecurity)
 
 
     // Parking Admin \\
@@ -56,8 +56,8 @@ let initWebRoutes = (app) => {
     // Will POST the vehicle data to the parking zone
     router.post("/adminViewZone/parkVehicle", verifyJWT, verifyAccountType("Admin"), parkingControllers.parkVehicle)
 
-    // Will DELETE the vehicle data from the parking zone
-    router.delete("/adminViewZone/vacatingParkingSpace/:vehiclePlate", verifyJWT, verifyAccountType("Admin"), parkingControllers.vacatingParkingSpace)
+    // Will UPDATE the vehicle data from the parking zone
+    router.put("/adminViewZone/vacatingParkingSpace", verifyJWT, verifyAccountType("Admin"), parkingControllers.vacatingParkingSpace)
 
 
     // Account Admin \\

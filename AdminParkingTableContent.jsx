@@ -3,9 +3,13 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { usePostFetch } from "../customHooks/usePostFetch";
 import { usePutFetch } from "../customHooks/usePutFetch";
+import React from "react";
 import { useAuth } from "../customHooks/AuthContext";
 
-export const TableBodyParkingAdmin = ({
+// USELESS PAGE
+
+
+export function AdminParkingTableContent({
     onRefresh,
     visible,
     lot_id : lotID, 
@@ -16,21 +20,19 @@ export const TableBodyParkingAdmin = ({
     vehicle_type : vehicleType, 
     vehicle_plate : vehiclePlate, 
     occupied_at : occupiedAt
-    }) =>  {
-
+    }) {
     // Initialization \\
-    
-    const inputRef = useRef(null);
-    const { auth, setAuth } = useAuth();
-    const [carPlate, setCarPlate] = useState(vehiclePlate || "");
 
+    const inputRef = useRef(null);
+    const [carPlate, setCarPlate] = useState(vehiclePlate || "");
+    const {auth, setAuth} = useAuth();
     
     // CUSTOM HOOKS \\
 
     // Will POST the CarPlate for Vehicle Allocation
     const {data: isVehiclePostSucess, isPending: isPostPending, error: postError, triggerPost} = usePostFetch()
     // Will DELETE the vehicle from the lot
-    const {data: isDeleteSuccess, isPending: isPutPending, error: deleteError, triggerPut} = usePutFetch()
+    const {data: isPutSucess, isPending: isPutPending, error: putError, triggerPut} = usePutFetch()
     
     
     // USE EFFECTS \\
@@ -53,15 +55,15 @@ export const TableBodyParkingAdmin = ({
 
     // Codes after the Delete Operation
     useEffect(() => {
-        if (Object.keys(isDeleteSuccess).length !== 0) {
-            if (isDeleteSuccess.isValid == true) {
-                console.log(isDeleteSuccess.message)
+        if (Object.keys(isPutSucess).length !== 0) {
+            if (isPutSucess.isValid == true) {
+                console.log(isPutSucess.message)
                 onRefresh();
             } else {
-                console.log(isDeleteSuccess.message)
+                console.log(isPutSucess.message)
             }
         }
-    }, [isDeleteSuccess])
+    }, [isPutSucess])
 
     // Will update the vehicle plate when the user types something in the input field
     useEffect(() => {
@@ -88,16 +90,14 @@ export const TableBodyParkingAdmin = ({
             }
         }
     }
-
-        // Will Trigger the Delete Custom Hook
-        const handleDelete = () => {
-            console.log("Initiating delete...")
-            const ID = auth.ID;
-            vehiclePlate ? triggerPut("http://localhost:8080/adminViewZone/vacatingParkingSpace", {vehiclePlate, ID})  : ""
-        }
+    // Will Trigger the PUT Custom Hook
+    const handleDelete = () => {
+        console.log("Initiating delete...");
+        console.log("deleting this vehilce plate:",vehiclePlate);
+        const ID = auth.ID;
+        vehiclePlate ? triggerPut("http://localhost:8080/adminViewZone/vacatingParkingSpace", {vehiclePlate, ID}) : ""
+    }
     
-
-
     if (visible !== "showAll"){
         if (visible === "student" && accountType !== "Student") return null;
         if (visible === "worker" && accountType !== "Worker") return null;
@@ -124,19 +124,17 @@ export const TableBodyParkingAdmin = ({
                 <td>{userID ? userID : ""}</td>
                 <td>{accountType ? accountType : ""}</td>
                 <td>{vehicleType ? vehicleType : ""}</td>
-                <td>{occupiedAt ? new Date(occupiedAt).toLocaleTimeString(): ""}</td>
-                <td>{occupiedAt ? new Date(occupiedAt).toLocaleDateString() : ""}</td>
+                <td>{occupiedAt ? new Date(occupiedAt).toLocaleDateString(): ""}</td>
+                <td>{occupiedAt ? new Date(occupiedAt).toLocaleTimeString() : ""}</td>
                 <td>
                     <button 
                         disabled = {!userID ? true: false} 
-                        className="removeData"
                         onClick={handleDelete}
                         > X 
                     </button>    
                 </td>
             </tr>
         </>
-    ) 
-}
+        )
+    }
 
-export default TableBodyParkingAdmin;
