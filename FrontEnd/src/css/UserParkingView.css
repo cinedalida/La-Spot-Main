@@ -29,7 +29,6 @@
 .ParkingView__container {
   max-width: 1000px;
   margin: 0 auto;
-  /* border: 1px solid #ff0000; */
 }
 
 .ParkingView__content {
@@ -43,12 +42,13 @@
 }
 
 .parking-area {
-  background: #f9f9f9;
+  background: #f0edee;
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: none;
 }
 
 .parking-area:hover {
@@ -94,13 +94,14 @@
   text-align: left;
   color: var(--first-color);
 }
+
 .ParkingView__header {
   margin-top: 5rem;
   margin-bottom: 2rem;
 }
 
 .ParkingView__description {
-  font-family: var(--body-font);
+  font-size: var(--h2-font-size);
   text-align: left;
   margin-top: 1rem;
   color: var(--text-color);
@@ -167,4 +168,42 @@
   height: auto;
   border-radius: 8px;
   margin-top: 50px;
+}
+
+/* ==================== Responsive Design ==================== */
+
+/* 768px (typical for tablets and larger phones) */
+@media (max-width: 768px) {
+  .UserParkingView__section2 {
+    padding: 3rem 1.5rem;
+  }
+
+  .area-name {
+    font-size: var(--h2-font-size);
+  }
+
+  .ParkingView__content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* 576px (typical for smaller phones) */
+@media (max-width: 576px) {
+  .area-image {
+    height: 180px;
+  }
+  .slot-summary {
+    font-size: 0.9rem;
+  }
+  .ParkingView__content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .ParkingView__container {
+    padding: 0 0.5rem;
+  }
+  .UserParkingView__section2 {
+    padding: 2rem 1rem;
+  }
 }
