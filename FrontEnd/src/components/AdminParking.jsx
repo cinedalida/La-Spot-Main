@@ -1,27 +1,30 @@
 import "../css/AdminParking.css";
 import { useGetFetch } from "../customHooks/useGetFetch.js";
-import { TableBodyParkingAdmin } from "./TableBodyParkingAdmin.jsx"
+import { TableBodyParkingAdmin } from "./TableBodyParkingAdmin.jsx";
 import { useState, useEffect } from "react";
 
 export function AdminParking() {
-  // dynamic changes pa lang to, wala pang editing (ikaw na'to matti)
   const [selectedZone, setSelectedZone] = useState("ADG");
-    const [show, setShow] = useState("showAll")
-    const [refreshKey, setRefreshKey] = useState(0);
+  const [show, setShow] = useState("showAll");
+  const [refreshKey, setRefreshKey] = useState(0);
 
-    const handleRefresh = () => {
-        setRefreshKey(prevKey => prevKey + 1);
-    }
+  const handleRefresh = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
 
-    const {data: lots, isPending, error, triggerGet} = useGetFetch();
-    
-    useEffect(()=> {
-        triggerGet(`http://localhost:8080/parkingOverviewAdmin/${selectedZone}`)
-    }, [selectedZone, refreshKey])
-    
-    // Use these variables for the Parking Status
-    const numAvailable = lots.filter((lot) => lot.parking_status === "vacant").length
-    const numOccupied = lots.filter((lot) => lot.parking_status === "occupied").length
+  const { data: lots, isPending, error, triggerGet } = useGetFetch();
+
+  useEffect(() => {
+    triggerGet(`http://localhost:8080/parkingOverviewAdmin/${selectedZone}`);
+  }, [selectedZone, refreshKey]);
+
+  // Use these variables for the Parking Status
+  const numAvailable = lots.filter(
+    (lot) => lot.parking_status === "vacant"
+  ).length;
+  const numOccupied = lots.filter(
+    (lot) => lot.parking_status === "occupied"
+  ).length;
 
   return (
     <>
@@ -74,46 +77,87 @@ export function AdminParking() {
 
           <div className="parkingTable__container">
             <div className="parkingTable__content">
-              <h1 className="parkingTable__title">Parking Spots</h1>
-              <p>NOTE | Show toggle: Show All, Student, Worker</p>
-              <p>NOTE | Shows capacity on right side</p>
+              <h1 className="parkingTable__title">{selectedZone} Parking</h1>
 
-              <br/><br/><br/>
-              
-              <p>Available Spots: {numAvailable}</p>
-              <p>Occupied Spots: {numOccupied}</p>
-              <br/><br/><br/>
-
-              <h2> {selectedZone} Zone</h2>
-              {<button type="button" onClick = {() => setShow("showAll")}> Show All </button>}
-              {<button type="button" onClick = {() => setShow("student")}> Student </button>}
-              {<button type="button" onClick = {() => setShow("worker")}> Worker </button>}
-
-              <br/><br/>
+              <div className="adminParking__controls">
+                {/* Filter Buttons */}
+                <div className="adminParking__filterButtons">
+                  <button
+                    type="button"
+                    onClick={() => setShow("showAll")}
+                    className={`adminBtn1 ${
+                      show === "showAll" ? "active" : ""
+                    }`}
+                  >
+                    Show All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShow("student")}
+                    className={`adminBtn2 ${
+                      show === "student" ? "active" : ""
+                    }`}
+                  >
+                    Student
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShow("worker")}
+                    className={`adminBtn3 ${show === "worker" ? "active" : ""}`}
+                  >
+                    Worker
+                  </button>
+                </div>
+                {/* Capacity */}
+                <div className="adminParking__capacity">
+                  <div className="spot-row">
+                    <p className="spot-label">Available Spots:</p>
+                    <span className="spot-number available">
+                      {numAvailable}
+                    </span>
+                  </div>
+                  <div className="spot-row">
+                    <p className="spot-label">Occupied Spots:</p>
+                    <span className="spot-number occupied">{numOccupied}</span>
+                  </div>
+                </div>
+              </div>
 
               <table className="__table__">
                 <thead>
-                    <tr>
-                        <th>Spot</th>
-                        <th>Car Plate</th>
-                        <th>ID Number</th>
-                        <th>Account Type</th>
-                        <th>Vehicle Type</th>
-                        <th>Time In</th>
-                        <th>Time Date</th>
-                        <th></th>
-                    </tr>
+                  <tr>
+                    <th>Spot</th>
+                    <th>Car Plate</th>
+                    <th>ID Number</th>
+                    <th>Account Type</th>
+                    <th>Vehicle Type</th>
+                    <th>Time In</th>
+                    <th>Time Date</th>
+                    <th></th>
+                  </tr>
                 </thead>
                 <tbody>
-                {isPending && <tr><td>Loading...</td></tr>}
-                {error && <tr><td>{error.message}</td></tr>}
-                {lots && 
-                    lots.map((lot, index)=>{
-                        return(
-                            <TableBodyParkingAdmin {...lot} key={index} visible = {show} onRefresh={handleRefresh}  />
-                        )
-                    })
-                }
+                  {isPending && (
+                    <tr>
+                      <td>Loading...</td>
+                    </tr>
+                  )}
+                  {error && (
+                    <tr>
+                      <td>{error.message}</td>
+                    </tr>
+                  )}
+                  {lots &&
+                    lots.map((lot, index) => {
+                      return (
+                        <TableBodyParkingAdmin
+                          {...lot}
+                          key={index}
+                          visible={show}
+                          onRefresh={handleRefresh}
+                        />
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
