@@ -97,20 +97,20 @@ export const parkingOverviewAdmin = (req, res) => {
 
 export const parkVehicle = async (req, res) => {
     console.log("Controllers reached")
-    const { lotID, zone, carPlate} = req.body
+    const { lotID, zone, carPlate, ID} = req.body
     
-    console.log(carPlate, lotID, zone);
+    console.log("this is the parking admin speaking", carPlate, lotID, zone, ID);
     try {
         const checkingCarPlateResult = await checkingCarPlate(carPlate);
 
         if (!checkingCarPlateResult.isValid){
             res.json(checkingCarPlateResult)
         } else {
-            const sqlQueryInsertParkingValues = [lotID, zone, carPlate, carPlate]
-            const sqlQueryInsertParking = "INSERT INTO parking (lot_id, zone, vehicle_plate, user_id) " +
-                "SELECT ?, ?, ?, user_id " +
-                "FROM vehicle " +
-                "WHERE vehicle_plate = ?"
+            const sqlQueryInsertParkingValues = [lotID, zone, carPlate, ID, carPlate]
+            const sqlQueryInsertParking = `INSERT INTO parking (lot_id, zone, vehicle_plate, user_id, admin_in_id)
+                SELECT ?, ?, ?, user_id, ?
+                FROM vehicle
+                WHERE vehicle_plate = ?`
             const sqlQeuryUpdateLotValues = [lotID, zone]
             const sqlQeuryUpdateLot = "UPDATE lot SET parking_status = 'occupied' WHERE lot_id = ? AND  zone = ?"
     
@@ -136,11 +136,13 @@ export const parkVehicle = async (req, res) => {
 }
 
 export const vacatingParkingSpace = (req, res) => {
-    const {vehiclePlate } = req.params
+    console.log("vacating parking space reached");
+    const {vehiclePlate, ID } = req.body
+    console.log("Vacating parking", vehiclePlate, ID)
 
     const sqlQueryUpdateLot = "UPDATE lot SET parking_status = 'vacant' WHERE lot.lot_id IN (SELECT parking.lot_id FROM parking WHERE parking.vehicle_plate = ? and vacated_at IS NULL);"
     const sqlQueryUpdateParking = `UPDATE parking 
-    SET vacated_at = CURRENT_TIMESTAMP, duration = TIMESTAMPDIFF(MINUTE, occupied_at, CURRENT_TIMESTAMP), admin_out_id = 1
+    SET vacated_at = CURRENT_TIMESTAMP, duration = TIMESTAMPDIFF(MINUTE, occupied_at, CURRENT_TIMESTAMP), admin_out_id = ?
     WHERE  vacated_at IS NULL AND vehicle_plate = ?`
 
     connection.query(sqlQueryUpdateLot, vehiclePlate, (err, data) => {
@@ -148,7 +150,7 @@ export const vacatingParkingSpace = (req, res) => {
             console.log(err)
             res.json({isValid: false, message: "Database query failed at updating lot table values"})
         } else {
-            connection.query(sqlQueryUpdateParking, vehiclePlate, (err, data) => {
+            connection.query(sqlQueryUpdateParking, [ID, vehiclePlate], (err, data) => {
                 if (err) {
                     console.log(err);
                     res.json({isValid: false, message: "Database query failed at updating parking table values"})

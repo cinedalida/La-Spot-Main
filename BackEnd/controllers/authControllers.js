@@ -60,8 +60,8 @@ export const handleLogin = async (req, res) => {
                         }
                     },
                     process.env.ACCESS_TOKEN_SECRET,
-                    // { expiresIn: '15m' } 
-                    { expiresIn: '10s' } 
+                    { expiresIn: '15m' } 
+                    // { expiresIn: '10s' } 
                 );
                 console.log("refresh token id state: " +  userData[0].ID)
                 const refreshToken = jwt.sign(
