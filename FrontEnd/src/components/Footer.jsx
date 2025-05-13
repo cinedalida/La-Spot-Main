@@ -51,7 +51,9 @@ export function Footer() {
 
         {/* BOTTOM SECTION */}
         <div className="contact__bottom">
-          <p>©2025 La Spot: DLSU-D Parking System</p>
+          <p className="copyright__footer">
+            ©2025 La Spot: DLSU-D Parking System
+          </p>
           <div className="contact__legal">
             <a href="#">Privacy & Policy</a>
             <a href="#">Terms & Condition</a>
