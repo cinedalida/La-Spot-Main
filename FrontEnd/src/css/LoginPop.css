@@ -142,3 +142,34 @@
 .inputField-login.error::placeholder {
   color: red;
 }
+
+/*=============== RESPONSIVENESS ===============*/
+
+/* Adjustments for iPhone 14 Pro Max (430-932px) */
+@media (max-width: 932px) and (min-width: 430px) {
+  .login-container {
+    flex-direction: column;
+    width: 80vw;
+    height: auto;
+  }
+
+  .login-image {
+    display: flex;
+  }
+}
+
+/* hide the left side below 1500px */
+@media (max-width: 1500px) {
+  .login-container {
+    width: auto;
+  }
+
+  .login-image {
+    display: none;
+  }
+
+  .login-form {
+    flex: none;
+    width: 100%;
+  }
+}
