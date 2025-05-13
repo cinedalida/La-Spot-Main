@@ -311,20 +311,6 @@
   font-size: 1rem;
 }
 
-.modal-content input.invalid-input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 2px solid red;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-
-.modal-content input.invalid-input::placeholder {
-  color: red;
-}
-
 /* ==== Buttons ==== */
 .save-button,
 .cancel-button {
@@ -376,4 +362,229 @@
   font-family: var(--body-font);
   border-radius: 10px;
   overflow: hidden;
+}
+
+/* ==================== Responsive Design ==================== */
+
+/* For screens up to 576px (typical for smaller phones) */
+@media (max-width: 576px) {
+  .profile-container {
+    margin-top: 80px;
+    margin-bottom: 60px;
+  }
+
+  .profile-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }
+
+  .sidebar-button {
+    margin-bottom: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .content-section {
+    padding: 15px;
+  }
+
+  .profile-sections-box {
+    gap: 15px;
+  }
+
+  .content-title {
+    font-size: 1.3rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    margin-top: -15px;
+  }
+
+  .profile-image-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .accountFullname {
+    font-size: var(--h3-font-size);
+  }
+
+  .accountDisplayemail {
+    font-size: var(--smaller-font-size);
+    margin-top: 10px;
+  }
+
+  .accountDisplaytype {
+    font-size: var(--smaller-font-size);
+    margin-top: -5px;
+  }
+
+  .edit-button-container {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .edit-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .section-title {
+    font-size: var(--h3-font-size);
+    margin-top: -1.5px;
+    margin-bottom: 8px;
+  }
+
+  .info-content {
+    font-size: var(--small-font-size);
+  }
+
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .modal-content label {
+    font-size: var(--small-font-size);
+    margin: 8px 0 3px;
+  }
+
+  .modal-content input {
+    padding: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .save-button,
+  .cancel-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    margin: 8px 3px 0;
+  }
+}
+
+/* For screens up to 768px (typical for tablets and larger phones) */
+@media (max-width: 768px) {
+  .profile-container {
+    margin-top: 100px;
+    margin-bottom: 80px;
+  }
+
+  .profile-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .sidebar-button {
+    width: auto;
+    margin-right: 10px;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+
+  .content-section {
+    padding: 15px;
+  }
+
+  .content-title {
+    font-size: 1.5rem;
+  }
+
+  .profile-header {
+    gap: 10px;
+    padding: 12px;
+    margin-top: -18px;
+  }
+
+  .profile-image-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .accountFullname {
+    font-size: var(--h2-font-size);
+  }
+
+  .accountDisplayemail {
+    font-size: var(--normal-font-size);
+    margin-top: 12px;
+  }
+
+  .accountDisplaytype {
+    font-size: var(--normal-font-size);
+    margin-top: -8px;
+  }
+
+  .edit-button-container {
+    margin-left: auto;
+    margin-top: 0;
+  }
+
+  .edit-button {
+    font-size: 13px;
+    padding: 7px 11px;
+  }
+
+  .section-title {
+    font-size: var(--h2-font-size);
+    margin-top: -2px;
+    margin-bottom: 10px;
+  }
+
+  .info-content {
+    font-size: var(--normal-font-size);
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+
+  .modal-content label {
+    font-size: var(--normal-font-size);
+    margin: 10px 0 5px;
+  }
+
+  .modal-content input {
+    padding: 8px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .save-button,
+  .cancel-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin: 10px 5px 0;
+  }
 }
