@@ -24,6 +24,7 @@
 }
 
 .contact__title {
+  color: var(--white-color);
   font-size: var(--h1-font-size);
   font-weight: var(--font-bold);
   margin-bottom: 30px;
@@ -33,6 +34,10 @@
   font-size: var(--normal-font-size);
   color: var(--white-color);
   margin-bottom: 30px;
+}
+
+.copyright__footer {
+  color: var(--white-color);
 }
 
 .contact__socials a {
