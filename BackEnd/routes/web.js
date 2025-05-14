@@ -2,7 +2,7 @@ import express from "express"
 import * as signupControllers from "../controllers/signupControllers.js";
 import * as parkingControllers from "../controllers/parkingControllers.js";
 import * as otherAdminControllers from "../controllers/otherAdminControllers.js";
-import * as authControllers from "../controllers/authControllers.js"
+import * as loginControllers from "../controllers/loginControllers.js"
 import * as refreshTokenControllers from "../controllers/refreshTokenController.js"
 import * as logoutControllers from "../controllers/logoutControllers.js"
 import * as profileControllers from "../controllers/profileControllers.js"
@@ -19,8 +19,10 @@ let initWebRoutes = (app) => {
     // Signup
     router.post("/signup", signupControllers.signupPost);
 
-    // Login Authentication
-    router.post("/login", authControllers.handleLogin)
+    // Login 
+    router.post("/login", loginControllers.handleLogin)
+    router.post("/forgot-password", loginControllers.forgotPassword);
+    router.post("/verify-code", loginControllers.verifyCode);
 
     // Refresh Tokken key
     router.post("/refresh", refreshTokenControllers.handleRefreshToken)
