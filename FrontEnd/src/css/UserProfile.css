@@ -323,6 +323,20 @@
   transition: 0.2s;
 }
 
+.modal-content input.invalid-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 2px solid red;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+
+.modal-content input.invalid-input::placeholder {
+  color: red;
+}
+
 .save-button {
   background: #28a745;
   color: white;
