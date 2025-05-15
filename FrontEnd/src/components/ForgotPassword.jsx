@@ -13,6 +13,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
   const [ errorMsgRefs, setErrorMsgRefs ] = useState("Initial Error Message.")
   const [errors, setErrors] = useState({})
   const [isPending, setIsPending] = useState(false);
+  const [accountType, setAccountType] = useState("");
 
   const handleCodeChange = (value, index) => {
     const updatedCode = [...code];
@@ -22,50 +23,58 @@ const ForgotPassword = ({ goBackToLogin }) => {
 
 
   const handleEmailSubmit = async () => {
-    const emailPattern = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 
     let newErrors = {};
-    if (emailPattern.test(email) === false ) {
-      newErrors["email"] = true;
-      setErrors(newErrors);
-      inputRefs.current["email"].placeholder = "Invalid email format."
-      setEmail("");
-      return;
-    } 
+    let accountType;
+
+    if (email.includes("@")) {
+      accountType = "User"
+      setAccountType("User")
+    } else {
+      accountType = "Admin"
+      setAccountType("Admin");
+    }
 
     // Will display "sending email..."
     setIsPending(true);
-
-    if (Object.keys(newErrors).length !== 0 ) {
-      setErrors(newErrors)
-      console.log("Error state", newErrors)
-    } else {
+    try {
       console.log("triggering email validation");
-
+      console.log("forgot password account type", accountType)
       const response = await fetch("http://localhost:8080/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, accountType }),
       })
 
       const data = await response.json();
       console.log(data);
+
       if (response.ok) {
         newErrors["email"] = false;
         setErrors(newErrors);
         inputRefs.current["email"].placeholder = "Your Email"
-        setStep(2);
         setIsPending(false);
+        if (accountType = "Admin") {
+          setEmail(data.email);
+        }
+        setStep(2);
       } else {
         newErrors["email"] = true;
         inputRefs.current["email"].placeholder = data.message;
         setErrors(newErrors);
         setEmail("");
         setIsPending(false);
+        setAccountType("");
       }
+    } catch (err) {
+      console.log(err)
     }
+    
+    
+    
   }
 
 
@@ -88,7 +97,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, code: enteredCode }),
+        body: JSON.stringify({ email, code: enteredCode, accountType }),
       });
 
       const data = await response.json();
@@ -131,6 +140,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
         body: JSON.stringify({
           otp: code.join(""),
           newPassword,
+          accountType
         }),
       });
 
