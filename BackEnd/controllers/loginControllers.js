@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import * as loginValidation from "../validation/loginValidation.js";
-import { checkExistingEmail } from "../validation/profileValidation.js";
 
 dotenv.config();
 
@@ -22,6 +21,7 @@ transporter.verify((err) => {
     else console.log("Server ready to send email");
 });
 
+// Login and Authentication 
 export const handleLogin = async (req, res) => {
     const { email: username, password } = req.body;
     console.log("Handling Login")
@@ -47,8 +47,6 @@ export const handleLogin = async (req, res) => {
         SET refresh_token = ?
         WHERE admin_code = ?`
     }
-
-    
 
     connection.query(sqlQuerySearchUser, [username], (err, userData) => {
         if (err) {
@@ -106,43 +104,77 @@ export const handleLogin = async (req, res) => {
     })  
 }
 
+
+const getAdminEmail = (adminCode) => {
+    return new Promise((resolve, reject) => {
+        const sqlGetAdminEmail = `SELECT email FROM admin_information WHERE admin_code = ?`
+        connection.query(sqlGetAdminEmail, [adminCode], (err, data) => {
+            if (err) return reject(err);
+            if (Object.keys(data).length === 0) return resolve (null);
+            resolve(data[0].email);
+        })
+    })
+}
+
+
 export const forgotPassword = async(req, res) => {
-    const { email } = req.body;
+    let { email, accountType } = req.body;
+
     
     try {
-        const resultEmailChecking = await loginValidation.checkExistingEmail(email);
-        if (resultEmailChecking.exist == true) {
-            console.log(resultEmailChecking);
-            return res.status(404).json({ message: "Email not found" });
+
+        if (accountType === "Admin") {
+            email = await getAdminEmail(email); // Will get the real email of the admin
+            if (email === null) {
+                return res.status(404).json({ message: "Email not found" });
+            }
         } else {
-            const otpCode = Math.floor(10000 + Math.random() * 90000).toString();
-            
-            const sql = `
-                INSERT INTO password_reset (email, otp_code, expires_at)
-                VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 10 MINUTE))
-                ON DUPLICATE KEY UPDATE otp_code = VALUES(otp_code), expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
-            `;
-
-            connection.query(sql, [email, otpCode], (err) => {
-                if (err) {
-                    console.error("Error saving OTP:", err);
-                    return res.status(500).json({ message: "Server error.", err });
-                }
-
-                transporter.sendMail({
-                    from: 'ojjivillamar4@gmail.com',
-                    to: email,
-                    subject: "Your Password Reset Code",
-                    text: `Your password reset code is: ${otpCode}. It expires in 10 minutes.`,
-                }, (err) => {
-                    if (err) {
-                        console.error("Email send error:", err);
-                        return res.status(500).json({ message: "Failed to send email", err });
-                    }
-                    return res.status(200).json({ message: "Reset code sent to email." });
-                });
-            });
+            const resultEmailErrorChecking = await loginValidation.checkExistingEmail(email, accountType);
+            if (resultEmailErrorChecking.exist == true) {
+                console.log(resultEmailErrorChecking);
+                return res.status(404).json({ message: "Email not found" });
+            }
         }
+
+        const otpCode = Math.floor(10000 + Math.random() * 90000).toString();
+        
+        const password_reset_table = accountType === "User" ? "user_password_reset" : "admin_password_reset";
+
+        const sql = `
+            INSERT INTO ${password_reset_table} (email, otp_code, expires_at)
+            VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 10 MINUTE))
+            ON DUPLICATE KEY UPDATE otp_code = VALUES(otp_code), expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
+        `;
+
+        connection.query(sql, [email, otpCode], (err) => {
+            if (err) {
+                console.error("Error saving OTP:", err);
+                return res.status(500).json({ message: "Server error.", err });
+            }
+
+            let mailText = `
+            Hello ${accountType}!
+
+            You requested to reset your password. Your one-time password (OTP) code is: ${otpCode}. 
+            
+            This code will expire in 10 minutes.If you did not request a password reset, please ignore this message.
+            
+            Thank you,
+            La Spot Support Team`
+
+            transporter.sendMail({
+                from: 'ojjivillamar4@gmail.com',
+                to: email,
+                subject: "Your Password Reset Code",
+                text: mailText,
+            }, (err) => {
+                if (err) {
+                    console.error("Email send error:", err);
+                    return res.status(500).json({ message: "Failed to send email", err });
+                }
+                return res.status(200).json({ message: "Reset code sent to email.", email });
+            });
+        }); 
     } catch(error) {
         console.log(error);
     }
@@ -150,9 +182,11 @@ export const forgotPassword = async(req, res) => {
 
 
 export const verifyCode = async(req, res) => {
-    const { email, code } = req.body;
+    const { email, code, accountType } = req.body;
 
-    const sql = 'SELECT * FROM password_reset WHERE email = ? AND otp_code = ? AND expires_at > NOW()';
+    const password_reset_table = accountType === "User" ? "user_password_reset" : "admin_password_reset";
+
+    const sql = `SELECT * FROM ${password_reset_table} WHERE email = ? AND otp_code = ? AND expires_at > NOW()`;
         connection.query(sql, [email, code], (err, rows) => {
         if (err) {
             console.error('Error verifying code:', err);
@@ -168,9 +202,12 @@ export const verifyCode = async(req, res) => {
 };
 
 export const resetPassword = (req, res) => {
-    const { otp, newPassword } = req.body;
+    const { otp, newPassword, accountType } = req.body;
 
-  const fetchSQL = 'SELECT * FROM password_reset WHERE otp_code = ? AND expires_at > NOW()';
+    const password_reset_table = accountType === "User" ? "user_password_reset" : "admin_password_reset";
+    const account_information_table = accountType === "User" ? "user_information" : "admin_information"
+
+    const fetchSQL = `SELECT * FROM ${password_reset_table} WHERE otp_code = ? AND expires_at > NOW()`;
     connection.query(fetchSQL, [otp], async (err, rows) => {
         if (err) return res.status(500).json({ message: "Fetch failed", err });
 
@@ -180,11 +217,11 @@ export const resetPassword = (req, res) => {
         console.log("this is the new password from the resetpassword", newPassword);
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        const updateSQL = 'UPDATE user_information SET account_password = ? WHERE email = ?';
+        const updateSQL = `UPDATE ${account_information_table} SET account_password = ? WHERE email = ?`;
         connection.query(updateSQL, [hashedPassword, email], (err) => {
             if (err) return res.status(500).json({ message: "Database password update failed."});
 
-            connection.query('DELETE FROM password_reset WHERE otp_code = ?', [otp], (err) => {
+            connection.query(`DELETE FROM ${password_reset_table} WHERE otp_code = ?`, [otp], (err) => {
                 if (err) return res.status(500).json({ message: "Cleanup failed", err });
 
                 return res.status(200).json({ success: true, message: 'Password reset successfully.' });
