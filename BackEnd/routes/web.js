@@ -8,6 +8,7 @@ import * as logoutControllers from "../controllers/logoutControllers.js"
 import * as profileControllers from "../controllers/profileControllers.js"
 import { verifyJWT } from "../middleware/verifyJWT.js";
 import { verifyAccountType } from "../middleware/verifyAccountType.js";
+import { upload } from "../middleware/upload.js";
 
 
 
@@ -38,6 +39,10 @@ let initWebRoutes = (app) => {
 
     // Will get all of the lot data in a parking zone
     router.get("/parkingZone/:zone",  verifyJWT, verifyAccountType("Student", "Worker"),  parkingControllers.parkingZone)
+
+    // Profile \\
+    router.post("/upload-profile-pic", upload.single("file"), profileControllers.uploadFile);
+    router.get("/get-profile-pic/:ID/:accountType", profileControllers.getProfilePic);
 
     // Profile User \\
     router.get("/profile/:ID", verifyJWT, verifyAccountType("Student", "Worker"), profileControllers.userProfileData )

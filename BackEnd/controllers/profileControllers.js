@@ -2,7 +2,13 @@ import connection from "../config/connectDB.js";
 import * as profileValidation from "../validation/profileValidation.js";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
+import multer from "multer";
 import bcrypt from "bcrypt";
+
+// Multer setup (Memory storage)
+const storage = multer.memoryStorage();
+export const upload = multer({ storage });
+
 
 export const userProfileData = (req, res) => {
     const { ID } = req.params;
@@ -23,11 +29,26 @@ export const userProfileData = (req, res) => {
         if (err) {
             return res.status(500).json({isValid: false, message: "Database query failed"})
         }
-        // profileData.account_password
-        console.log(profileData);
-        res.json(profileData)
-    })
-}
+        
+        
+        console.log("this is the user profile query", profileData)
+        const picQuery = "SELECT prof_pic FROM user_profile_pic WHERE ID = ?";
+        connection.query(picQuery, [ID], (err, picResult) => {
+            if (err) return res.status(500).json({ message: "Profile picture fetch failed", err });
+
+            let profileImageBase64 = "./images/default-avatar.jpg";
+            if (picResult.length > 0 && picResult[0].prof_pic) {
+                profileImageBase64 = `data:image/jpeg;base64,${picResult[0].prof_pic.toString("base64")}`;
+            }
+            // profileData.account_password
+            console.log(profileData);
+            return res.status(200).json({
+                ...profileData[0],
+                profile_image: profileImageBase64
+            });
+        });
+    });
+};
 
 
 export const updateProfileDataPersonal = async (req, res) => {
@@ -140,9 +161,9 @@ export const userHistoryProfileData = (req, res) => {
 
         console.log(historyData);
         res.json(historyData);
-    })
+    });
+};
 
-}
 
 
 // Admin \\
@@ -154,13 +175,27 @@ export const userAdminProfileData = (req, res) => {
     FROM admin_information
     WHERE admin_id = ?`
 
-    connection.query(sqlQueryUserAdminProfile, [ID], (err, profileAdminData) => {
+    connection.query(sqlQueryUserAdminProfile, [ID], (err, profileData) => {
         if (err) {
             return res.status(500).json({isValid: false, message: "Database query failed"})
         }
 
-        console.log("profile admin data: ", profileAdminData);
-        res.json(profileAdminData)
+        console.log("this is the user profile query", profileData)
+        const picQuery = "SELECT prof_pic FROM admin_profile_pic WHERE ID = ?";
+        connection.query(picQuery, [ID], (err, picResult) => {
+            if (err) return res.status(500).json({ message: "Profile picture fetch failed", err });
+
+            let profileImageBase64 = "./images/default-avatar.jpg";
+            if (picResult.length > 0 && picResult[0].prof_pic) {
+                profileImageBase64 = `data:image/jpeg;base64,${picResult[0].prof_pic.toString("base64")}`;
+            }
+            // profileData.account_password
+            console.log(profileData);
+            return res.status(200).json({
+                ...profileData[0],
+                profile_image: profileImageBase64
+            });
+        });
     })
 }
 
@@ -249,3 +284,52 @@ export const updateAdminDataSecurity = async(req, res) => {
     }
 }
 
+
+
+// Profile Picture
+
+export const uploadFile = async (req, res) => {
+    const file = req.file;
+    const ID = req.body.ID;
+    const accountType = req.body.accountType; 
+
+    console.log("this is the upload file talking", ID, accountType)
+
+    if (!file) return res.status(400).json({ message: "No file uploaded" });
+
+    const tableType = accountType === "Admin" ? "admin" : "user";
+
+    try {
+    const sql = `
+        INSERT INTO ${tableType}_profile_pic (ID, prof_pic) VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE prof_pic = ?
+    `;
+    const values = [ID, file.buffer, file.buffer];
+    await connection.promise().query(sql, values);
+
+    res.status(200).json({ valid: true, message: "Profile picture uploaded and saved successfully" });
+    } catch (error) {
+        console.error("Upload error:", error);
+        res.status(500).json({valid: false, message: "File upload failed", error });
+    }
+};
+
+// Get Profile Picture
+export const getProfilePic = (req, res) => {
+    const { ID, accountType } = req.params;
+
+    const tableType = accountType === "Admin" ? "admin" : "user";
+
+    const sql = `SELECT prof_pic FROM ${tableType}_profile_pic WHERE ID = ?`;
+    connection.query(sql, [ID], (err, picResult) => {
+        if (err) return res.status(500).json({ message: "Profile picture fetch failed", err });
+
+        console.log("please pic result", picResult)
+        let profileImageBase64 = "./images/default-avatar.jpg";
+        if (picResult.length > 0 && picResult[0].prof_pic) {
+            profileImageBase64 = `data:image/jpeg;base64,${picResult[0].prof_pic.toString("base64")}`;
+        }
+
+        return res.status(200).json({profile_image: profileImageBase64});
+    });
+}

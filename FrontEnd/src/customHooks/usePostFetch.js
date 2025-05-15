@@ -18,16 +18,20 @@ export function usePostFetch() {
             return;
         } 
 
-        fetch(url, {
+        const isFormData = postData instanceof FormData;
+
+        const fetchOptions = {
             method: "POST",
             headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${auth.accessToken}`    
+                ...(isFormData ? {} : { "Content-type": "application/json"}),
+                "Authorization": `Bearer ${auth.accessToken}`
             },
-            credentials: 'include',
-            body: JSON.stringify(postData)
-        }).then( async res => {
-            
+            credentials: "include",
+            body: isFormData ? postData : JSON.stringify(postData),
+        }
+
+        fetch(url, fetchOptions)
+        .then( async res => {
             if (res.status === 403) {
                 console.log("Access token expired, refreshing token...")
                 return fetch("http://localhost:8080/refresh", {
@@ -43,15 +47,9 @@ export function usePostFetch() {
                         ID: data.ID,
                         accountType: data.accountType,
                     });
-                    return fetch(url, {
-                        method: "POST",
-                        body: JSON.stringify(postData),
-                        headers: {
-                            "Content-type": "application/json",
-                            "Authorization": `Bearer ${data.accessToken}`,
-                        },
-                        credentials: 'include',
-                    })
+
+                    //After refreshing the accesskey, retry the fetch request
+                    return fetch(url, fetchOptions);
                 })
             }
 

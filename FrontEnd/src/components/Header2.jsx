@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/Header2.css";
+import { useGetFetch } from "../customHooks/useGetFetch";
+import { useAuth } from "../customHooks/AuthContext";
 
-export function Header2() {
+export function Header2(refreshPage) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgOpacity, setBgOpacity] = useState(1);
+  const { data, isPending, error, triggerGet } = useGetFetch();
+  const { auth, setAuth } = useAuth();
+
+  useEffect(() => {
+    triggerGet(`http://localhost:8080/get-profile-pic/${auth.ID}/${auth.accountType}`)
+  }, [refreshPage])
 
   {
     /* Scroll effect */
@@ -20,6 +28,9 @@ export function Header2() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (!data || data.length === 0) {
+    return <p> "Fetching data"</p>
+  }
   return (
     <>
       {/* HEADER 2 */}
@@ -39,16 +50,6 @@ export function Header2() {
             id="nav-menu"
           >
             <ul className="nav__list">
-              <li className="nav__item">
-                <Link
-                  to = "/"
-                  className="nav__link"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Home
-                </Link>
-              </li>
-
               <li className="nav__item">
                 <Link
                   to ="/userParkingView"
@@ -74,7 +75,7 @@ export function Header2() {
             <div className="nav__profile">
               <Link to="/userProfile">
                 <img
-                  src="/images/userProfile.jpg"
+                  src={data.profile_image}
                   alt="User Profile"
                   className="profile__image"
                 />

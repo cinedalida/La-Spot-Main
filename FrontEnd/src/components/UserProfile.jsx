@@ -6,12 +6,14 @@ import { LogoutButton } from "./Logoutbutton";
 import { useAuth } from "../customHooks/AuthContext";
 import { useGetFetch } from "../customHooks/useGetFetch";
 import { usePutFetch } from "../customHooks/usePutFetch"
+import { usePostFetch } from "../customHooks/usePostFetch";
 import { UserProfileHistoryTable } from "./UserProfileHistoryTable";
 
 // Main functional component
-export function UserProfile() {
+export function UserProfile({ triggerRefreshPage, refreshPage }) {
   const { data: profileData, isPending, error, triggerGet } = useGetFetch();
   const { data: updatedProfileData, isPending: updatingProfile, error: updateError, triggerPut} = usePutFetch();
+  const { data: postedPicData, isPending: postingPicData, error: postPicError, triggerPost } = usePostFetch();
   const inputRefs = useRef({})
 
 
@@ -37,12 +39,12 @@ export function UserProfile() {
   useEffect(() => {
     console.log(auth.ID);
       triggerGet(`http://localhost:8080/profile/${auth.ID}`)
-  }, [refreshKey, auth.ID])
+  }, [refreshKey, refreshPage, auth.ID])
 
 
   useEffect(() => {
     if (profileData && profileData.length !== 0) {
-      setTempProfile(profileData[0]);
+      setTempProfile(profileData);
     }
   }, [profileData])
 
@@ -53,9 +55,9 @@ export function UserProfile() {
 
     // Ensures that the input fields for security are cleared and preped for user inputs 
     if (section === "security") {
-      setTempProfile({...profileData[0], currentPassword: "", newPassword: "", confirmPassword: "", })
+      setTempProfile({...profileData, currentPassword: "", newPassword: "", confirmPassword: "", })
     } else {
-      setTempProfile(profileData[0]); // copy current profile to temp state
+      setTempProfile(profileData); // copy current profile to temp state
     }
 
     setEditingField(section); // set which field is being edited
@@ -208,9 +210,54 @@ export function UserProfile() {
   };
 
 
+  // Profile Picture Logics
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Generate a preview URL
+
+      setTempProfile(prevTempProfile => ({ // Use the functional update form
+        ...prevTempProfile,
+        ["profilePic"]: imageUrl, //Store the preview URL
+        ["rawProfilePic"]: file,
+      }));
+    }
+  }
+
+  const handleCancelProfilePic = (e) => {
+    setTempProfile(prevTempProfile => ({ // Use the functional update form
+        ...prevTempProfile,
+        ["profilePic"]: undefined, 
+        ["rawProfilePic"]: undefined,
+      }));
+  }
+
+  const handleFileUpload = () => {
+    if (!tempProfile.rawProfilePic) return alert("Please select an image first");
+
+    const formdata = new FormData();
+    formdata.append("file", tempProfile.rawProfilePic)
+    formdata.append("ID", auth.ID);
+    formdata.append("accountType", profileData.account_type);
+
+    triggerPost("http://localhost:8080/upload-profile-pic", formdata)
+
+  }
+
+  useEffect(() => {
+    if (Object.keys(postedPicData).length !== 0) {
+      if(postedPicData.valid) {
+        triggerRefreshPage();
+      }
+    }
+  },[postedPicData])
+
+
   if (!profileData || profileData.length === 0) {
     return <p> "Fetching data"</p>
   }
+  console.log("this is the profile data from the frontend",profileData);
 
   return (
     <section className="userProfile__layout">
@@ -249,17 +296,74 @@ export function UserProfile() {
                 {/* Display profile info */}
                 <h2 className="My-profile-title">My Profile</h2>
                 <div className="profile-header">
-                  <div className="profile-image-container">
+
+
+                  {/* <div className="profile-image-container">
                     <img src={"./images/userProfile.jpg"} alt="Profile" />
+                  </div> */}
+
+                  <div className="profile-image-container-wrapper">
+                    <div className="profile-image-container">  
+                      <div className="profile-image-wrapper">
+                        {/* <img src={profile.image} alt="Profile" className="profile-image" /> */}
+                        <img src={tempProfile?.profilePic ? tempProfile.profilePic : tempProfile.profile_image} 
+                          // /default-avatar.png
+                          alt="Profile" 
+                          className="profile-image" 
+                        />
+                      </div>
+                    </div>
+                    <label htmlFor="profile-image-input" /*className="change-photo-button" */ className="edit-button">
+                      Change Photo
+                    </label>
+                    <input
+                      id="profile-image-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
                   </div>
+                  
+
+
+
                   <div className="profile-info-container">
                     <h2 className="accountFullname">
-                      {profileData[0].first_name} {profileData[0].last_name}
+                      {profileData.first_name} {profileData.last_name}
                     </h2>
-                      <p className="accountDisplaytype">{profileData[0].account_type}</p>
-                      <p className="accountDisplayemail">{profileData[0].email}</p>
+                      <p className="accountDisplaytype">{profileData.account_type}</p>
+                      <p className="accountDisplayemail">{profileData.email}</p>
                       
                   </div>
+                </div>
+
+
+
+                <div className="profile-actions">
+                  {/* {editingField && (
+                    <div className="save-cancel-buttons">
+                      <button className="save-button" onClick={handleSave}>
+                        Save
+                      </button>
+                      <button className="cancel-button" onClick={() => setEditingField(null)}>
+                        Cancel
+                      </button>
+                    </div>
+                  )} */}
+
+
+                  {tempProfile?.rawProfilePic && (
+                    <div className="upload-controls">
+                      <button /* className="upload-button" */ className="save-button"  onClick={handleFileUpload}>
+                        Save
+                      </button>
+                      {/* <button className="cancel-upload-button" onClick={() => setSelectedFile(null)}> */}
+                      <button /* className="cancel-upload-button" */ className="cancel-button" onClick={() => handleCancelProfilePic()}>
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Personal Information section */}
@@ -267,16 +371,16 @@ export function UserProfile() {
                   <h3 className="section-title">Personal Information </h3>
                   <div className="info-content">
                     <p>
-                      <strong>First Name:</strong> {profileData[0].first_name}
+                      <strong>First Name:</strong> {profileData.first_name}
                     </p>
                     <p>
-                      <strong>Last Name:</strong> {profileData[0].last_name}
+                      <strong>Last Name:</strong> {profileData.last_name}
                     </p>
                     <p>
-                      <strong>Email:</strong> {profileData[0].email}
+                      <strong>Email:</strong> {profileData.email}
                     </p>
                     <p>
-                      <strong>Student Number:</strong> {profileData[0].user_id}
+                      <strong>Student Number:</strong> {profileData.user_id}
                     </p>
                   </div>
                   <div className="edit-button-container">
@@ -312,10 +416,10 @@ export function UserProfile() {
                   <h3 className="content-title">Vehicle Information</h3>
                   <div className="vehicle-content">
                     <p>
-                      <strong>Type of Vehicle:</strong> {profileData[0].vehicle_type}
+                      <strong>Type of Vehicle:</strong> {profileData.vehicle_type}
                     </p>
                     <p>
-                      <strong>Plate Number:</strong> {profileData[0].vehicle_plate}
+                      <strong>Plate Number:</strong> {profileData.vehicle_plate}
                     </p>
                   </div>
                   {/* <div className="edit-button-container">
