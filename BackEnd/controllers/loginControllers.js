@@ -32,7 +32,7 @@ export const handleLogin = async (req, res) => {
         FROM user_information
         WHERE email = ?`
     } else {
-        sqlQuerySearchUser =  `SELECT admin_id as ID, account_password, "Admin" as account_type
+        sqlQuerySearchUser =  `SELECT admin_id as ID, account_password, 'Admin' as account_type
         FROM admin_information
         WHERE admin_code = ?;`
     }

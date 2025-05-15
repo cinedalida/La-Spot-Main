@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/Header3.css";
+import { useGetFetch } from "../customHooks/useGetFetch";
+import { useAuth } from "../customHooks/AuthContext";
 
-export function Header3() {
+export function Header3({ refreshPage }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgOpacity, setBgOpacity] = useState(1);
-
+  const { data, isPending, error, triggerGet } = useGetFetch();
+  const { auth, setAuth } = useAuth();
+  
+    useEffect(() => {
+      triggerGet(`http://localhost:8080/get-profile-pic/${auth.ID}/${auth.accountType}`)
+    }, [refreshPage])
   {
     /* Scroll effect */
   }
@@ -19,6 +26,10 @@ export function Header3() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!data || data.length === 0) {
+    return <p> "Fetching data"</p>
+  }
 
   return (
     <>
@@ -74,7 +85,7 @@ export function Header3() {
             <div className="nav__profile">
               <Link to = "/adminProfile">
                 <img
-                  src="/images/adminProfile.jpg"
+                  src={data.profile_image}
                   alt="User Profile"
                   className="profile__image"
                 />

@@ -20,13 +20,16 @@ export function useGetFetch(url){
         } 
         // console.log("Request URL:", url);
         // console.log("Sending GET request with token:", accessToken);
-        fetch(url, {
+        const fetchSetUp = {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${auth.accessToken}`,
             },
             credentials: 'include'
-        }).then(async res => {
+        }
+
+        fetch(url, fetchSetUp)
+        .then(async res => {
             console.log(res.status);
             if (res.status === 403) {
                 console.log("Access token expired, refreshing token...")
@@ -43,16 +46,11 @@ export function useGetFetch(url){
                         ID: data.ID,
                         accountType: data.accountType,
                     });
-                    return fetch(url, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${data.accessToken}`,
-                        },
-                        credentials: 'include'
-                    }). then(res => {
-                        if (!res.ok) throw new Error("Retry after refresh failed")
-                        return res.json();
-                    })
+                    return fetch(url, fetchSetUp)
+                    // .then(res => {
+                    //     if (!res.ok) throw new Error("Retry after refresh failed")
+                    //     return res.json();
+                    // })
                 })
             }
 

@@ -3,32 +3,40 @@ import penIcon from "../assets/pen.png";
 import { useAuth } from "../customHooks/AuthContext";
 import { useGetFetch } from "../customHooks/useGetFetch";
 import { usePutFetch } from "../customHooks/usePutFetch"
+import { usePostFetch } from "../customHooks/usePostFetch";
 import "../css/AdminProfile.css";
 import { LogoutButton } from "./Logoutbutton";
 import React from "react";
 
 
-export function AdminProfile() {
+export function AdminProfile({triggerRefreshPage, refreshPage}) {
   const { data: profileData, isPending, error, triggerGet } = useGetFetch();
   const { data: updatedProfileData, isPending: updatingProfile, error: updateError, triggerPut} = usePutFetch();
+  const { data: postedPicData, isPending: postingPicData, error: postPicError, triggerPost } = usePostFetch();
   const {auth, setAuth} = useAuth();
   const inputRefs = useRef({})
   const [refreshKey, setRefreshKey] = useState(0);
 
+  useEffect(() => {
+    triggerGet(`http://localhost:8080/admin-profile/${auth.ID}`)
+  }, [refreshKey, refreshPage, auth.ID])
+
   const [activeTab, setActiveTab] = useState("profile");
   const [editingField, setEditingField] = useState(null);
-  const [tempProfile, setTempProfile] = useState(profileData[0]);
+  const [tempProfile, setTempProfile] = useState(profileData);
   const [errors, setErrors] = useState({});
   const [putProfileData, setPutProfileData] = useState({})
 
+  
   useEffect(() => {
-    triggerGet(`http://localhost:8080/admin-profile/${auth.ID}`)
-  }, [refreshKey])
-
+      if (profileData && profileData.length !== 0) {
+        setTempProfile(profileData);
+      }
+    }, [profileData])
 
   const handleEditClick = (section) => {
-    setTempProfile(profileData[0]);
-    console.log(profileData[0])
+    setTempProfile(profileData);
+    console.log(profileData)
     setEditingField(section);
   };
 
@@ -164,6 +172,51 @@ export function AdminProfile() {
     }));
   };
 
+  // Profile Picture Logics
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Generate a preview URL
+
+      setTempProfile(prevTempProfile => ({ // Use the functional update form
+        ...prevTempProfile,
+        ["profilePic"]: imageUrl, //Store the preview URL
+        ["rawProfilePic"]: file,
+      }));
+    }
+  }
+
+  const handleCancelProfilePic = (e) => {
+    setTempProfile(prevTempProfile => ({ // Use the functional update form
+        ...prevTempProfile,
+        ["profilePic"]: undefined, 
+        ["rawProfilePic"]: undefined,
+      }));
+  }
+
+  const handleFileUpload = () => {
+    if (!tempProfile.rawProfilePic) return alert("Please select an image first");
+
+    const formdata = new FormData();
+    formdata.append("file", tempProfile.rawProfilePic)
+    formdata.append("ID", auth.ID);
+    formdata.append("accountType", "Admin");
+
+    triggerPost("http://localhost:8080/upload-profile-pic", formdata)
+
+  }
+
+  useEffect(() => {
+    if (Object.keys(postedPicData).length !== 0) {
+      if(postedPicData.valid) {
+        triggerRefreshPage();
+      }
+    }
+  },[postedPicData])
+  
+  
+
   return (
     <section className="adminProfile__layout">
       <div className="profile-container">
@@ -188,33 +241,88 @@ export function AdminProfile() {
               <div className="profile-sections-box">
                 <h2 className="My-profile-title">My Profile</h2>
                 <div className="profile-header">
-                  <div className="profile-image-container">
-                    <img src={profileData[0]?.image} alt="Profile" />
+
+                  {/* <div className="profile-image-container">
+                    <img src={"./images/userProfile.jpg"} alt="Profile" />
+                  </div> */}
+
+                  <div className="profile-image-container-wrapper">
+                    <div className="profile-image-container">  
+                      <div className="profile-image-wrapper">
+                        {/* <img src={profile.image} alt="Profile" className="profile-image" /> */}
+                        <img src={tempProfile?.profilePic ? tempProfile.profilePic : tempProfile.profile_image} 
+                          // /default-avatar.png
+                          alt="Profile" 
+                          className="profile-image" 
+                        />
+                      </div>
+                    </div>
+
+
+                    <label htmlFor="profile-image-input" /*className="change-photo-button" */ className="edit-button">
+                      Change Photo
+                    </label>
+                    <input
+                      id="profile-image-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
                   </div>
+                  
                   <div className="profile-info-container">
                     <h2 className="accountFullname">
-                      {profileData[0]?.first_name} {profileData[0]?.last_name}
+                      {profileData.first_name} {profileData.last_name}
                     </h2>
                     <p className="accountDisplaytype">Admin</p>
-                    <p className="accountDisplayemail">{profileData[0]?.email}</p>
+                    <p className="accountDisplayemail">{profileData.email}</p>
                   </div>
                 </div>
+
+
+                <div className="profile-actions">
+                  {/* {editingField && (
+                    <div className="save-cancel-buttons">
+                      <button className="save-button" onClick={handleSave}>
+                        Save
+                      </button>
+                      <button className="cancel-button" onClick={() => setEditingField(null)}>
+                        Cancel
+                      </button>
+                    </div>
+                  )} */}
+
+
+                  {tempProfile?.rawProfilePic && (
+                    <div className="upload-controls">
+                      <button /* className="upload-button" */ className="save-button"  onClick={handleFileUpload}>
+                        Save
+                      </button>
+                      {/* <button className="cancel-upload-button" onClick={() => setSelectedFile(null)}> */}
+                      <button /* className="cancel-upload-button" */ className="cancel-button" onClick={() => handleCancelProfilePic()}>
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+
 
                 {/* personal info-box */}
                 <div className="personal-infoBox">
                   <h3 className="section-title">Personal Information </h3>
                   <div className="info-content">
                     <p>
-                      <strong>First Name:</strong> {profileData[0]?.first_name}
+                      <strong>First Name:</strong> {profileData.first_name}
                     </p>
                     <p>
-                      <strong>Last Name:</strong> {profileData[0]?.last_name}
+                      <strong>Last Name:</strong> {profileData.last_name}
                     </p>
                     <p>
-                      <strong>Email:</strong> {profileData[0]?.email}
+                      <strong>Email:</strong> {profileData.email}
                     </p>
                     <p>
-                      <strong>Admin Code:</strong> {profileData[0]?.admin_code}
+                      <strong>Admin Code:</strong> {profileData.admin_code}
                     </p>
                   </div>
                   <div className="edit-button-container">
