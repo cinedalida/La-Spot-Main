@@ -186,6 +186,7 @@ export function UserProfile() {
     } else if (updatedProfileData && updatedProfileData.isValid === true) {
       console.log("profile updated successfully");
       setRefreshKey(prevKey => prevKey + 1);
+      setErrors({});
       setEditingField(null); // close modal
     }
 
@@ -246,7 +247,7 @@ export function UserProfile() {
             {activeTab === "profile" ? (
               <div className="profile-sections-box">
                 {/* Display profile info */}
-                <h2 className="My-profile-title">My Profile {auth.accountType}{auth.ID}</h2>
+                <h2 className="My-profile-title">My Profile</h2>
                 <div className="profile-header">
                   <div className="profile-image-container">
                     <img src={"./images/userProfile.jpg"} alt="Profile" />

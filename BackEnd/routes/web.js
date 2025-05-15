@@ -23,7 +23,8 @@ let initWebRoutes = (app) => {
     router.post("/login", loginControllers.handleLogin)
     router.post("/forgot-password", loginControllers.forgotPassword);
     router.post("/verify-code", loginControllers.verifyCode);
-
+    router.post("/reset-password", loginControllers.resetPassword);
+    
     // Refresh Tokken key
     router.post("/refresh", refreshTokenControllers.handleRefreshToken)
 
