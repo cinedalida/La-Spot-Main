@@ -10,7 +10,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const inputRefs = useRef({});
   const errorMessage = useRef({});
-  const [ errorMsgRefs, setErrorMsgRefs ] = useState("Initial Error Message")
+  const [ errorMsgRefs, setErrorMsgRefs ] = useState("Initial Error Message.")
   const [errors, setErrors] = useState({})
   const [isPending, setIsPending] = useState(false);
 
@@ -27,11 +27,13 @@ const ForgotPassword = ({ goBackToLogin }) => {
     let newErrors = {};
     if (emailPattern.test(email) === false ) {
       newErrors["email"] = true;
-      inputRefs.current["email"].placeholder = "Invalid email format"
+      setErrors(newErrors);
+      inputRefs.current["email"].placeholder = "Invalid email format."
       setEmail("");
       return;
     } 
 
+    // Will display "sending email..."
     setIsPending(true);
 
     if (Object.keys(newErrors).length !== 0 ) {
@@ -59,6 +61,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
       } else {
         newErrors["email"] = true;
         inputRefs.current["email"].placeholder = data.message;
+        setErrors(newErrors);
         setEmail("");
         setIsPending(false);
       }
@@ -101,11 +104,57 @@ const ForgotPassword = ({ goBackToLogin }) => {
         setErrorMsgRefs(data.message || "Invalid or expired code.")
         setErrors(newErrors); 
       }
-      } catch (err) {
-        console.error(err);
-        alert("Error verifying code.");
-      }
+    } catch (err) {
+      console.error(err);
+      alert("Error verifying code.");
+    }
   }
+
+  const handlePasswordSubmit = async () => {
+
+    let newErrors = {};
+
+    if (newPassword !== confirmPassword) {
+      newErrors["confirmPassword"] = true;
+      setErrors(newErrors);
+      inputRefs.current["confirmPassword"].placeholder = "Passwords do not match."
+      setConfirmPassword("")
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          otp: code.join(""),
+          newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Password successfully reset.");
+        newErrors["confirmPassword"] = false;
+        newErrors["newPassword"] = false;
+        setErrors(newErrors);
+        inputRefs.current["confirmPassword"].placeholder = "Password"
+        inputRefs.current["newPassword"].placeholder = "Confirm Password"
+        goBackToLogin();
+      } else {
+        newErrors["newPassword"] = true;
+        setErrors(newErrors);
+        inputRefs.current["newPassword"].placeholder = (data.message || "Invalid or expired code.")
+        alert(data.message || "Failed to reset password.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while resetting password.");
+    }
+  };
 
   return (
     <div className="forgot-password-flow">
@@ -183,15 +232,19 @@ const ForgotPassword = ({ goBackToLogin }) => {
             type="password"
             placeholder="Password"
             value={newPassword}
+            ref={(el) => (inputRefs.current)["newPassword"] = el}
+            className={errors["newPassword"] ? "invalid-input" : ""}
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <input
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
+            ref={(el) => (inputRefs.current)["confirmPassword"] = el}
+            className={errors["confirmPassword"] ? "invalid-input" : ""}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <button onClick={goBackToLogin}>Update Password</button>
+          <button onClick={handlePasswordSubmit}>Update Password</button>
         </div>
       )}
     </div>

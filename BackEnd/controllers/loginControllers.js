@@ -1,5 +1,5 @@
 import connection from "../config/connectDB.js";
-import bycrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
@@ -61,7 +61,7 @@ export const handleLogin = async (req, res) => {
             return res.status(400).json({ "message": "Invalid email" });
         } 
 
-        bycrypt.compare(password, userData[0].account_password)
+        bcrypt.compare(password, userData[0].account_password)
             .then (match => {
                 if (!match) {
                     return res.status(400).json({ "message": "Incorrect password" });
@@ -164,5 +164,31 @@ export const verifyCode = async(req, res) => {
         }
 
         return res.status(200).json({ message: 'Code verified' });
+    });
+};
+
+export const resetPassword = (req, res) => {
+    const { otp, newPassword } = req.body;
+
+  const fetchSQL = 'SELECT * FROM password_reset WHERE otp_code = ? AND expires_at > NOW()';
+    connection.query(fetchSQL, [otp], async (err, rows) => {
+        if (err) return res.status(500).json({ message: "Fetch failed", err });
+
+        if (rows.length === 0) return res.status(400).json({ message: "Invalid or expired OTP" });
+
+        const email = rows[0].email;
+        console.log("this is the new password from the resetpassword", newPassword);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        const updateSQL = 'UPDATE user_information SET account_password = ? WHERE email = ?';
+        connection.query(updateSQL, [hashedPassword, email], (err) => {
+            if (err) return res.status(500).json({ message: "Database password update failed."});
+
+            connection.query('DELETE FROM password_reset WHERE otp_code = ?', [otp], (err) => {
+                if (err) return res.status(500).json({ message: "Cleanup failed", err });
+
+                return res.status(200).json({ success: true, message: 'Password reset successfully.' });
+            });
+        });
     });
 };
