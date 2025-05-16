@@ -16,7 +16,7 @@ export function AdminProfile({triggerRefreshPage, refreshPage}) {
   const {auth, setAuth} = useAuth();
   const inputRefs = useRef({})
   const [refreshKey, setRefreshKey] = useState(0);
-
+// refreshPage
   useEffect(() => {
     triggerGet(`http://localhost:8080/admin-profile/${auth.ID}`)
   }, [refreshKey, refreshPage, auth.ID])
