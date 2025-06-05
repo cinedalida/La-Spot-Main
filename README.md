@@ -44,3 +44,5 @@ npm run dev       # Start the development server
 ![Thumbnail 1](https://github.com/user-attachments/assets/c959e8f7-784d-4d35-9301-75d8dac39c98)
 ![Thumbnail 2](https://github.com/user-attachments/assets/22de7126-f8b0-4a2f-80a3-90b382340c4a)
 
+### Demo Video
+[![Watch the video](https://img.youtube.com/vi/Kud7pHdQtlI/hqdefault.jpg)](https://www.youtube.com/watch?v=Kud7pHdQtlI)
