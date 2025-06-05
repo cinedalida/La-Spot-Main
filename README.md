@@ -1,38 +1,46 @@
 # La-Spot-Main
+A React-based parking system website powered by modern frontend and backend technologies.
 
-LaSpot React Framework
+## Tech Stack
+Frontend: HTML, CSS, JavaScript, React, Vite
+Backend: MySQL (via MySQL Workbench)
 
-NOTES:
+## Project Structure and Notes
+### Components Handling
+- All components are located in the components/ folder.
+- Each component should import its respective styles from the css/ folder.
 
-## COMPONENTS HANDLING <br />
+### Global CSS Variables
+Global root variables are defined in index.css.
+- Includes styles for:
+- Fonts and colors
+- Font weights
+- z-index values
+- Base sizing
+- Reusable CSS classes
+- Scrollbar styling
+- Table designs
 
-- All components are in the Components Folder <br />
-- All should reference/import .css files from the css folder
-  <br /><br />
+### Purpose of App.jsx
+- This file acts as the central hub for importing components.
+- It passes them to main.jsx for rendering.
 
-## GLOBAL VARIABLES (Root Variables for CSS)<br />
+### Purpose of main.jsx
+This file is in Strict Mode.
 
-- All root variables are placed inside the index.css<br />
-- Style Content: font, font color, font weight, z-index, base, CSS class, scrollbar, table design
-  <br /><br />
+Avoid modifying it unless necessary for advanced configurations.
 
-## PURPOSE OF APP.JSX<br />
+### Assets and Images
+Store all images in the public/images/ folder for global accessibility.
 
-- This is where we import everything so that they get exported to the main.jsx
-  <br /><br />
+### Running the App
+```bash
+cd LaSpot_Website
+npm install       # Only needed for fresh git clones
+npm run dev       # Start the development server
+```
 
-## PURPOSE OF MAIN.JSX<br />
+## Documentation
+![Thumbnail 1](https://github.com/user-attachments/assets/c959e8f7-784d-4d35-9301-75d8dac39c98)
+![Thumbnail 2](https://github.com/user-attachments/assets/22de7126-f8b0-4a2f-80a3-90b382340c4a)
 
-- Do not touch. In Strict Mode.
-  <br /><br />
-
-## Storing Images and Assets:<br />
-
-- Store them on Public > 'images' folder for global accessibilities.
-  <br /><br />
-
-## RUN CODE:<br />
-
-- cd LaSpot_Website <br />
-- npm install (if it's a new git clone)<br />
-- npm run dev
