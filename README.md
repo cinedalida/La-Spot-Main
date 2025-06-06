@@ -2,7 +2,7 @@
 A React-based parking system website powered by modern frontend and backend technologies.
 
 ## Tech Stack
-Frontend: HTML, CSS, JavaScript, React, Vite
+Frontend: HTML, CSS, JavaScript, React, Vite </br>
 Backend: MySQL (via MySQL Workbench)
 
 ## Project Structure and Notes
