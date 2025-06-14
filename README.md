@@ -31,7 +31,7 @@ Backend: MySQL (via MySQL Workbench)
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/KMarttt/La-Spot-Main.git
 ```
 
 Create a MySQL database using the TableCreation.sql file
