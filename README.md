@@ -10,6 +10,7 @@
 
 Frontend: HTML, CSS, JavaScript, React, Vite  
 Backend: MySQL (via MySQL Workbench)
+<br><br>
 
 ## Features
 
@@ -23,6 +24,7 @@ Backend: MySQL (via MySQL Workbench)
 - User Parking History – Tabular view of user’s history (paginated and filterable)
 - Admin Parking History – Access parking logs of all users (paginated and filterable)
 - Account Management – Admin overview of all user accounts (paginated and filterable)
+  <br><br>
 
 ## Run Locally
 
@@ -43,6 +45,8 @@ Go to the project directory
   cd La-Spot-Main
 ```
 
+<br>
+
 ### Backend Setup
 
 Create a terminal for BackEnd and go to that directory
@@ -52,6 +56,8 @@ Create a terminal for BackEnd and go to that directory
   npm install       # Install dependencies
   npm start         # Start dev server
 ```
+
+<br>
 
 ### Frontend Setup
 
@@ -64,14 +70,17 @@ Create a terminal for BackEnd and go to that directory
 Then click the link to view the La Spot Website
 
 **Note**: To create an Admin account, use one of the available admin codes stored in the database.
+<br><br>
 
 ## Documentation
 
 ![Documentation1](README-Images/doc1.jpg)
 ![Documentation2](README-Images/doc2.jpg)
+<br>
 
 **Demo Video**  
 [![Demo](README-Images/video-picture.jpg)](https://www.youtube.com/watch?v=Kud7pHdQtlI)
+<br><br>
 
 ## Author
 
