@@ -9,7 +9,7 @@
 ## Tech Stack
 
 Frontend: HTML, CSS, JavaScript, React, Vite  
-Backend: MySQL (via MySQL Workbench)
+Backend: MySQL (via MySQL Workbench), NodeJS
 <br><br>
 
 ## Features
@@ -28,15 +28,15 @@ Backend: MySQL (via MySQL Workbench)
 
 ## Run Locally
 
-Clone the project
+Clone the project.
 
 ```bash
   git clone https://github.com/KMarttt/La-Spot-Main.git
 ```
 
-Create a MySQL database using the TableCreation.sql file
+Create a MySQL database using the TableCreation.sql file.
 
-Create a .env in the BackEnd directory using the env-example file as a format  
+Create a .env in the BackEnd directory using the env-example file as a format.  
 ![Carbon](README-Images/carbon.png)
 
 Go to the project directory
@@ -49,28 +49,52 @@ Go to the project directory
 
 ### Backend Setup
 
-Create a terminal for BackEnd and go to that directory
+Create a terminal for BackEnd and go to the BackEnd directory.
 
 ```bash
-  cd BackEnd        # Go to backend folder
-  npm install       # Install dependencies
-  npm start         # Start dev server
+  cd BackEnd
+```
+
+Install the required backend dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm start
 ```
 
 <br>
 
 ### Frontend Setup
 
+Create a terminal for FrontEnd and go to the FrontEnd directory.
+
 ```bash
-  cd FrontEnd       # Go to frontend folder
-  npm install       # Install dependencies
-  npm run dev       # Start dev server
+  cd FrontEnd
 ```
 
-Then click the link to view the La Spot Website
+Install the required frontend dependencies
 
-**Note**: To create an Admin account, use one of the available admin codes stored in the database.
+```bash
+  npm install
+```
+
+Run the application and navigate to http://localhost:3000/
+
+```bash
+  npm run dev
+```
+
 <br><br>
+**Note**:
+
+- To create an Admin account, use one of the available admin codes stored in the database.
+- Admins can use the sample data from the database to start assigning vehicles into the parking sports.
+  <br><br>
 
 ## Documentation
 
