@@ -39,7 +39,7 @@ Create a MySQL database using the TableCreation.sql file.
 Create a .env in the BackEnd directory using the env-example file as a format.  
 ![Carbon](README-Images/carbon.png)
 
-Go to the project directory
+Go to the project directory.
 
 ```bash
   cd La-Spot-Main
