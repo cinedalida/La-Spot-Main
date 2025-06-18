@@ -55,13 +55,13 @@ Create a terminal for BackEnd and go to the BackEnd directory.
   cd BackEnd
 ```
 
-Install the required backend dependencies
+Install the required backend dependencies.
 
 ```bash
   npm install
 ```
 
-Start the server
+Start the server.
 
 ```bash
   npm start
@@ -77,13 +77,13 @@ Create a terminal for FrontEnd and go to the FrontEnd directory.
   cd FrontEnd
 ```
 
-Install the required frontend dependencies
+Install the required frontend dependencies.
 
 ```bash
   npm install
 ```
 
-Run the application and navigate to http://localhost:3000/
+Run the application and navigate to http://localhost:3000/.
 
 ```bash
   npm run dev
